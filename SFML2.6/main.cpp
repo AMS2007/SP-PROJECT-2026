@@ -11,54 +11,56 @@
     using namespace sf;
     using namespace std;
 
-    int main()
-    {
-        // trying to make a textbox
-        string input;
-        RectangleShape Tbox1(Vector2f(300, 40));
-        Tbox1.setPosition(150, 150);
-        Tbox1.setFillColor(Color::White);
-        Tbox1.setOutlineColor(Color::Black);
-        Tbox1.setOutlineThickness(2);
-        unsigned int height = 800;
-        unsigned int width = 1600;
-        RenderWindow window(VideoMode(width, height), "SFML works!");
+//<<<<<<< HEAD
+int main()
+{
+    unsigned int height = 800;
+    unsigned int width = 1600;
+    RenderWindow window(VideoMode(width, height), "SFML works!");
 
-        window.setFramerateLimit(60);
-        window.setKeyRepeatEnabled(false);
+    window.setFramerateLimit(60);
+    window.setKeyRepeatEnabled(false);
 
-        Font font;
-        if (!font.loadFromFile("Fonts/Blockletter.otf")) {
-            cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Blockletter.otf" << endl;
-        }
-        Text inputbox;
-        inputbox.setFont(font);
-        inputbox.setFillColor(Color::Black);
-        inputbox.setString("Please Type Your Full Name");
-        inputbox.setCharacterSize(24);
-        inputbox.setPosition(149, 119);
+    Font font;
+    if (!font.loadFromFile("Fonts/Blockletter.otf")) {
+        cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Blockletter.otf" << endl;
+    }
 
+    Text text;
+    text.setFont(font);
+    text.setString("Menawareen ya5watyyy\nTeam Members:\nSamir\nSofia\nelIona\nMona\nEbram\nSteevn\nMarwan");
+    text.setCharacterSize(60);
+    FloatRect tb = text.getGlobalBounds();
+    text.setOrigin(tb.width * 0.5f, tb.height * 0.5f);
+    text.setPosition(width / 2.f, height / 2.f);
 
-        Text text;
-        text.setFont(font);
-        text.setString("Menawareen ya5watyyy\nTeam Members:\nSamir\nSofia\nelIona\nMona\nEbram\nSteevn\nMarwan");
-        text.setCharacterSize(60);
-        FloatRect tb = text.getGlobalBounds();
-        text.setOrigin(tb.width * 0.5f, tb.height * 0.5f);
-        text.setPosition(width / 2.f, height / 2.f);
+    EllipseButton button(200.f, sf::Vector2f(325.f, 275.f));
+    button.setButtonLabel(24, "Click Me!");
+    button.setButtonFont(font);
+    button.setLabelColor(Color::Red);
+    button.setButtonColor(Color::Blue);
+    
 
-        RectButton button(sf::Vector2f(150.f, 50.f), sf::Vector2f(325.f, 275.f));
-        button.setButtonLabel(24, "Click Me!");
-        button.setButtonFont(font);
-        button.setLabelColor(Color::Red);
-        button.setButtonColor(Color::Blue);
+    RectangleShape topBar(Vector2f(1600, 40));
+    topBar.setPosition(0, 0);
+    topBar.setFillColor(Color(31, 11, 64));
 
+    // trying to make a textbox
+    string input;
+    RectangleShape Tbox1(Vector2f(300, 40));
+    Tbox1.setPosition(150, 150);
+    Tbox1.setFillColor(Color::White);
+    Tbox1.setOutlineColor(Color::Black);
+    Tbox1.setOutlineThickness(2);
 
-        RectangleShape topBar(Vector2f(1600, 40));
-        topBar.setPosition(0, 0);
-        topBar.setFillColor(Color(31, 11, 64));
+    Text inputbox;
+    inputbox.setFont(font);
+    inputbox.setFillColor(Color::Black);
+    inputbox.setString("Please Type Your Full Name");
+    inputbox.setCharacterSize(24);
+    inputbox.setPosition(149, 119);
 
-    //// Menu texts
+    //Menu texts
     //const int num_of_txt = 3;
     //vector<Text> menu_txt;
     //string menu_str[num_of_txt] = { "Admin Log In", "Employee Log In", "Exit" };
@@ -73,29 +75,31 @@
     //if (!menu_txt.empty())
     //    menu_txt[0].setFillColor(Color::Red);
 
-        //int counter = 0;
+    //int counter = 0;
 
-        RectangleShape adminButton(Vector2f(400.f, 200.f));
-        adminButton.setOrigin(400.f * 0.5f, 200.f * 0.5f);
-        adminButton.setPosition(width / 2.f, height / 2.f);
-        adminButton.setFillColor(Color::Black);
+    RectangleShape adminButton(Vector2f(400.f, 200.f));
+    adminButton.setOrigin(400.f * 0.5f, 200.f * 0.5f);
+    adminButton.setPosition(width / 2.f, height / 2.f);
+    adminButton.setFillColor(Color::Black);
+
 
         while (window.isOpen())
         {
             Event event;
-            if (event.type == Event::TextEntered) {
-                if (event.text.unicode == '\b') {
-                    if (!input.empty())
-                        input.pop_back();
-                    else if (event.text.unicode < 128) {
-                        input += static_cast<char>(event.text.unicode);
-                    }
-                }
-            }
+            
             while (window.pollEvent(event))
             {
                 if (event.type == Event::Closed)
                     window.close();
+                if (event.type == Event::TextEntered) {
+                    if (event.text.unicode == '\b') {
+                        if (!input.empty())
+                            input.pop_back();
+                        else if (event.text.unicode < 128) {
+                            input += static_cast<char>(event.text.unicode);
+                        }
+                    }
+                }
                 button.getButtonStatus(window, event);
                 if (button.isPressed)
                 {
@@ -130,7 +134,4 @@
             window.draw(Tbox1);
             window.display();
         }
-    }
-
-        return 0;
-    }
+}
