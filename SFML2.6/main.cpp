@@ -20,8 +20,6 @@ int main()
         std::cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Blockletter.otf" << std::endl;
     }
 
-    std::cout << "Kerning : " << font.getKerning('A', 'B', 12) << std::endl;
-
     Text text;
     text.setFont(font);
     text.setString("Menawareen ya5watyyy\nTeam Members:\nSamir\nSofia\nelIona\nMona\nEbram\nSteevn\nMarwan");
@@ -54,7 +52,7 @@ int main()
     RectangleShape adminButton(Vector2f(400.f, 200.f));
     adminButton.setOrigin(400.f * 0.5f, 200.f * 0.5f);
     adminButton.setPosition(width / 2.f, height / 2.f);
-    adminButton.setFillColor(Color::White);
+    adminButton.setFillColor(Color::Black);
 
     while (window.isOpen())
     {
@@ -75,10 +73,10 @@ int main()
                 adminButton.setFillColor(Color::Blue);
         }
         else
-            adminButton.setFillColor(Color::White);
+            adminButton.setFillColor(Color::Black);
 
         // Draw
-        window.clear(Color::Black);
+        window.clear(Color::White);
         window.draw(topBar);
         window.draw(adminButton);
         window.display();
