@@ -3,6 +3,7 @@
 #include <SFML/System.hpp>
 #include <iostream>
 #include <vector>
+#include <sstream>
 #include <SFML/Button.hpp>
 #include <SFML/sfmlbutton.hpp>
 #include <SFML/EllipseButton.hpp>
@@ -12,6 +13,13 @@ using namespace std;
 
 int main()
 {
+    // trying to make a textbox
+    string input;
+    RectangleShape Tbox1(Vector2f(300, 40));
+    Tbox1.setPosition(150, 150);
+    Tbox1.setFillColor(Color::White);
+    Tbox1.setOutlineColor(Color::Black);
+    Tbox1.setOutlineThickness(2);
     unsigned int height = 800;
     unsigned int width = 1600;
     RenderWindow window(VideoMode(width, height), "SFML works!");
@@ -23,6 +31,13 @@ int main()
     if (!font.loadFromFile("Fonts/Blockletter.otf")) {
         cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Blockletter.otf" << endl;
     }
+    Text inputbox;
+    inputbox.setFont(font);
+    inputbox.setFillColor(Color::Black);
+    inputbox.setString("Please Type Your Full Name");
+    inputbox.setCharacterSize(24);
+    inputbox.setPosition(149, 119);
+
 
     Text text;
     text.setFont(font);
@@ -102,6 +117,8 @@ int main()
         window.clear(Color::White);
         window.draw(topBar);
         button.draw(window);
+        window.draw(inputbox);
+        window.draw(Tbox1);
         window.display();
     }
 
