@@ -32,7 +32,7 @@ int main()
     text.setOrigin(tb.width * 0.5f, tb.height * 0.5f);
     text.setPosition(width / 2.f, height / 2.f);
 
-    RectButton button(sf::Vector2f(150.f, 50.f), sf::Vector2f(325.f, 275.f));
+    EllipseButton button(200.f, sf::Vector2f(325.f, 275.f));
     button.setButtonLabel(24, "Click Me!");
     button.setButtonFont(font);
     button.setLabelColor(Color::Red);
@@ -43,7 +43,7 @@ int main()
     topBar.setPosition(0, 0);
     topBar.setFillColor(Color(31, 11, 64));
 
-    //// Menu texts
+    //Menu texts
     //const int num_of_txt = 3;
     //vector<Text> menu_txt;
     //string menu_str[num_of_txt] = { "Admin Log In", "Employee Log In", "Exit" };
