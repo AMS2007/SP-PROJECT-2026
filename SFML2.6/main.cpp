@@ -3,6 +3,8 @@
 #include <SFML/System.hpp>
 #include <iostream>
 #include <vector>
+#include <SFML/Button.hpp>
+#include <SFML/sfmlbutton.hpp>
 using namespace sf;
 using namespace std;
 
@@ -27,6 +29,9 @@ int main()
     sf::FloatRect tb = text.getGlobalBounds();
     text.setOrigin(tb.width * 0.5f, tb.height * 0.5f);
     text.setPosition(width / 2.f, height / 2.f);
+
+    RectButton button(Vector2f(150.f, 50.f), Vector2f(200.f, 200.f));
+    button.setButtonColor(Color::Cyan);
 
     RectangleShape topBar(Vector2f(1600, 40));
     topBar.setPosition(0, 0);
