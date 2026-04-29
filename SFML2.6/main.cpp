@@ -5,6 +5,8 @@
 #include <vector>
 #include <SFML/Button.hpp>
 #include <SFML/sfmlbutton.hpp>
+#include <SFML/EllipseButton.hpp>
+#include <SFML/RectButton.hpp>
 using namespace sf;
 using namespace std;
 
@@ -17,21 +19,25 @@ int main()
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 
-    sf::Font font;
+    Font font;
     if (!font.loadFromFile("Fonts/Blockletter.otf")) {
-        std::cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Blockletter.otf" << std::endl;
+        cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Blockletter.otf" << endl;
     }
 
     Text text;
     text.setFont(font);
     text.setString("Menawareen ya5watyyy\nTeam Members:\nSamir\nSofia\nelIona\nMona\nEbram\nSteevn\nMarwan");
     text.setCharacterSize(60);
-    sf::FloatRect tb = text.getGlobalBounds();
+    FloatRect tb = text.getGlobalBounds();
     text.setOrigin(tb.width * 0.5f, tb.height * 0.5f);
     text.setPosition(width / 2.f, height / 2.f);
 
-    RectButton button(Vector2f(150.f, 50.f), Vector2f(200.f, 200.f));
-    button.setButtonColor(Color::Cyan);
+    RectButton button(sf::Vector2f(150.f, 50.f), sf::Vector2f(325.f, 275.f));
+    button.setButtonLabel(24, "Click Me!");
+    button.setButtonFont(font);
+    button.setLabelColor(Color::Red);
+    button.setButtonColor(Color::Blue);
+    
 
     RectangleShape topBar(Vector2f(1600, 40));
     topBar.setPosition(0, 0);
@@ -61,11 +67,22 @@ int main()
 
     while (window.isOpen())
     {
-        sf::Event event;
+        Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == Event::Closed)
                 window.close();
+            button.getButtonStatus(window, event);
+            if (button.isPressed)
+            {
+                cout << "Button was pressed!" << endl;
+                button.setButtonColor(Color::Green);
+            }
+            else if (button.isHover)
+                button.setButtonColor(Color::Yellow);
+            else
+                button.setButtonColor(Color::Blue);
+
         }
 
         // Update
@@ -79,14 +96,14 @@ int main()
         }
         else
             adminButton.setFillColor(Color::Black);
+        
 
         // Draw
         window.clear(Color::White);
         window.draw(topBar);
-        window.draw(adminButton);
+        button.draw(window);
         window.display();
     }
 
     return 0;
 }
-// sahyfany w sam3any ??
