@@ -21,6 +21,83 @@ enum GameState {
     employeePanel
 };
 
+
+struct Textboxdata {
+    RectangleShape box;
+    Text label;
+    Text displayText;
+    string input;
+    bool isFocused = false;
+
+    Color defaultOutline = Color::Black;
+    Color focusedOutline = Color(31, 11, 64);
+
+    // Constructor to set everything up at once
+    Textboxdata(Font& font, Vector2f size, Vector2f position,
+        const string& labelStr, unsigned int fontSize = 20)
+    {
+        // Box
+        box.setSize(size);
+        box.setPosition(position);
+        box.setFillColor(Color::White);
+        box.setOutlineColor(defaultOutline);
+        box.setOutlineThickness(2);
+
+        // Label above the box
+        label.setFont(font);
+        label.setFillColor(Color::Black);
+        label.setCharacterSize(fontSize + 4);
+        label.setString(labelStr);
+        label.setPosition(position.x, position.y - 30);
+
+        // Text inside the box
+        displayText.setFont(font);
+        displayText.setFillColor(Color::Black);
+        displayText.setCharacterSize(fontSize);
+        displayText.setString("");
+        displayText.setPosition(position.x + 5, position.y + 5);
+    }
+
+    void handleEvent(const Event& event, const RenderWindow& window) {
+        // Focus on click
+        if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
+            Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
+            isFocused = box.getGlobalBounds().contains(mousePos);
+            box.setOutlineColor(isFocused ? focusedOutline : defaultOutline);
+            box.setOutlineThickness(isFocused ? 3 : 2);
+        }
+
+        // Typing
+        if (event.type == Event::TextEntered && isFocused) {
+            if (event.text.unicode == '\b') {
+                if (!input.empty())
+                    input.pop_back();
+            }
+            else if (event.text.unicode < 128) {
+                string test = input + static_cast<char>(event.text.unicode);
+                displayText.setString(test);
+                if (displayText.getGlobalBounds().width < box.getSize().x - 10)
+                    input = test;
+                else
+                    displayText.setString(input);
+            }
+            displayText.setString(input);
+        }
+    }
+
+    void draw(RenderWindow& window) {
+        window.draw(box);
+        window.draw(label);
+        window.draw(displayText);
+    }
+
+    void clear() {
+        input.clear();
+        displayText.setString("");
+    }
+};
+
+
 // start menu buttons struct
 struct ButtonData {
     RectButton* mButton = nullptr;
@@ -48,7 +125,7 @@ int main()
     unsigned int height = 800; // height of window
     unsigned int width = 1600; // width of window
 
-    RenderWindow window(VideoMode(width, height), "SFML works!");
+    RenderWindow window(VideoMode(width, height), "Employee Payroll Management System");
 
     window.setFramerateLimit(60); // frame limit of window
     window.setKeyRepeatEnabled(false); // one press each time
@@ -189,27 +266,8 @@ int main()
     welc.setPosition(width / 2.f, height / 4.f - 50.f);
 
     // trying to make a textbox
-    bool tbox1Focused = false;
-    string input;
-    RectangleShape Tbox1(Vector2f(300, 40));
-    Tbox1.setPosition(1100, 250);
-    Tbox1.setFillColor(Color::White);
-    Tbox1.setOutlineColor(Color::Black);
-    Tbox1.setOutlineThickness(2);
-
-    Text admininputboxlabel;
-    admininputboxlabel.setFont(font);
-    admininputboxlabel.setFillColor(Color::Black);
-    admininputboxlabel.setString("Enter Your Name:");
-    admininputboxlabel.setCharacterSize(24);
-    admininputboxlabel.setPosition(1100, 220);
-
-    Text inputbox;
-    inputbox.setFont(font);
-    inputbox.setFillColor(Color::Black);
-    inputbox.setString("");
-    inputbox.setCharacterSize(20);
-    inputbox.setPosition(1105, 255);
+// REPLACE WITH JUST THIS ONE LINE:
+    Textboxdata idBox(font, Vector2f(300, 40), Vector2f(1100, 250), "Enter Your ID Number:");
     // textbox attempt end
 
     // ================================ GAME LOOP ============================
@@ -325,73 +383,47 @@ int main()
                 //log in settings end
             }
 
-            if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
-                Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
-                tbox1Focused = Tbox1.getGlobalBounds().contains(mousePos);
-                Tbox1.setOutlineColor(tbox1Focused ? Color(31, 11, 64) : Color::Black);
-                Tbox1.setOutlineThickness(tbox1Focused ? 3 : 2);
-            }
-            if (event.type == Event::TextEntered && tbox1Focused && currentState == adminLogin) {
-                if (event.text.unicode == '\b') {
-                    // Backspace: remove last character
-                    if (!input.empty())
-                        input.pop_back();
-                }
-                else if (event.text.unicode < 128) {
-                    // Try adding the new character
-                    string test = input + static_cast<char>(event.text.unicode);
-                    inputbox.setString(test);
-                    // Only keep it if it fits inside the box (box is 300px wide, leave 10px margin)
-                    if (inputbox.getGlobalBounds().width < Tbox1.getSize().x - 10)
-                        input = test;       // fits ? keep it
-                    else
-                        inputbox.setString(input);  // too wide ? revert display
-                }
-            }
-        }
-        // Update
+            if (currentState == adminLogin)
+                idBox.handleEvent(event, window);
+    }
+    // Update
 
            // Draw
         window.clear(Color::White); // white background
 
-        if (currentState == Menu)
-        {
-            window.draw(topBar);
-            adminButton.mButton->draw(window);
-            employeeButton.mButton->draw(window);
-            exitButton.mButton->draw(window);
-            window.draw(adminSprite);
-            window.draw(employeeSprite);
-            window.draw(welc);
-        }
-        else if (currentState == adminLogin) {
-            window.draw(adminImageSprite);
-            window.draw(admininputboxlabel);
-            window.draw(topBar);
-            window.draw(Tbox1);
-            inputbox.setString(input);
-            window.draw(inputbox);
-            backButton.mButton->draw(window);
-            loginButton.mButton->draw(window);
-        }
-        else if (currentState == employeeLogin) {
-            window.draw(topBar);
-            backButton.mButton->draw(window);
-            loginButton.mButton->draw(window);
-            window.draw(employeeImageSprite);
-        }
-        else if (currentState == adminPanel) {
-            window.draw(topBar);
-        }
-        else if (currentState == employeePanel) {
-            window.draw(topBar);
-        }
-        window.display();
+    if (currentState == Menu)
+    {
+        window.draw(topBar);
+        adminButton.mButton->draw(window);
+        employeeButton.mButton->draw(window);
+        exitButton.mButton->draw(window);
+        window.draw(adminSprite);
+        window.draw(employeeSprite);
+        window.draw(welc);
     }
+    else if (currentState == adminLogin) {
+        window.draw(adminImageSprite);
+        idBox.draw(window);
+        window.draw(topBar);
+        backButton.mButton->draw(window);
+        loginButton.mButton->draw(window);
+    }
+    else if (currentState == employeeLogin) {
+        window.draw(topBar);
+        backButton.mButton->draw(window);
+        loginButton.mButton->draw(window);
+    }
+    else if (currentState == adminPanel) {
+        window.draw(topBar);
+    }
+    else if (currentState == employeePanel) {
+        window.draw(topBar);
+    }
+    window.display();
+        }
         delete adminButton.mButton;
         delete employeeButton.mButton;
         delete exitButton.mButton;
         delete backButton.mButton;
         delete loginButton.mButton;
-}
-       
+} 
