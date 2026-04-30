@@ -140,17 +140,24 @@ int main()
     // trying to make a textbox
     string input;
     RectangleShape Tbox1(Vector2f(300, 40));
-    Tbox1.setPosition( 255, 670);
+    Tbox1.setPosition( 1100 , 250);
     Tbox1.setFillColor(Color::White);
     Tbox1.setOutlineColor(Color::Black);
     Tbox1.setOutlineThickness(2);
+
+    Text admininputboxlabel;
+    admininputboxlabel.setFont(font);
+    admininputboxlabel.setFillColor(Color::Black);
+    admininputboxlabel.setString("Please Type Your Full Name:");
+    admininputboxlabel.setCharacterSize(24);
+    admininputboxlabel.setPosition(1100, 220);
 
     Text inputbox;
     inputbox.setFont(font);
     inputbox.setFillColor(Color::Black);
     inputbox.setString("Please Type Your Full Name:");
     inputbox.setCharacterSize(24);
-    inputbox.setPosition(270, 630);
+    inputbox.setPosition(1100, 250);
     // textbox attempt end
 
     // game loop start
@@ -166,11 +173,10 @@ int main()
                     if (event.text.unicode == '\b') {
                         if (!input.empty())
                             input.pop_back();
-                        else if (event.text.unicode < 128) {
+                        } else if (event.text.unicode < 128) {
                             input += static_cast<char>(event.text.unicode);
                         }
                     }
-                }
                 // admin settings
                 adminButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
                 if (adminButton.mButton->isPressed)
@@ -253,7 +259,11 @@ int main()
                 window.draw(welc);
             }
             else if (currentState == adminPanel) {
+                window.draw(admininputboxlabel);
                 window.draw(topBar);
+                window.draw(Tbox1);
+                inputbox.setString(input); 
+                window.draw(inputbox);
                 backButton.mButton->draw(window);
             }
             else if (currentState == employeePanel) {
@@ -261,6 +271,18 @@ int main()
                 backButton.mButton->draw(window);
             }
 
+           /* window.draw(topBar); 
+            adminButton.mButton->draw(window);
+            employeeButton.mButton->draw(window);
+            exitButton.mButton->draw(window);
+            window.draw(adminSprite);
+            window.draw(employeeSprite);
+            window.draw(welc);*/
+
+            //window.draw(inputbox);
+            //window.draw(Tbox1);
+            //window.draw(inputbox);
+            //window.draw(Tbox1);
             window.display();
         }
         delete adminButton.mButton;
