@@ -11,39 +11,114 @@
     using namespace sf;
     using namespace std;
 
-//<<<<<<< HEAD
+    // start menu buttons struct
+    struct MenuButton {
+        RectButton* mButton = nullptr;
+        string label;
+        Color defaultColor;
+        Color hoverColor;
+        Texture texture;
+
+        bool loadImage(const string& path) {
+            if (!texture.loadFromFile(path)) {
+                cerr << "ERROR :: Could not load: " << path << endl;
+                return false;
+            }
+            mButton->button.setTexture(&texture);
+            mButton->setButtonLabel(24, "");  // clear label inside here
+            return true;
+        }
+    }adminButton,employeeButton,exitButton;
+
 int main()
 {
-    unsigned int height = 800;
-    unsigned int width = 1600;
+    unsigned int height = 800; // height of window
+    unsigned int width = 1600; // width of window
     RenderWindow window(VideoMode(width, height), "SFML works!");
 
-    window.setFramerateLimit(60);
-    window.setKeyRepeatEnabled(false);
+    window.setFramerateLimit(60); // frame limit of window
+    window.setKeyRepeatEnabled(false); // one press each time
 
-    Font font;
+    Font font; // blockletter font
     if (!font.loadFromFile("Fonts/Blockletter.otf")) {
         cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Blockletter.otf" << endl;
     }
 
-    Text text;
-    text.setFont(font);
-    text.setString("Menawareen ya5watyyy\nTeam Members:\nSamir\nSofia\nelIona\nMona\nEbram\nSteevn\nMarwan");
-    text.setCharacterSize(60);
-    FloatRect tb = text.getGlobalBounds();
-    text.setOrigin(tb.width * 0.5f, tb.height * 0.5f);
-    text.setPosition(width / 2.f, height / 2.f);
-
-    EllipseButton button(200.f, sf::Vector2f(325.f, 275.f));
-    button.setButtonLabel(24, "Click Me!");
-    button.setButtonFont(font);
-    button.setLabelColor(Color::Red);
-    button.setButtonColor(Color::Blue);
-    
-
-    RectangleShape topBar(Vector2f(1600, 40));
+    // top of the window details
+    RectangleShape topBar(Vector2f(1600, 60));
     topBar.setPosition(0, 0);
     topBar.setFillColor(Color(31, 11, 64));
+    // top of the window details end
+
+    // admin button details
+    adminButton.label = "I am an admin";
+    adminButton.defaultColor = Color(31, 11, 64);
+    adminButton.hoverColor = Color(31, 11, 64, 185);
+
+    Text admin_text;
+    admin_text.setFont(font);
+    admin_text.setCharacterSize(24);
+    admin_text.setString(adminButton.label);
+    FloatRect admin_tb = admin_text.getGlobalBounds();
+    Vector2f admin_size(admin_tb.width * 1.5f, admin_tb.height * 2.f);
+
+    adminButton.mButton = new RectButton(font, admin_size, Vector2f(width/4.f - admin_size.x/2.f, height/4.f*3.f - admin_size.y/2.f));
+    adminButton.mButton->setButtonLabel(24, adminButton.label);
+    adminButton.mButton->setLabelColor(Color::White);
+    adminButton.mButton->setButtonColor(adminButton.defaultColor);
+    // end admin button details
+
+    // employee button details
+    employeeButton.label = "I am an employee";
+    employeeButton.defaultColor = Color(31, 11, 64);
+    employeeButton.hoverColor = Color(31, 11, 64, 185);
+
+    Text employee_text;
+    employee_text.setFont(font);
+    employee_text.setCharacterSize(24);
+    employee_text.setString(employeeButton.label);
+    FloatRect employee_tb = employee_text.getGlobalBounds();
+    Vector2f employee_size(employee_tb.width * 1.5f, employee_tb.height * 2.f);
+
+    employeeButton.mButton = new RectButton(font, employee_size, Vector2f(width / 4.f * 3.f - employee_size.x / 2.f, height / 4.f * 3.f - employee_size.y / 2.f));
+    employeeButton.mButton->setButtonLabel(24, employeeButton.label);
+    employeeButton.mButton->setLabelColor(Color::White);
+    employeeButton.mButton->setButtonColor(employeeButton.defaultColor);
+    // end employee button details
+
+    // exit button details
+    exitButton.mButton = new RectButton(font, Vector2f(60.f,50.f), Vector2f(5.f, 5.f));
+    exitButton.mButton->setButtonLabel(24, exitButton.label);
+    exitButton.loadImage("Images/exit.png");
+    exitButton.mButton->setButtonLabel(24, "");
+    // end exit button details
+
+    // menu admin and employee icons
+    Texture adminTexture;
+    adminTexture.loadFromFile("Images/employee_622846.png");
+    Sprite adminSprite;
+    adminSprite.setTexture(adminTexture);
+    adminSprite.setOrigin(adminSprite.getLocalBounds().width / 2, adminSprite.getLocalBounds().height / 2);
+    adminSprite.setPosition(width/4.f, height/2.f -40.f);
+    adminSprite.setScale(0.75f, 0.75f);
+
+    Texture employeeTexture;
+    employeeTexture.loadFromFile("Images/employee_622850.png");
+    Sprite employeeSprite;
+    employeeSprite.setTexture(employeeTexture);
+    employeeSprite.setOrigin(employeeSprite.getLocalBounds().width / 2.f, employeeSprite.getLocalBounds().height / 2.f);
+    employeeSprite.setPosition(width / 4.f*3.f, height / 2.f - 40.f);
+    employeeSprite.setScale(0.75f, 0.75f);
+    // end admin and employee icons
+
+    // welcome text
+    Text welc;
+    welc.setCharacterSize(64);
+    welc.setFont(font);
+    welc.setFillColor(Color(31, 11, 64));
+    welc.setString("Welcome!");
+    welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f);
+    welc.setPosition(width / 2.f, height / 4.f -50.f);
 
     // trying to make a textbox
     string input;
@@ -59,30 +134,9 @@ int main()
     inputbox.setString("Please Type Your Full Name");
     inputbox.setCharacterSize(24);
     inputbox.setPosition(149, 119);
+    // textbox attempt end
 
-    //Menu texts
-    //const int num_of_txt = 3;
-    //vector<Text> menu_txt;
-    //string menu_str[num_of_txt] = { "Admin Log In", "Employee Log In", "Exit" };
-    //for (int i = 0; i < num_of_txt; i++) {
-    //    Text t;
-    //    t.setFont(font);
-    //    t.setString(menu_str[i]);
-    //    t.setCharacterSize(60);
-    //    t.setPosition(500.f, 100.f * i + 50.f);
-    //    menu_txt.push_back(t);
-    //}
-    //if (!menu_txt.empty())
-    //    menu_txt[0].setFillColor(Color::Red);
-
-    //int counter = 0;
-
-    RectangleShape adminButton(Vector2f(400.f, 200.f));
-    adminButton.setOrigin(400.f * 0.5f, 200.f * 0.5f);
-    adminButton.setPosition(width / 2.f, height / 2.f);
-    adminButton.setFillColor(Color::Black);
-
-
+    // game loop start
         while (window.isOpen())
         {
             Event event;
@@ -90,7 +144,7 @@ int main()
             while (window.pollEvent(event))
             {
                 if (event.type == Event::Closed)
-                    window.close();
+                    window.close(); // to close window
                 if (event.type == Event::TextEntered) {
                     if (event.text.unicode == '\b') {
                         if (!input.empty())
@@ -100,38 +154,69 @@ int main()
                         }
                     }
                 }
-                button.getButtonStatus(window, event);
-                if (button.isPressed)
+                // admin settings
+                adminButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
+                if (adminButton.mButton->isPressed)
                 {
-                    cout << "Button was pressed!" << endl;
-                    button.setButtonColor(Color::Green);
+                    cout << "Button was pressed!" << endl; // what happens after pressing 
                 }
-                else if (button.isHover)
-                    button.setButtonColor(Color::Yellow);
+                else if (adminButton.mButton->isHover) // what happens when hover
+                {
+                    adminButton.mButton->setButtonColor(adminButton.hoverColor);
+                    adminButton.mButton->setLabelColor(Color::Black);
+                }
                 else
-                    button.setButtonColor(Color::Blue);
+                {
+                    adminButton.mButton->setButtonColor(adminButton.defaultColor);
+                    adminButton.mButton->setLabelColor(Color::White);
+                }
+                // admin settings end
+
+                // employee settings
+                employeeButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
+                if (employeeButton.mButton->isPressed)
+                {
+                    cout << "Button was pressed!" << endl; // what happens after pressing 
+                }
+                else if (employeeButton.mButton->isHover) // what happens when hover
+                {
+                    employeeButton.mButton->setButtonColor(employeeButton.hoverColor);
+                    employeeButton.mButton->setLabelColor(Color::Black);
+                }
+                else
+                {
+                    employeeButton.mButton->setButtonColor(employeeButton.defaultColor);
+                    employeeButton.mButton->setLabelColor(Color::White);
+                }
+                // employee settings end
+
+                // exit settings
+                exitButton.mButton->getButtonStatus(window, event);
+
+                if (exitButton.mButton->isHover)
+                    exitButton.mButton->button.setFillColor(Color(255, 255, 255, 180)); 
+                else
+                    exitButton.mButton->button.setFillColor(Color::White);
+                // exit settings end
 
             }
 
             // Update
-            Vector2f mouse_position = Vector2f(Mouse::getPosition(window));
-            if (adminButton.getGlobalBounds().contains(mouse_position))
-            {
-                if (Mouse::isButtonPressed(Mouse::Left))
-                    adminButton.setFillColor(Color::Yellow);
-                else
-                    adminButton.setFillColor(Color::Blue);
-            }
-            else
-                adminButton.setFillColor(Color::Black);
-
-
+            
             // Draw
-            window.clear(Color::White);
-            window.draw(topBar);
-            button.draw(window);
-            window.draw(inputbox);
-            window.draw(Tbox1);
+            window.clear(Color::White); // white background
+            window.draw(topBar); 
+            adminButton.mButton->draw(window);
+            employeeButton.mButton->draw(window);
+            exitButton.mButton->draw(window);
+            window.draw(adminSprite);
+            window.draw(employeeSprite);
+            window.draw(welc);
+            //window.draw(inputbox);
+            //window.draw(Tbox1);
             window.display();
         }
+        delete adminButton.mButton;
+        delete employeeButton.mButton;
+        delete exitButton.mButton;
 }
