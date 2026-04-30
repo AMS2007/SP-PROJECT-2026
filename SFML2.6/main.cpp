@@ -18,7 +18,8 @@ enum GameState {
     adminLogin,
     employeeLogin,
     adminPanel,
-    employeePanel
+    employeePanel,
+    addEmployee
 };
 
 
@@ -115,7 +116,7 @@ struct ButtonData {
         mButton->setButtonLabel(24, "");  // clear label inside here
         return true;
     }
-    }adminButton,employeeButton,exitButton,backButton, loginButton;
+    }adminButton,employeeButton,exitButton,backButton, loginButton, addButton;
     
 
 int main()
@@ -203,11 +204,29 @@ int main()
     FloatRect login_tb = login_text.getGlobalBounds();
     Vector2f login_size(login_tb.width * 1.5f, login_tb.height * 2.f);
 
-    loginButton.mButton = new RectButton(font, login_size, Vector2f(width / 4.f * 3.f - login_size.x / 2.f, height / 4.f * 3.f - login_size.y / 2.f));
+    loginButton.mButton = new RectButton(font, login_size, Vector2f(1100.f, 600.f));
     loginButton.mButton->setButtonLabel(36, loginButton.label);
     loginButton.mButton->setLabelColor(Color::White);
     loginButton.mButton->setButtonColor(loginButton.defaultColor);
     // end log in button details
+
+    // add employee button details
+    addButton.label = "add employee";
+    addButton.defaultColor = Color(31, 11, 64);
+    addButton.hoverColor = Color(31, 11, 64, 185);
+
+    Text add_text;
+    add_text.setFont(font);
+    add_text.setCharacterSize(24);
+    add_text.setString(addButton.label);
+    FloatRect add_tb = add_text.getGlobalBounds();
+    Vector2f add_size(add_tb.width * 1.5f, add_tb.height * 2.f);
+
+    addButton.mButton = new RectButton(font, add_size, Vector2f(width / 4.f * 3.f - add_size.x / 2.f, height / 4.f * 3.f - add_size.y / 2.f));
+    addButton.mButton->setButtonLabel(24, addButton.label);
+    addButton.mButton->setLabelColor(Color::White);
+    addButton.mButton->setButtonColor(addButton.defaultColor);
+    // end add employee button details
 
     // menu admin and employee icons
     Texture adminTexture;
@@ -253,17 +272,26 @@ int main()
     welc.setFont(font);
     welc.setFillColor(Color(31, 11, 64));
     welc.setString("Welcome!");
-    welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f);
+    welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f); 
     welc.setPosition(width / 2.f, height / 4.f - 50.f);
 
     // welcome text admin
     Text welc_admin;
-    welc.setCharacterSize(64);
-    welc.setFont(font);
-    welc.setFillColor(Color(31, 11, 64));
-    welc.setString("Welcome back!");
-    welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f);
-    welc.setPosition(width / 2.f, height / 4.f - 50.f);
+    welc_admin.setCharacterSize(64);
+    welc_admin.setFont(font);
+    welc_admin.setFillColor(Color(31, 11, 64));
+    welc_admin.setString("Welcome back!");
+    welc_admin.setOrigin(welc_admin.getLocalBounds().width / 2.f, welc_admin.getLocalBounds().height / 2.f);
+    welc_admin.setPosition(width / 4.f, height / 4.f - 50.f); // (400,150) 
+
+    // question admin
+    Text question_admin;
+    question_admin.setCharacterSize(42);
+    question_admin.setFont(font);
+    question_admin.setFillColor(Color::Black);
+    question_admin.setString("What would you like to do?");
+    question_admin.setOrigin(question_admin.getLocalBounds().width / 2.f, question_admin.getLocalBounds().height / 2.f);
+    question_admin.setPosition(width / 4.f + 50.f, height / 4.f + 50.f); // (400,150) 
 
     // trying to make a textbox
     Textboxdata idBox(font, Vector2f(300, 40), Vector2f(1100, 250), "Enter Your ID Number:");
@@ -348,6 +376,8 @@ int main()
 
              // ================================ LOG IN ADMIN ========================
             if (currentState == adminLogin) {
+                idBox.handleEvent(event, window);
+                passwordBox.handleEvent(event, window);
                 // log in settings
                 loginButton.mButton->getButtonStatus(window, event);
                 if (loginButton.mButton->isPressed) {
@@ -383,50 +413,73 @@ int main()
                 }
                 //log in settings end
             }
+            // ============================ ADMIN PANEL ============================
+            if (currentState == adminPanel) {
+                // add employee settings
+                addButton.mButton->getButtonStatus(window, event);
+                if (addButton.mButton->isPressed) {
+                    currentState = addEmployee;
+                }
+                else if (addButton.mButton->isHover) {
+                    addButton.mButton->setButtonColor(addButton.hoverColor);
+                    addButton.mButton->setLabelColor(Color::Black);
+                }
+                else
+                {
+                    addButton.mButton->setButtonColor(addButton.defaultColor);
+                    addButton.mButton->setLabelColor(Color::White);
+                }
+                // add employee settings end
+            }
+        }
+        // Update
 
-            if (currentState == adminLogin)
-                idBox.handleEvent(event, window);
-                passwordBox.handleEvent(event, window);
-    }
-    // Update
-
-           // Draw
+               // Draw
         window.clear(Color::White); // white background
 
-    if (currentState == Menu)
-    {
-        window.draw(topBar);
-        adminButton.mButton->draw(window);
-        employeeButton.mButton->draw(window);
-        exitButton.mButton->draw(window);
-        window.draw(adminSprite);
-        window.draw(employeeSprite);
-        window.draw(welc);
-    }
-    else if (currentState == adminLogin) {
-        window.draw(adminImageSprite);
-        idBox.draw(window);
-        passwordBox.draw(window);
-        window.draw(topBar);
-        backButton.mButton->draw(window);
-        loginButton.mButton->draw(window);
-    }
-    else if (currentState == employeeLogin) {
-        window.draw(topBar);
-        backButton.mButton->draw(window);
-        loginButton.mButton->draw(window);
-    }
-    else if (currentState == adminPanel) {
-        window.draw(topBar);
-    }
-    else if (currentState == employeePanel) {
-        window.draw(topBar);
-    }
-    window.display();
+        if (currentState == Menu)
+        {
+            window.draw(topBar);
+            adminButton.mButton->draw(window);
+            employeeButton.mButton->draw(window);
+            exitButton.mButton->draw(window);
+            window.draw(adminSprite);
+            window.draw(employeeSprite);
+            window.draw(welc);
         }
+        else if (currentState == adminLogin) {
+            window.setTitle("ADMIN LOG IN");
+            loginButton.mButton->draw(window);
+            window.draw(adminImageSprite);
+            window.draw(topBar);
+            idBox.draw(window);
+            passwordBox.draw(window);
+            backButton.mButton->draw(window);
+        }
+        else if (currentState == employeeLogin) {
+            window.setTitle("EMPLOYEE LOG IN");
+            window.draw(employeeImageSprite);
+            window.draw(topBar);
+            backButton.mButton->draw(window);
+            loginButton.mButton->draw(window);
+        }
+        else if (currentState == adminPanel) {
+            window.setTitle("ADMIN PANEL");
+            window.draw(topBar);
+            addButton.mButton->draw(window);
+            window.draw(welc_admin);
+            window.draw(question_admin);
+            //addButton.mButton->draw(window);
+        }
+        else if (currentState == employeePanel) {
+            window.draw(topBar);
+        }
+        window.display();
+    }
         delete adminButton.mButton;
         delete employeeButton.mButton;
         delete exitButton.mButton;
         delete backButton.mButton;
         delete loginButton.mButton;
+        delete addButton.mButton;
 } 
