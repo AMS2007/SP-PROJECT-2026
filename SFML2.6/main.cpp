@@ -133,7 +133,7 @@ int main()
     // trying to make a textbox
     string input;
     RectangleShape Tbox1(Vector2f(300, 40));
-    Tbox1.setPosition( 255, 670);
+    Tbox1.setPosition( 1100 , 250);
     Tbox1.setFillColor(Color::White);
     Tbox1.setOutlineColor(Color::Black);
     Tbox1.setOutlineThickness(2);
@@ -143,7 +143,7 @@ int main()
     inputbox.setFillColor(Color::Black);
     inputbox.setString("Please Type Your Full Name:");
     inputbox.setCharacterSize(24);
-    inputbox.setPosition(270, 630);
+    inputbox.setPosition(1100, 220);
     // textbox attempt end
 
     // game loop start
@@ -231,20 +231,20 @@ int main()
             }
             else if (currentState == adminPanel) {
                 window.draw(topBar);
+            window.draw(Tbox1);
+            window.draw(inputbox);
             }
             else if (currentState == employeePanel) {
                 window.draw(topBar);
             }
 
-            window.draw(topBar); 
+           /* window.draw(topBar); 
             adminButton.mButton->draw(window);
             employeeButton.mButton->draw(window);
             exitButton.mButton->draw(window);
             window.draw(adminSprite);
-            window.draw(Tbox1);
-            window.draw(inputbox);
             window.draw(employeeSprite);
-            window.draw(welc);
+            window.draw(welc);*/
 
             //window.draw(inputbox);
             //window.draw(Tbox1);
