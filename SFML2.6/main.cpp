@@ -14,6 +14,8 @@
     // panels
     enum GameState {
         Menu,
+        adminLogin,
+        employeeLogin,
         adminPanel,
         employeePanel
     };
@@ -35,7 +37,7 @@
             mButton->setButtonLabel(24, "");  // clear label inside here
             return true;
         }
-    }adminButton,employeeButton,exitButton,backButton;
+    }adminButton,employeeButton,exitButton,backButton, loginButton;
     
 int main()
 {
@@ -110,13 +112,31 @@ int main()
     backButton.mButton->setButtonLabel(24, "");
     // back exit button details
 
+    // log in button details
+    loginButton.label = "log in";
+    loginButton.defaultColor = Color(31, 11, 64);
+    loginButton.hoverColor = Color(31, 11, 64, 185);
+
+    Text login_text;
+    login_text.setFont(font);
+    login_text.setCharacterSize(36);
+    login_text.setString(loginButton.label);
+    FloatRect login_tb = login_text.getGlobalBounds();
+    Vector2f login_size(login_tb.width * 1.5f, login_tb.height * 2.f);
+
+    loginButton.mButton = new RectButton(font, login_size, Vector2f(width / 4.f *3.f - login_size.x / 2.f, height / 4.f * 3.f - login_size.y / 2.f));
+    loginButton.mButton->setButtonLabel(36, loginButton.label);
+    loginButton.mButton->setLabelColor(Color::White);
+    loginButton.mButton->setButtonColor(loginButton.defaultColor);
+    // end log in button details
+
     // menu admin and employee icons
     Texture adminTexture;
     adminTexture.loadFromFile("Images/employee_622846.png");
     Sprite adminSprite;
     adminSprite.setTexture(adminTexture);
     adminSprite.setOrigin(adminSprite.getLocalBounds().width / 2, adminSprite.getLocalBounds().height / 2);
-    adminSprite.setPosition(width/4.f, height/2.f -40.f);
+    adminSprite.setPosition(width/4.f, height/2.f -40.f); // (400, 360)
     adminSprite.setScale(0.75f, 0.75f);
 
     Texture employeeTexture;
@@ -124,9 +144,20 @@ int main()
     Sprite employeeSprite;
     employeeSprite.setTexture(employeeTexture);
     employeeSprite.setOrigin(employeeSprite.getLocalBounds().width / 2.f, employeeSprite.getLocalBounds().height / 2.f);
-    employeeSprite.setPosition(width / 4.f*3.f, height / 2.f - 40.f);
+    employeeSprite.setPosition(width / 4.f*3.f, height / 2.f - 40.f); // (1200,360)
     employeeSprite.setScale(0.75f, 0.75f);
     // end admin and employee icons
+
+    // admin login image 
+    Texture adminImage;
+    adminImage.loadFromFile("Images/accountant_2.jpg");
+    Sprite adminImageSprite;
+    adminImageSprite.setTexture(adminImage);
+    adminImageSprite.setOrigin(adminImageSprite.getLocalBounds().width / 2, adminImageSprite.getLocalBounds().height / 2);
+    adminImageSprite.setPosition(width / 4.f +50.f, height / 2.f + 35.f); // (450,435)
+    adminImageSprite.setScale(0.2f, 0.2f);
+    // admin login image end
+
 
     // welcome text
     Text welc;
@@ -177,45 +208,46 @@ int main()
                             input += static_cast<char>(event.text.unicode);
                         }
                     }
+                
+                if(currentState==Menu)
+                {
                 // admin settings
-                adminButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
-                if (adminButton.mButton->isPressed)
-                {
-                    currentState = adminPanel; // opens admin panel
-                }
-                else if (adminButton.mButton->isHover) // what happens when hover
-                {
-                    adminButton.mButton->setButtonColor(adminButton.hoverColor);
-                    adminButton.mButton->setLabelColor(Color::Black);
-                }
-                else
-                {
-                    adminButton.mButton->setButtonColor(adminButton.defaultColor);
-                    adminButton.mButton->setLabelColor(Color::White);
-                }
+                    adminButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
+                    if (adminButton.mButton->isPressed)
+                    {
+                        currentState = adminLogin; // opens admin panel
+                    }
+                    else if (adminButton.mButton->isHover) // what happens when hover
+                    {
+                        adminButton.mButton->setButtonColor(adminButton.hoverColor);
+                        adminButton.mButton->setLabelColor(Color::Black);
+                    }
+                    else
+                    {
+                        adminButton.mButton->setButtonColor(adminButton.defaultColor);
+                        adminButton.mButton->setLabelColor(Color::White);
+                    }
                 // admin settings end
 
                 // employee settings
-                employeeButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
-                if (employeeButton.mButton->isPressed)
-                {
-                    currentState = employeePanel; // opens employee panel
-                }
-                else if (employeeButton.mButton->isHover) // what happens when hover
-                {
-                    employeeButton.mButton->setButtonColor(employeeButton.hoverColor);
-                    employeeButton.mButton->setLabelColor(Color::Black);
-                }
-                else
-                {
-                    employeeButton.mButton->setButtonColor(employeeButton.defaultColor);
-                    employeeButton.mButton->setLabelColor(Color::White);
-                }
+                    employeeButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
+                    if (employeeButton.mButton->isPressed)
+                    {
+                        currentState = employeeLogin; // opens employee login
+                    }
+                    else if (employeeButton.mButton->isHover) // what happens when hover
+                    {
+                        employeeButton.mButton->setButtonColor(employeeButton.hoverColor);
+                        employeeButton.mButton->setLabelColor(Color::Black);
+                    }
+                    else
+                    {
+                        employeeButton.mButton->setButtonColor(employeeButton.defaultColor);
+                        employeeButton.mButton->setLabelColor(Color::White);
+                    }
                 // employee settings end
-
+                    
                 // exit settings
-                if(currentState==Menu)
-                {
                     exitButton.mButton->getButtonStatus(window, event);
                     if (exitButton.mButton->isPressed)  // pressing exit button closes program
                     {
@@ -225,13 +257,13 @@ int main()
                         exitButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
                     else
                         exitButton.mButton->button.setFillColor(Color::White);
-                }
                 // exit settings end
+                }
 
                 // back settings
                  backButton.mButton->getButtonStatus(window, event);
                  if (backButton.mButton->isPressed) {
-                     if (currentState == adminPanel || currentState == employeePanel)
+                     if (currentState == adminLogin || currentState == employeeLogin)
                          currentState = Menu;
                  }
                  else if (backButton.mButton->isHover) {
@@ -240,6 +272,24 @@ int main()
                  else
                      backButton.mButton->button.setFillColor(Color::White);
                 // back settings end
+
+                 if (currentState == adminLogin) {
+                     // log in settings
+                     loginButton.mButton->getButtonStatus(window, event);
+                     if (loginButton.mButton->isPressed) {
+                         currentState == adminPanel;
+                     }
+                     else if (loginButton.mButton->isHover) {
+                         loginButton.mButton->setButtonColor(loginButton.hoverColor);
+                         loginButton.mButton->setLabelColor(Color::Black);
+                     }
+                     else
+                     {
+                         loginButton.mButton->setButtonColor(loginButton.defaultColor);
+                         loginButton.mButton->setLabelColor(Color::White);
+                     }
+                     //log in settings end
+                }
 
             }
 
@@ -258,35 +308,28 @@ int main()
                 window.draw(employeeSprite);
                 window.draw(welc);
             }
-            else if (currentState == adminPanel) {
+            else if (currentState == adminLogin) {
+                window.draw(adminImageSprite);
                 window.draw(admininputboxlabel);
                 window.draw(topBar);
                 window.draw(Tbox1);
                 inputbox.setString(input); 
                 window.draw(inputbox);
                 backButton.mButton->draw(window);
+                loginButton.mButton->draw(window);
             }
-            else if (currentState == employeePanel) {
+            else if (currentState == employeeLogin) {
                 window.draw(topBar);
                 backButton.mButton->draw(window);
             }
-
-           /* window.draw(topBar); 
-            adminButton.mButton->draw(window);
-            employeeButton.mButton->draw(window);
-            exitButton.mButton->draw(window);
-            window.draw(adminSprite);
-            window.draw(employeeSprite);
-            window.draw(welc);*/
-
-            //window.draw(inputbox);
-            //window.draw(Tbox1);
-            //window.draw(inputbox);
-            //window.draw(Tbox1);
+            else if (currentState == adminPanel) {
+                window.draw(topBar);
+            }
             window.display();
         }
         delete adminButton.mButton;
         delete employeeButton.mButton;
         delete exitButton.mButton;
         delete backButton.mButton;
+        delete loginButton.mButton;
 }
