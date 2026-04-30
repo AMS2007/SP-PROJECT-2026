@@ -201,17 +201,7 @@ int main()
 
         while (window.pollEvent(event))
         {
-            if (event.type == Event::Closed)
-                window.close(); // to close window
-            if (event.type == Event::TextEntered) {
-                if (event.text.unicode == '\b') {
-                    if (!input.empty())
-                        input.pop_back();
-                }
-                else if (event.text.unicode < 128) {
-                    input += static_cast<char>(event.text.unicode);
-                }
-            }
+           
             // ========================== MENU =================================
             if (currentState == Menu)
             {
@@ -321,7 +311,7 @@ int main()
                 Tbox1.setOutlineColor(tbox1Focused ? Color(31, 11, 64) : Color::Black);
                 Tbox1.setOutlineThickness(tbox1Focused ? 3 : 2);
             }
-            if (event.type == Event::TextEntered && tbox1Focused && currentState == adminPanel) {
+            if (event.type == Event::TextEntered && tbox1Focused && currentState == adminLogin) {
                 if (event.text.unicode == '\b') {
                     // Backspace: remove last character
                     if (!input.empty())
