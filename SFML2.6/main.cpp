@@ -138,12 +138,19 @@ int main()
     Tbox1.setOutlineColor(Color::Black);
     Tbox1.setOutlineThickness(2);
 
+    Text admininputboxlabel;
+    admininputboxlabel.setFont(font);
+    admininputboxlabel.setFillColor(Color::Black);
+    admininputboxlabel.setString("Please Type Your Full Name:");
+    admininputboxlabel.setCharacterSize(24);
+    admininputboxlabel.setPosition(1100, 220);
+
     Text inputbox;
     inputbox.setFont(font);
     inputbox.setFillColor(Color::Black);
     inputbox.setString("Please Type Your Full Name:");
     inputbox.setCharacterSize(24);
-    inputbox.setPosition(1100, 220);
+    inputbox.setPosition(1100, 250);
     // textbox attempt end
 
     // game loop start
@@ -159,11 +166,10 @@ int main()
                     if (event.text.unicode == '\b') {
                         if (!input.empty())
                             input.pop_back();
-                        else if (event.text.unicode < 128) {
+                        } else if (event.text.unicode < 128) {
                             input += static_cast<char>(event.text.unicode);
                         }
                     }
-                }
                 // admin settings
                 adminButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
                 if (adminButton.mButton->isPressed)
@@ -230,9 +236,11 @@ int main()
                 window.draw(welc);
             }
             else if (currentState == adminPanel) {
+                window.draw(admininputboxlabel);
                 window.draw(topBar);
-            window.draw(Tbox1);
-            window.draw(inputbox);
+                window.draw(Tbox1);
+                inputbox.setString(input); 
+                window.draw(inputbox);
             }
             else if (currentState == employeePanel) {
                 window.draw(topBar);
