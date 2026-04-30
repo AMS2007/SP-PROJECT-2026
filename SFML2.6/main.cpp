@@ -160,6 +160,15 @@ int main()
     adminImageSprite.setScale(0.2f, 0.2f);
     // admin login image end
 
+    // employee login image 
+    Texture employeeImage;
+    employeeImage.loadFromFile("Images/43932.jpg");
+    Sprite employeeImageSprite;
+    employeeImageSprite.setTexture(employeeImage);
+    employeeImageSprite.setOrigin(employeeImageSprite.getLocalBounds().width / 2, employeeImageSprite.getLocalBounds().height / 2);
+    employeeImageSprite.setPosition(width / 4.f + 50.f, height / 2.f + 35.f); // (450,435)
+    employeeImageSprite.setScale(0.5f,0.5f);
+    // employee login image end
 
     // welcome text
     Text welc;
@@ -167,6 +176,15 @@ int main()
     welc.setFont(font);
     welc.setFillColor(Color(31, 11, 64));
     welc.setString("Welcome!");
+    welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f);
+    welc.setPosition(width / 2.f, height / 4.f - 50.f);
+
+    // welcome text admin
+    Text welc_admin;
+    welc.setCharacterSize(64);
+    welc.setFont(font);
+    welc.setFillColor(Color(31, 11, 64));
+    welc.setString("Welcome back!");
     welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f);
     welc.setPosition(width / 2.f, height / 4.f - 50.f);
 
@@ -201,7 +219,9 @@ int main()
 
         while (window.pollEvent(event))
         {
-           
+            if (event.type == sf::Event::Closed)
+                window.close();
+
             // ========================== MENU =================================
             if (currentState == Menu)
             {
@@ -328,45 +348,46 @@ int main()
                         inputbox.setString(input);  // too wide ? revert display
                 }
             }
-    }
-    // Update
-
-       // Draw
-    window.clear(Color::White); // white background
-
-    if (currentState == Menu)
-    {
-        window.draw(topBar);
-        adminButton.mButton->draw(window);
-        employeeButton.mButton->draw(window);
-        exitButton.mButton->draw(window);
-        window.draw(adminSprite);
-        window.draw(employeeSprite);
-        window.draw(welc);
-    }
-    else if (currentState == adminLogin) {
-        window.draw(adminImageSprite);
-        window.draw(admininputboxlabel);
-        window.draw(topBar);
-        window.draw(Tbox1);
-        inputbox.setString(input);
-        window.draw(inputbox);
-        backButton.mButton->draw(window);
-        loginButton.mButton->draw(window);
-    }
-    else if (currentState == employeeLogin) {
-        window.draw(topBar);
-        backButton.mButton->draw(window);
-        loginButton.mButton->draw(window);
-    }
-    else if (currentState == adminPanel) {
-        window.draw(topBar);
-    }
-    else if (currentState == employeePanel) {
-        window.draw(topBar);
-    }
-    window.display();
         }
+        // Update
+
+           // Draw
+        window.clear(Color::White); // white background
+
+        if (currentState == Menu)
+        {
+            window.draw(topBar);
+            adminButton.mButton->draw(window);
+            employeeButton.mButton->draw(window);
+            exitButton.mButton->draw(window);
+            window.draw(adminSprite);
+            window.draw(employeeSprite);
+            window.draw(welc);
+        }
+        else if (currentState == adminLogin) {
+            window.draw(adminImageSprite);
+            window.draw(admininputboxlabel);
+            window.draw(topBar);
+            window.draw(Tbox1);
+            inputbox.setString(input);
+            window.draw(inputbox);
+            backButton.mButton->draw(window);
+            loginButton.mButton->draw(window);
+        }
+        else if (currentState == employeeLogin) {
+            window.draw(topBar);
+            backButton.mButton->draw(window);
+            loginButton.mButton->draw(window);
+            window.draw(employeeImageSprite);
+        }
+        else if (currentState == adminPanel) {
+            window.draw(topBar);
+        }
+        else if (currentState == employeePanel) {
+            window.draw(topBar);
+        }
+        window.display();
+    }
         delete adminButton.mButton;
         delete employeeButton.mButton;
         delete exitButton.mButton;
