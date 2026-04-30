@@ -19,7 +19,7 @@
     };
 
     // start menu buttons struct
-    struct MenuButton {
+    struct ButtonData {
         RectButton* mButton = nullptr;
         string label;
         Color defaultColor;
@@ -35,7 +35,7 @@
             mButton->setButtonLabel(24, "");  // clear label inside here
             return true;
         }
-    }adminButton,employeeButton,exitButton;
+    }adminButton,employeeButton,exitButton,backButton;
     
 int main()
 {
@@ -102,6 +102,13 @@ int main()
     exitButton.loadImage("Images/exit.png");
     exitButton.mButton->setButtonLabel(24, "");
     // end exit button details
+
+    // back button details
+    backButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
+    backButton.mButton->setButtonLabel(24, backButton.label);
+    backButton.loadImage("Images/left-arrow.png");
+    backButton.mButton->setButtonLabel(24, "");
+    // back exit button details
 
     // menu admin and employee icons
     Texture adminTexture;
@@ -201,16 +208,32 @@ int main()
                 // employee settings end
 
                 // exit settings
-                exitButton.mButton->getButtonStatus(window, event);
-                 if (exitButton.mButton->isPressed)  // pressing exit button closes program
+                if(currentState==Menu)
                 {
-                    window.close();
+                    exitButton.mButton->getButtonStatus(window, event);
+                    if (exitButton.mButton->isPressed)  // pressing exit button closes program
+                    {
+                        window.close();
+                    }
+                    else if (exitButton.mButton->isHover)
+                        exitButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                    else
+                        exitButton.mButton->button.setFillColor(Color::White);
                 }
-                else if (exitButton.mButton->isHover)
-                    exitButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
-                else
-                    exitButton.mButton->button.setFillColor(Color::White);
                 // exit settings end
+
+                // back settings
+                 backButton.mButton->getButtonStatus(window, event);
+                 if (backButton.mButton->isPressed) {
+                     if (currentState == adminPanel || currentState == employeePanel)
+                         currentState = Menu;
+                 }
+                 else if (backButton.mButton->isHover) {
+                     backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                 }
+                 else
+                     backButton.mButton->button.setFillColor(Color::White);
+                // back settings end
 
             }
 
@@ -231,26 +254,17 @@ int main()
             }
             else if (currentState == adminPanel) {
                 window.draw(topBar);
+                backButton.mButton->draw(window);
             }
             else if (currentState == employeePanel) {
                 window.draw(topBar);
+                backButton.mButton->draw(window);
             }
 
-            window.draw(topBar); 
-            adminButton.mButton->draw(window);
-            employeeButton.mButton->draw(window);
-            exitButton.mButton->draw(window);
-            window.draw(adminSprite);
-            window.draw(Tbox1);
-            window.draw(inputbox);
-            window.draw(employeeSprite);
-            window.draw(welc);
-
-            //window.draw(inputbox);
-            //window.draw(Tbox1);
             window.display();
         }
         delete adminButton.mButton;
         delete employeeButton.mButton;
         delete exitButton.mButton;
+        delete backButton.mButton;
 }
