@@ -266,8 +266,9 @@ int main()
     welc.setPosition(width / 2.f, height / 4.f - 50.f);
 
     // trying to make a textbox
-// REPLACE WITH JUST THIS ONE LINE:
     Textboxdata idBox(font, Vector2f(300, 40), Vector2f(1100, 250), "Enter Your ID Number:");
+    Textboxdata passwordBox(font, Vector2f(300, 40), Vector2f(1100, 350), "Enter Your Password:");
+
     // textbox attempt end
 
     // ================================ GAME LOOP ============================
@@ -385,6 +386,7 @@ int main()
 
             if (currentState == adminLogin)
                 idBox.handleEvent(event, window);
+                passwordBox.handleEvent(event, window);
     }
     // Update
 
@@ -404,6 +406,7 @@ int main()
     else if (currentState == adminLogin) {
         window.draw(adminImageSprite);
         idBox.draw(window);
+        passwordBox.draw(window);
         window.draw(topBar);
         backButton.mButton->draw(window);
         loginButton.mButton->draw(window);
