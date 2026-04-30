@@ -11,6 +11,13 @@
     using namespace sf;
     using namespace std;
 
+    // panels
+    enum GameState {
+        Menu,
+        adminPanel,
+        employeePanel
+    };
+
     // start menu buttons struct
     struct MenuButton {
         RectButton* mButton = nullptr;
@@ -29,11 +36,14 @@
             return true;
         }
     }adminButton,employeeButton,exitButton;
-
+    
 int main()
 {
+    GameState currentState = Menu; // screen when you open window
+
     unsigned int height = 800; // height of window
     unsigned int width = 1600; // width of window
+
     RenderWindow window(VideoMode(width, height), "SFML works!");
 
     window.setFramerateLimit(60); // frame limit of window
@@ -158,7 +168,7 @@ int main()
                 adminButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
                 if (adminButton.mButton->isPressed)
                 {
-                    cout << "Button was pressed!" << endl; // what happens after pressing 
+                    currentState = adminPanel; // opens admin panel
                 }
                 else if (adminButton.mButton->isHover) // what happens when hover
                 {
@@ -176,7 +186,7 @@ int main()
                 employeeButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
                 if (employeeButton.mButton->isPressed)
                 {
-                    cout << "Button was pressed!" << endl; // what happens after pressing 
+                    currentState = employeePanel; // opens employee panel
                 }
                 else if (employeeButton.mButton->isHover) // what happens when hover
                 {
@@ -192,9 +202,12 @@ int main()
 
                 // exit settings
                 exitButton.mButton->getButtonStatus(window, event);
-
-                if (exitButton.mButton->isHover)
-                    exitButton.mButton->button.setFillColor(Color(255, 255, 255, 180)); 
+                 if (exitButton.mButton->isPressed)  // pressing exit button closes program
+                {
+                    window.close();
+                }
+                else if (exitButton.mButton->isHover)
+                    exitButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
                 else
                     exitButton.mButton->button.setFillColor(Color::White);
                 // exit settings end
@@ -205,13 +218,22 @@ int main()
             
             // Draw
             window.clear(Color::White); // white background
-            window.draw(topBar); 
-            adminButton.mButton->draw(window);
-            employeeButton.mButton->draw(window);
-            exitButton.mButton->draw(window);
-            window.draw(adminSprite);
-            window.draw(employeeSprite);
-            window.draw(welc);
+            if (currentState == Menu)
+            {
+                window.draw(topBar);
+                adminButton.mButton->draw(window);
+                employeeButton.mButton->draw(window);
+                exitButton.mButton->draw(window);
+                window.draw(adminSprite);
+                window.draw(employeeSprite);
+                window.draw(welc);
+            }
+            else if (currentState == adminPanel) {
+                window.draw(topBar);
+            }
+            else if (currentState == employeePanel) {
+                window.draw(topBar);
+            }
             //window.draw(inputbox);
             //window.draw(Tbox1);
             window.display();
