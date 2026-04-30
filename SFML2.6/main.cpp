@@ -1,42 +1,42 @@
-    #include <SFML/Graphics.hpp>
-    #include <SFML/Window.hpp>
-    #include <SFML/System.hpp>
-    #include <iostream>
-    #include <vector>
-    #include <sstream>
-    #include <SFML/Button.hpp>
-    #include <SFML/sfmlbutton.hpp>
-    #include <SFML/EllipseButton.hpp>
-    #include <SFML/RectButton.hpp>
-    using namespace sf;
-    using namespace std;
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <SFML/Button.hpp>
+#include <SFML/sfmlbutton.hpp>
+#include <SFML/EllipseButton.hpp>
+#include <SFML/RectButton.hpp>
+using namespace sf;
+using namespace std;
 
-    // panels
-    enum GameState {
-        Menu,
-        adminPanel,
-        employeePanel
-    };
+// panels
+enum GameState {
+    Menu,
+    adminPanel,
+    employeePanel
+};
 
-    // start menu buttons struct
-    struct ButtonData {
-        RectButton* mButton = nullptr;
-        string label;
-        Color defaultColor;
-        Color hoverColor;
-        Texture texture;
+// start menu buttons struct
+struct ButtonData {
+    RectButton* mButton = nullptr;
+    string label;
+    Color defaultColor;
+    Color hoverColor;
+    Texture texture;
 
-        bool loadImage(const string& path) {
-            if (!texture.loadFromFile(path)) {
-                cerr << "ERROR :: Could not load: " << path << endl;
-                return false;
-            }
-            mButton->button.setTexture(&texture);
-            mButton->setButtonLabel(24, "");  // clear label inside here
-            return true;
+    bool loadImage(const string& path) {
+        if (!texture.loadFromFile(path)) {
+            cerr << "ERROR :: Could not load: " << path << endl;
+            return false;
         }
-    }adminButton,employeeButton,exitButton,backButton;
-    
+        mButton->button.setTexture(&texture);
+        mButton->setButtonLabel(24, "");  // clear label inside here
+        return true;
+    }
+}adminButton, employeeButton, exitButton, backButton;
+
 int main()
 {
     GameState currentState = Menu; // screen when you open window
@@ -72,7 +72,7 @@ int main()
     FloatRect admin_tb = admin_text.getGlobalBounds();
     Vector2f admin_size(admin_tb.width * 1.5f, admin_tb.height * 2.f);
 
-    adminButton.mButton = new RectButton(font, admin_size, Vector2f(width/4.f - admin_size.x/2.f, height/4.f*3.f - admin_size.y/2.f));
+    adminButton.mButton = new RectButton(font, admin_size, Vector2f(width / 4.f - admin_size.x / 2.f, height / 4.f * 3.f - admin_size.y / 2.f));
     adminButton.mButton->setButtonLabel(24, adminButton.label);
     adminButton.mButton->setLabelColor(Color::White);
     adminButton.mButton->setButtonColor(adminButton.defaultColor);
@@ -97,7 +97,7 @@ int main()
     // end employee button details
 
     // exit button details
-    exitButton.mButton = new RectButton(font, Vector2f(60.f,50.f), Vector2f(5.f, 5.f));
+    exitButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
     exitButton.mButton->setButtonLabel(24, exitButton.label);
     exitButton.loadImage("Images/exit.png");
     exitButton.mButton->setButtonLabel(24, "");
@@ -116,7 +116,7 @@ int main()
     Sprite adminSprite;
     adminSprite.setTexture(adminTexture);
     adminSprite.setOrigin(adminSprite.getLocalBounds().width / 2, adminSprite.getLocalBounds().height / 2);
-    adminSprite.setPosition(width/4.f, height/2.f -40.f);
+    adminSprite.setPosition(width / 4.f, height / 2.f - 40.f);
     adminSprite.setScale(0.75f, 0.75f);
 
     Texture employeeTexture;
@@ -124,7 +124,7 @@ int main()
     Sprite employeeSprite;
     employeeSprite.setTexture(employeeTexture);
     employeeSprite.setOrigin(employeeSprite.getLocalBounds().width / 2.f, employeeSprite.getLocalBounds().height / 2.f);
-    employeeSprite.setPosition(width / 4.f*3.f, height / 2.f - 40.f);
+    employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f - 40.f);
     employeeSprite.setScale(0.75f, 0.75f);
     // end admin and employee icons
 
@@ -135,12 +135,13 @@ int main()
     welc.setFillColor(Color(31, 11, 64));
     welc.setString("Welcome!");
     welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f);
-    welc.setPosition(width / 2.f, height / 4.f -50.f);
+    welc.setPosition(width / 2.f, height / 4.f - 50.f);
 
     // trying to make a textbox
+    bool tbox1Focused = false; 
     string input;
     RectangleShape Tbox1(Vector2f(300, 40));
-    Tbox1.setPosition( 1100 , 250);
+    Tbox1.setPosition(1100, 250);
     Tbox1.setFillColor(Color::White);
     Tbox1.setOutlineColor(Color::Black);
     Tbox1.setOutlineThickness(2);
@@ -148,145 +149,158 @@ int main()
     Text admininputboxlabel;
     admininputboxlabel.setFont(font);
     admininputboxlabel.setFillColor(Color::Black);
-    admininputboxlabel.setString("Please Type Your Full Name:");
+    admininputboxlabel.setString("Enter Your Name:");
     admininputboxlabel.setCharacterSize(24);
     admininputboxlabel.setPosition(1100, 220);
 
     Text inputbox;
     inputbox.setFont(font);
     inputbox.setFillColor(Color::Black);
-    inputbox.setString("Please Type Your Full Name:");
-    inputbox.setCharacterSize(24);
-    inputbox.setPosition(1100, 250);
+    inputbox.setString("");
+    inputbox.setCharacterSize(20);
+    inputbox.setPosition(1105, 255);
     // textbox attempt end
 
     // game loop start
-        while (window.isOpen())
+    while (window.isOpen())
+    {
+        Event event;
+
+        while (window.pollEvent(event))
         {
-            Event event;
-            
-            while (window.pollEvent(event))
-            {
-                if (event.type == Event::Closed)
-                    window.close(); // to close window
-                if (event.type == Event::TextEntered) {
-                    if (event.text.unicode == '\b') {
-                        if (!input.empty())
-                            input.pop_back();
-                        } else if (event.text.unicode < 128) {
-                            input += static_cast<char>(event.text.unicode);
-                        }
-                    }
-                // admin settings
-                adminButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
-                if (adminButton.mButton->isPressed)
-                {
-                    currentState = adminPanel; // opens admin panel
-                }
-                else if (adminButton.mButton->isHover) // what happens when hover
-                {
-                    adminButton.mButton->setButtonColor(adminButton.hoverColor);
-                    adminButton.mButton->setLabelColor(Color::Black);
-                }
-                else
-                {
-                    adminButton.mButton->setButtonColor(adminButton.defaultColor);
-                    adminButton.mButton->setLabelColor(Color::White);
-                }
-                // admin settings end
-
-                // employee settings
-                employeeButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
-                if (employeeButton.mButton->isPressed)
-                {
-                    currentState = employeePanel; // opens employee panel
-                }
-                else if (employeeButton.mButton->isHover) // what happens when hover
-                {
-                    employeeButton.mButton->setButtonColor(employeeButton.hoverColor);
-                    employeeButton.mButton->setLabelColor(Color::Black);
-                }
-                else
-                {
-                    employeeButton.mButton->setButtonColor(employeeButton.defaultColor);
-                    employeeButton.mButton->setLabelColor(Color::White);
-                }
-                // employee settings end
-
-                // exit settings
-                if(currentState==Menu)
-                {
-                    exitButton.mButton->getButtonStatus(window, event);
-                    if (exitButton.mButton->isPressed)  // pressing exit button closes program
-                    {
-                        window.close();
-                    }
-                    else if (exitButton.mButton->isHover)
-                        exitButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
-                    else
-                        exitButton.mButton->button.setFillColor(Color::White);
-                }
-                // exit settings end
-
-                // back settings
-                 backButton.mButton->getButtonStatus(window, event);
-                 if (backButton.mButton->isPressed) {
-                     if (currentState == adminPanel || currentState == employeePanel)
-                         currentState = Menu;
-                 }
-                 else if (backButton.mButton->isHover) {
-                     backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
-                 }
-                 else
-                     backButton.mButton->button.setFillColor(Color::White);
-                // back settings end
-
+            if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
+                Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
+                tbox1Focused = Tbox1.getGlobalBounds().contains(mousePos);
+                Tbox1.setOutlineColor(tbox1Focused ? Color(31, 11, 64) : Color::Black);
+                Tbox1.setOutlineThickness(tbox1Focused ? 3 : 2);
             }
+            if (event.type == Event::TextEntered && tbox1Focused && currentState == adminPanel) {
+                if (event.text.unicode == '\b') {
+                    // Backspace: remove last character
+                    if (!input.empty())
+                        input.pop_back();
+                }
+                else if (event.text.unicode < 128) {
+                    // Try adding the new character
+                    string test = input + static_cast<char>(event.text.unicode);
+                    inputbox.setString(test);
+                    // Only keep it if it fits inside the box (box is 300px wide, leave 10px margin)
+                    if (inputbox.getGlobalBounds().width < Tbox1.getSize().x - 10)
+                        input = test;       // fits ? keep it
+                    else
+                        inputbox.setString(input);  // too wide ? revert display
+                }
+            }
+            // admin settings
+            adminButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
+            if (adminButton.mButton->isPressed)
+            {
+                currentState = adminPanel; // opens admin panel
+            }
+            else if (adminButton.mButton->isHover) // what happens when hover
+            {
+                adminButton.mButton->setButtonColor(adminButton.hoverColor);
+                adminButton.mButton->setLabelColor(Color::Black);
+            }
+            else
+            {
+                adminButton.mButton->setButtonColor(adminButton.defaultColor);
+                adminButton.mButton->setLabelColor(Color::White);
+            }
+            // admin settings end
 
-            // Update
-            
-            // Draw
-            window.clear(Color::White); // white background
+            // employee settings
+            employeeButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
+            if (employeeButton.mButton->isPressed)
+            {
+                currentState = employeePanel; // opens employee panel
+            }
+            else if (employeeButton.mButton->isHover) // what happens when hover
+            {
+                employeeButton.mButton->setButtonColor(employeeButton.hoverColor);
+                employeeButton.mButton->setLabelColor(Color::Black);
+            }
+            else
+            {
+                employeeButton.mButton->setButtonColor(employeeButton.defaultColor);
+                employeeButton.mButton->setLabelColor(Color::White);
+            }
+            // employee settings end
 
+            // exit settings
             if (currentState == Menu)
             {
-                window.draw(topBar);
-                adminButton.mButton->draw(window);
-                employeeButton.mButton->draw(window);
-                exitButton.mButton->draw(window);
-                window.draw(adminSprite);
-                window.draw(employeeSprite);
-                window.draw(welc);
+                exitButton.mButton->getButtonStatus(window, event);
+                if (exitButton.mButton->isPressed)  // pressing exit button closes program
+                {
+                    window.close();
+                }
+                else if (exitButton.mButton->isHover)
+                    exitButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                else
+                    exitButton.mButton->button.setFillColor(Color::White);
             }
-            else if (currentState == adminPanel) {
-                window.draw(admininputboxlabel);
-                window.draw(topBar);
-                window.draw(Tbox1);
-                inputbox.setString(input); 
-                window.draw(inputbox);
-                backButton.mButton->draw(window);
-            }
-            else if (currentState == employeePanel) {
-                window.draw(topBar);
-                backButton.mButton->draw(window);
-            }
+            // exit settings end
 
-           /* window.draw(topBar); 
+            // back settings
+            backButton.mButton->getButtonStatus(window, event);
+            if (backButton.mButton->isPressed) {
+                if (currentState == adminPanel || currentState == employeePanel)
+                    currentState = Menu;
+            }
+            else if (backButton.mButton->isHover) {
+                backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+            }
+            else
+                backButton.mButton->button.setFillColor(Color::White);
+            // back settings end
+
+        }
+
+        // Update
+
+        // Draw
+        window.clear(Color::White); // white background
+
+        if (currentState == Menu)
+        {
+            window.draw(topBar);
             adminButton.mButton->draw(window);
             employeeButton.mButton->draw(window);
             exitButton.mButton->draw(window);
             window.draw(adminSprite);
             window.draw(employeeSprite);
-            window.draw(welc);*/
-
-            //window.draw(inputbox);
-            //window.draw(Tbox1);
-            //window.draw(inputbox);
-            //window.draw(Tbox1);
-            window.display();
+            window.draw(welc);
         }
-        delete adminButton.mButton;
-        delete employeeButton.mButton;
-        delete exitButton.mButton;
-        delete backButton.mButton;
+        else if (currentState == adminPanel) {
+            window.draw(admininputboxlabel);
+            window.draw(topBar);
+            window.draw(Tbox1);
+            inputbox.setString(input);
+            window.draw(inputbox);
+            backButton.mButton->draw(window);
+        }
+        else if (currentState == employeePanel) {
+            window.draw(topBar);
+            backButton.mButton->draw(window);
+        }
+
+        /* window.draw(topBar);
+         adminButton.mButton->draw(window);
+         employeeButton.mButton->draw(window);
+         exitButton.mButton->draw(window);
+         window.draw(adminSprite);
+         window.draw(employeeSprite);
+         window.draw(welc);*/
+
+         //window.draw(inputbox);
+         //window.draw(Tbox1);
+         //window.draw(inputbox);
+         //window.draw(Tbox1);
+        window.display();
+    }
+    delete adminButton.mButton;
+    delete employeeButton.mButton;
+    delete exitButton.mButton;
+    delete backButton.mButton;
 }
