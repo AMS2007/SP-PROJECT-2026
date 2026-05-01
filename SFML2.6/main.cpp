@@ -134,7 +134,7 @@ int main()
 
     Font font; // blockletter font
     if (!font.loadFromFile("Fonts/Ranade-Regular.otf")) {
-        cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Lato-Regular.ttf" << endl;
+        cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Ranade-Regular.otf" << endl;
     }
 
     // top of the window details
@@ -186,7 +186,7 @@ int main()
     emptyloginbox.setFillColor(Color::Red);
     emptyloginbox.setCharacterSize(25);
     emptyloginbox.setPosition(1050, 500);
-    emptyloginbox.setString("Please Enter Your Login Details, Fields are empty");
+    emptyloginbox.setString("Fields are empty");
 
 
 
@@ -429,7 +429,6 @@ int main()
             }
 
             // =============================== LOG IN EMPLOYEE ============================
-            if (currentState == employeeLogin) {
                 // log in settings
                 if (currentState == employeeLogin) {
                     loginButton.mButton->getButtonStatus(window, event);
@@ -442,7 +441,6 @@ int main()
                             passwordBox.clear();
                         }
                     }
-                }
                 else if (loginButton.mButton->isHover) {
                     loginButton.mButton->setButtonColor(loginButton.hoverColor);
                     loginButton.mButton->setLabelColor(Color::Black);
