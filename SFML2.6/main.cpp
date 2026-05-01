@@ -99,7 +99,6 @@ struct Textboxdata {
     }
 };
 
-
 // start menu buttons struct
 struct ButtonData {
     RectButton* mButton = nullptr;
@@ -205,7 +204,7 @@ int main()
     // back exit button details
 
     // log in button details
-    loginButton.label = "log in";
+    loginButton.label = "LOG IN";
     loginButton.defaultColor = Color(31, 11, 64);
     loginButton.hoverColor = Color(31, 11, 64, 185);
 
@@ -216,7 +215,8 @@ int main()
     FloatRect login_tb = login_text.getGlobalBounds();
     Vector2f login_size(login_tb.width * 1.5f, login_tb.height * 2.f);
 
-    loginButton.mButton = new RectButton(font, login_size, Vector2f(1100.f, 600.f));
+    loginButton.mButton = new RectButton(font, login_size, Vector2f(width / 2.f - login_size.x/2.f, height / 2.f - login_size.y/2.f + 100.f));
+    
     loginButton.mButton->setButtonLabel(36, loginButton.label);
     loginButton.mButton->setLabelColor(Color::White);
     loginButton.mButton->setButtonColor(loginButton.defaultColor);
@@ -441,15 +441,15 @@ int main()
                             passwordBox.clear();
                         }
                     }
-                else if (loginButton.mButton->isHover) {
-                    loginButton.mButton->setButtonColor(loginButton.hoverColor);
-                    loginButton.mButton->setLabelColor(Color::Black);
-                }
-                else
-                {
-                    loginButton.mButton->setButtonColor(loginButton.defaultColor);
-                    loginButton.mButton->setLabelColor(Color::White);
-                }
+                    else if (loginButton.mButton->isHover) {
+                        loginButton.mButton->setButtonColor(loginButton.hoverColor);
+                        loginButton.mButton->setLabelColor(Color::Black);
+                    }
+                    else
+                    {
+                        loginButton.mButton->setButtonColor(loginButton.defaultColor);
+                        loginButton.mButton->setLabelColor(Color::White);
+                    }
                 //log in settings end
             }
             // ============================ ADMIN PANEL ============================
@@ -490,7 +490,7 @@ int main()
         else if (currentState == adminLogin) {
             window.setTitle("ADMIN LOG IN");
             loginButton.mButton->draw(window);
-            window.draw(adminImageSprite);
+            //window.draw(adminImageSprite);
             window.draw(topBar);
             idBox.draw(window);
             passwordBox.draw(window);
