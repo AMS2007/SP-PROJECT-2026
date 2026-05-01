@@ -133,7 +133,7 @@ int main()
     window.setKeyRepeatEnabled(true); // one press each time
 
     Font font; // blockletter font
-    if (!font.loadFromFile("Fonts/Lato-Regular.ttf")) {
+    if (!font.loadFromFile("Fonts/Ranade-Regular.otf")) {
         cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Lato-Regular.ttf" << endl;
     }
 
@@ -144,7 +144,7 @@ int main()
     // top of the window details end
 
     // admin button details
-    adminButton.label = "I am an admin";
+    adminButton.label = "I am an Admin";
     adminButton.defaultColor = Color(31, 11, 64);
     adminButton.hoverColor = Color(31, 11, 64, 185);
 
@@ -162,20 +162,9 @@ int main()
     // end admin button details
 
     // employee button details
-    employeeButton.label = "I am an employee";
+    employeeButton.label = "I am an Employee";
     employeeButton.defaultColor = Color(31, 11, 64);
     employeeButton.hoverColor = Color(31, 11, 64, 185);
-
-    bool Showerror = false;
-
-    Text emptyloginbox;
-    emptyloginbox.setFont(font);
-    emptyloginbox.setFillColor(Color::Red);
-    emptyloginbox.setCharacterSize(25);
-    emptyloginbox.setPosition(1050,500);
-    emptyloginbox.setString("Please Enter Your Login Details, Fields are empty");
-
-
 
     Text employee_text;
     employee_text.setFont(font);
@@ -189,6 +178,17 @@ int main()
     employeeButton.mButton->setLabelColor(Color::White);
     employeeButton.mButton->setButtonColor(employeeButton.defaultColor);
     // end employee button details
+
+    bool Showerror = false;
+
+    Text emptyloginbox;
+    emptyloginbox.setFont(font);
+    emptyloginbox.setFillColor(Color::Red);
+    emptyloginbox.setCharacterSize(25);
+    emptyloginbox.setPosition(1050, 500);
+    emptyloginbox.setString("Please Enter Your Login Details, Fields are empty");
+
+
 
     // exit button details
     exitButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
