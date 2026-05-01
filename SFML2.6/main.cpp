@@ -289,12 +289,12 @@ int main()
 
     // employee login image 
     Texture employeeImage;
-    employeeImage.loadFromFile("Images/43932.jpg");
+    employeeImage.loadFromFile("Images/01784fb2-e758-4ed7-ad0b-1bd195549471.jpg");
     Sprite employeeImageSprite;
     employeeImageSprite.setTexture(employeeImage);
     employeeImageSprite.setOrigin(employeeImageSprite.getLocalBounds().width / 2, employeeImageSprite.getLocalBounds().height / 2);
-    employeeImageSprite.setPosition(width / 4.f + 50.f, height / 2.f + 35.f); // (450,435)
-    employeeImageSprite.setScale(0.5f,0.5f);
+    employeeImageSprite.setPosition(width / 2.f, height / 2.f); // (450,435)
+    employeeImageSprite.setScale(0.3f,0.3f);
     // employee login image end
 
     // welcome text
@@ -327,7 +327,8 @@ int main()
     // trying to make a textbox
     Textboxdata idBox(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your ID Number:");
     Textboxdata passwordBox(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
-
+    Textboxdata idBoxEmp(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your ID Number:");
+    Textboxdata passwordBoxEmp(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
     // textbox attempt end
 
     // seed test data
@@ -532,6 +533,8 @@ int main()
         else if (currentState == employeeLogin) {
             window.setTitle("EMPLOYEE LOG IN");
             window.draw(employeeImageSprite);
+            idBoxEmp.draw(window);
+            passwordBoxEmp.draw(window);
             window.draw(topBar);
             backButton.mButton->draw(window);
             loginButton.mButton->draw(window);
