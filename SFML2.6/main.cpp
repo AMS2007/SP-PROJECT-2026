@@ -414,6 +414,7 @@ int main()
                         }
                         else {
                             Showerror = true;
+                            emptyloginbox.setString("Wrong ID or Password!");
                         }
                     }
                     else if (loginButton.mButton->isHover) {
