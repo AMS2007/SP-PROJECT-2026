@@ -127,10 +127,10 @@ int main()
     unsigned int height = 800; // height of window
     unsigned int width = 1600; // width of window
 
-    RenderWindow window(VideoMode(width, height), "Employee Payroll Management System");
+    RenderWindow window(VideoMode(width, height), "Employee Payroll Management System By 2202 GROUP");
 
     window.setFramerateLimit(60); // frame limit of window
-    window.setKeyRepeatEnabled(false); // one press each time
+    window.setKeyRepeatEnabled(true); // one press each time
 
     Font font; // blockletter font
     if (!font.loadFromFile("Fonts/Blockletter.otf")) {
@@ -371,6 +371,8 @@ int main()
             backButton.mButton->getButtonStatus(window, event);
             if (backButton.mButton->isPressed) {
                 if (currentState == adminLogin || currentState == employeeLogin)
+                    idBox.clear();  // added these two lines so when back is pressed boxes are cleared
+                    passwordBox.clear();
                     currentState = Menu;
             }
             else if (backButton.mButton->isHover) {
@@ -460,6 +462,7 @@ int main()
 
         if (currentState == Menu)
         {
+            window.setTitle("Employee Payroll Management System By 2202 GROUP"); //added this so that title is set to this when we are in main menu 
             window.draw(topBar);
             adminButton.mButton->draw(window);
             employeeButton.mButton->draw(window);
