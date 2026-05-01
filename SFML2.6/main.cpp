@@ -215,7 +215,7 @@ int main()
     FloatRect login_tb = login_text.getGlobalBounds();
     Vector2f login_size(login_tb.width * 1.5f, login_tb.height * 2.f);
 
-    loginButton.mButton = new RectButton(font, login_size, Vector2f(width / 2.f - login_size.x/2.f, height / 2.f - login_size.y/2.f + 100.f));
+    loginButton.mButton = new RectButton(font, login_size, Vector2f(width / 2.f - login_size.x/2.f, height / 2.f - login_size.y/2.f + 140.f));
     
     loginButton.mButton->setButtonLabel(36, loginButton.label);
     loginButton.mButton->setLabelColor(Color::White);
@@ -260,12 +260,12 @@ int main()
 
     // admin login image 
     Texture adminImage;
-    adminImage.loadFromFile("Images/accountant_2.jpg");
+    adminImage.loadFromFile("Images/01784fb2-e758-4ed7-ad0b-1bd195549471.jpg");
     Sprite adminImageSprite;
     adminImageSprite.setTexture(adminImage);
     adminImageSprite.setOrigin(adminImageSprite.getLocalBounds().width / 2, adminImageSprite.getLocalBounds().height / 2);
-    adminImageSprite.setPosition(width / 4.f + 50.f, height / 2.f + 35.f); // (450,435)
-    adminImageSprite.setScale(0.2f, 0.2f);
+    adminImageSprite.setPosition(width / 2.f, height / 2.f); // (450,435)
+    adminImageSprite.setScale(0.3f, 0.3f);
     // admin login image end
 
     // employee login image 
@@ -489,12 +489,12 @@ int main()
         }
         else if (currentState == adminLogin) {
             window.setTitle("ADMIN LOG IN");
-            loginButton.mButton->draw(window);
-            //window.draw(adminImageSprite);
+            window.draw(adminImageSprite);
             window.draw(topBar);
             idBox.draw(window);
             passwordBox.draw(window);
             backButton.mButton->draw(window);
+            loginButton.mButton->draw(window);
             if (Showerror == true)
                 window.draw(emptyloginbox);
         }
