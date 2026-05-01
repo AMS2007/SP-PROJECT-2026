@@ -166,6 +166,17 @@ int main()
     employeeButton.defaultColor = Color(31, 11, 64);
     employeeButton.hoverColor = Color(31, 11, 64, 185);
 
+    bool Showerror = false;
+
+    Text emptyloginbox;
+    emptyloginbox.setFont(font);
+    emptyloginbox.setFillColor(Color::Red);
+    emptyloginbox.setCharacterSize(25);
+    emptyloginbox.setPosition(1050,500);
+    emptyloginbox.setString("Please Enter Your Login Details, Fields are empty");
+
+
+
     Text employee_text;
     employee_text.setFont(font);
     employee_text.setCharacterSize(24);
@@ -370,10 +381,12 @@ int main()
             // back settings
             backButton.mButton->getButtonStatus(window, event);
             if (backButton.mButton->isPressed) {
-                if (currentState == adminLogin || currentState == employeeLogin)
+                if (currentState == adminLogin || currentState == employeeLogin) {
+                    Showerror = false;
                     idBox.clear();  // added these two lines so when back is pressed boxes are cleared
                     passwordBox.clear();
                     currentState = Menu;
+                }
             }
             else if (backButton.mButton->isHover) {
                 backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
@@ -390,24 +403,28 @@ int main()
                 if (currentState == adminLogin) {
                     loginButton.mButton->getButtonStatus(window, event);
                     if (loginButton.mButton->isPressed) {
-                        if (validateAdmin(idBox.input, passwordBox.input)) {
+                        Showerror = false;
+                        if (idBox.input.empty() || passwordBox.input.empty()) {
+                            Showerror = true;
+                        }
+                        else if (validateAdmin(idBox.input, passwordBox.input)) {
                             currentState = adminPanel;
                             idBox.clear();
                             passwordBox.clear();
                         }
-                        // if wrong, nothing happens (you can add error text later)
+                        else {
+                            Showerror = true;
+                        }
+                    }
+                    else if (loginButton.mButton->isHover) {
+                        loginButton.mButton->setButtonColor(loginButton.hoverColor);
+                        loginButton.mButton->setLabelColor(Color::Black);
+                    }
+                    else {
+                        loginButton.mButton->setButtonColor(loginButton.defaultColor);
+                        loginButton.mButton->setLabelColor(Color::White);
                     }
                 }
-                else if (loginButton.mButton->isHover) {
-                    loginButton.mButton->setButtonColor(loginButton.hoverColor);
-                    loginButton.mButton->setLabelColor(Color::Black);
-                }
-                else
-                {
-                    loginButton.mButton->setButtonColor(loginButton.defaultColor);
-                    loginButton.mButton->setLabelColor(Color::White);
-                }
-                //log in settings end
             }
 
             // =============================== LOG IN EMPLOYEE ============================
@@ -479,6 +496,8 @@ int main()
             idBox.draw(window);
             passwordBox.draw(window);
             backButton.mButton->draw(window);
+            if (Showerror == true)
+                window.draw(emptyloginbox);
         }
         else if (currentState == employeeLogin) {
             window.setTitle("EMPLOYEE LOG IN");
