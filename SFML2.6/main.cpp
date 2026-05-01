@@ -306,8 +306,8 @@ int main()
     question_admin.setPosition(width / 4.f + 50.f, height / 4.f + 50.f); // (400,150) 
 
     // trying to make a textbox
-    Textboxdata idBox(font, Vector2f(300, 40), Vector2f(1100, 250), "Enter Your ID Number:");
-    Textboxdata passwordBox(font, Vector2f(300, 40), Vector2f(1100, 350), "Enter Your Password:");
+    Textboxdata idBox(font, Vector2f(300, 40), Vector2f(650, 200), "Enter Your ID Number:");
+    Textboxdata passwordBox(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your Password:");
 
     // textbox attempt end
 
