@@ -20,7 +20,9 @@ enum GameState {
     employeeLogin,
     adminPanel,
     employeePanel,
-    addEmployeePanel
+    addEmployeePanel,
+    editEmployeePanel,
+    updatePanel
 };
 
 
@@ -116,7 +118,7 @@ struct ButtonData {
         mButton->setButtonLabel(24, "");  // clear label inside here
         return true;
     }
-    }adminButton,employeeButton,exitButton,backButton, loginButton, addButton, logoutButton;
+    }adminButton,employeeButton,exitButton,backButton, loginButton, addButton, logoutButton, updateButton, enterButton;
     
 
 int main()
@@ -258,6 +260,44 @@ int main()
     logoutButton.mButton->setLabelColor(Color::White);
     logoutButton.mButton->setButtonColor(logoutButton.defaultColor);
     // end log in button details
+
+    // update employee button details
+    updateButton.label = "Update Employee";
+    updateButton.defaultColor = Color(1, 46, 90);
+    updateButton.hoverColor = Color(101, 192, 155);
+
+    Text update_text;
+    update_text.setFont(font);
+    update_text.setCharacterSize(36);
+    update_text.setString(updateButton.label);
+    FloatRect update_tb = update_text.getGlobalBounds();
+    Vector2f update_size(update_tb.width * 1.5f, update_tb.height * 2.f);
+
+    updateButton.mButton = new RectButton(font, update_size, Vector2f(width / 4.f * 3.f - update_size.x / 2.f, height / 4.f - update_size.y / 2.f));
+
+    updateButton.mButton->setButtonLabel(36, updateButton.label);
+    updateButton.mButton->setLabelColor(Color::White);
+    updateButton.mButton->setButtonColor(updateButton.defaultColor);
+    // end update employee button details
+
+    // update employee button details
+    enterButton.label = "Enter";
+    enterButton.defaultColor = Color(1, 46, 90);
+    enterButton.hoverColor = Color(101, 192, 155);
+
+    Text enter_text;
+    enter_text.setFont(font);
+    enter_text.setCharacterSize(24);
+    enter_text.setString(enterButton.label);
+    FloatRect enter_tb = enter_text.getGlobalBounds();
+    Vector2f enter_size(enter_tb.width * 1.5f, enter_tb.height * 2.f);
+
+    enterButton.mButton = new RectButton(font, enter_size, Vector2f(width / 4.f - enter_size.x / 2.f, height / 4.f * 3.f - enter_size.y / 2.f));
+
+    enterButton.mButton->setButtonLabel(24, enterButton.label);
+    enterButton.mButton->setLabelColor(Color::White);
+    enterButton.mButton->setButtonColor(enterButton.defaultColor);
+    // end update employee button details
 
     // menu admin and employee icons
     Texture adminTexture;
@@ -501,6 +541,55 @@ int main()
                 else {
                     logoutButton.mButton->setLabelColor(Color::White);
                 }
+                // log out settings end
+
+                // enter settings
+                enterButton.mButton->getButtonStatus(window, event);
+                if (enterButton.mButton->isPressed) {
+                    currentState = editEmployeePanel;
+                }
+                else if (enterButton.mButton->isHover) {
+                    enterButton.mButton->setButtonColor(enterButton.hoverColor);
+                    enterButton.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else
+                {
+                    enterButton.mButton->setButtonColor(enterButton.defaultColor);
+                    enterButton.mButton->setLabelColor(Color::White);
+                }
+                // end enter settings
+            }
+            // ====================== EDIT EMPLOYEE IN ADMIN PANEL ======================
+            if (currentState == editEmployeePanel) {
+                // update settings
+                updateButton.mButton->getButtonStatus(window, event);
+                if (updateButton.mButton->isPressed) {
+                    currentState = updatePanel;
+                }
+                else if (updateButton.mButton->isHover) {
+                    updateButton.mButton->setButtonColor(updateButton.hoverColor);
+                    updateButton.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else
+                {
+                    updateButton.mButton->setButtonColor(updateButton.defaultColor);
+                    updateButton.mButton->setLabelColor(Color::White);
+                }
+                // update settings end
+                
+                // back settings
+                backButton.mButton->getButtonStatus(window, event);
+                if (backButton.mButton->isPressed) {
+                    if (currentState == editEmployeePanel) {
+                        currentState = adminPanel;
+                    }
+                }
+                else if (backButton.mButton->isHover) {
+                    backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                }
+                else
+                    backButton.mButton->button.setFillColor(Color::White);
+                // back settings end
             }
         }
         // Update
@@ -547,10 +636,18 @@ int main()
             window.draw(welc_admin);
             window.draw(question_admin);
             logoutButton.mButton->draw(window);
-            //addButton.mButton->draw(window);
+            enterButton.mButton->draw(window);
         }
         else if (currentState == employeePanel) {
+            window.setTitle("EMPLOYEE PANEL");
             window.draw(topBar);
+        }
+        else if (currentState == editEmployeePanel) {
+            window.setTitle("EDIT EMPLOYEE");
+            window.draw(adminImageSprite);
+            window.draw(topBar);
+            updateButton.mButton->draw(window);
+            backButton.mButton->draw(window);
         }
         window.display();
     }
@@ -561,4 +658,6 @@ int main()
         delete loginButton.mButton;
         delete addButton.mButton;
         delete logoutButton.mButton;
+        delete enterButton.mButton;
+        delete updateButton.mButton;
 } 
