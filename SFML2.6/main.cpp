@@ -538,6 +538,7 @@ int main()
         }
         else if (currentState == adminPanel) {
             window.setTitle("ADMIN PANEL");
+            window.draw(adminImageSprite);
             window.draw(topBar);
             addButton.mButton->draw(window);
             window.draw(welc_admin);
