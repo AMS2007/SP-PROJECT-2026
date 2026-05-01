@@ -135,8 +135,12 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="EllipseButton.cpp" />
+    <ClCompile Include="logic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RectButton.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="logic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

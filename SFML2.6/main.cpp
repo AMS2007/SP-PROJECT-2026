@@ -1,3 +1,4 @@
+#include "logic.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
@@ -19,7 +20,7 @@ enum GameState {
     employeeLogin,
     adminPanel,
     employeePanel,
-    addEmployee
+    addEmployeePanel
 };
 
 
@@ -299,6 +300,11 @@ int main()
 
     // textbox attempt end
 
+    // seed test data
+    admin[0] = { "balona", "213" };
+    admincount = 1;
+    addEmployee("Sofia Talaat", "sofiasofia7", 2000, 20, 1234567890);
+    int loggedInEmployeeIndex = -1;
     // ================================ GAME LOOP ============================
     while (window.isOpen())
     {
@@ -379,9 +385,16 @@ int main()
                 idBox.handleEvent(event, window);
                 passwordBox.handleEvent(event, window);
                 // log in settings
-                loginButton.mButton->getButtonStatus(window, event);
-                if (loginButton.mButton->isPressed) {
-                    currentState = adminPanel;
+                if (currentState == adminLogin) {
+                    loginButton.mButton->getButtonStatus(window, event);
+                    if (loginButton.mButton->isPressed) {
+                        if (validateAdmin(idBox.input, passwordBox.input)) {
+                            currentState = adminPanel;
+                            idBox.clear();
+                            passwordBox.clear();
+                        }
+                        // if wrong, nothing happens (you can add error text later)
+                    }
                 }
                 else if (loginButton.mButton->isHover) {
                     loginButton.mButton->setButtonColor(loginButton.hoverColor);
@@ -398,9 +411,17 @@ int main()
             // =============================== LOG IN EMPLOYEE ============================
             if (currentState == employeeLogin) {
                 // log in settings
-                loginButton.mButton->getButtonStatus(window, event);
-                if (loginButton.mButton->isPressed) {
-                    currentState = employeePanel;
+                if (currentState == employeeLogin) {
+                    loginButton.mButton->getButtonStatus(window, event);
+                    if (loginButton.mButton->isPressed) {
+                        int foundIndex = -1;
+                        if (validateEmployee(stoi(idBox.input), passwordBox.input, foundIndex)) {
+                            loggedInEmployeeIndex = foundIndex;
+                            currentState = employeePanel;
+                            idBox.clear();
+                            passwordBox.clear();
+                        }
+                    }
                 }
                 else if (loginButton.mButton->isHover) {
                     loginButton.mButton->setButtonColor(loginButton.hoverColor);
@@ -418,7 +439,7 @@ int main()
                 // add employee settings
                 addButton.mButton->getButtonStatus(window, event);
                 if (addButton.mButton->isPressed) {
-                    currentState = addEmployee;
+                    currentState = addEmployeePanel;
                 }
                 else if (addButton.mButton->isHover) {
                     addButton.mButton->setButtonColor(addButton.hoverColor);
