@@ -445,6 +445,8 @@ int main()
                     Showerror = false;
                     idBox.clear();  // added these two lines so when back is pressed boxes are cleared
                     passwordBox.clear();
+                    idBoxEmp.clear();
+                    passwordBoxEmp.clear();
                     currentState = Menu;
                 }
             }
@@ -455,7 +457,7 @@ int main()
                 backButton.mButton->button.setFillColor(Color::White);
             // back settings end
 
-             // ================================ LOG IN ADMIN ========================
+             // ================================ LOG IN ADMIN =============================
             if (currentState == adminLogin) {
                 idBox.handleEvent(event, window);
                 passwordBox.handleEvent(event, window);
@@ -490,28 +492,45 @@ int main()
 
             // =============================== LOG IN EMPLOYEE ============================
                 // log in settings
-                if (currentState == employeeLogin) {
-                    loginButton.mButton->getButtonStatus(window, event);
-                    if (loginButton.mButton->isPressed) {
-                        int foundIndex = -1;
-                        if (validateEmployee(stoi(idBox.input), passwordBox.input, foundIndex)) {
-                            loggedInEmployeeIndex = foundIndex;
-                            currentState = employeePanel;
-                            idBox.clear();
-                            passwordBox.clear();
+            if (currentState == employeeLogin) {
+                idBoxEmp.handleEvent(event, window);
+                passwordBoxEmp.handleEvent(event, window);
+                loginButton.mButton->getButtonStatus(window, event);
+                if (loginButton.mButton->isPressed) {
+                    Showerror = false;
+                    if (idBoxEmp.input.empty() || passwordBoxEmp.input.empty()) {
+                        Showerror = true;
+                        emptyloginbox.setString("Fields cannot be empty!");
+                    }
+                    else {
+                        try {
+                            int foundIndex = -1;
+                            if (validateEmployee(stoi(idBoxEmp.input), passwordBoxEmp.input, foundIndex)){                                loggedInEmployeeIndex = foundIndex;
+                                currentState = employeePanel;
+                                idBoxEmp.clear();
+                                passwordBoxEmp.clear();
+                            }
+                            else {
+                                Showerror = true;
+                                emptyloginbox.setString("Wrong ID or Password!");
+                            }
+                        }
+                        catch (...) {
+                            Showerror = true;
+                            emptyloginbox.setString("ID must be a number!");
                         }
                     }
-                    else if (loginButton.mButton->isHover) {
-                        loginButton.mButton->setButtonColor(loginButton.hoverColor);
-                        loginButton.mButton->setLabelColor(Color(1, 46, 90));
-                    }
-                    else
-                    {
-                        loginButton.mButton->setButtonColor(loginButton.defaultColor);
-                        loginButton.mButton->setLabelColor(Color::White);
-                    }
-                //log in settings end
+                }
+                else if (loginButton.mButton->isHover) {
+                    loginButton.mButton->setButtonColor(loginButton.hoverColor);
+                    loginButton.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else {
+                    loginButton.mButton->setButtonColor(loginButton.defaultColor);
+                    loginButton.mButton->setLabelColor(Color::White);
+                }
             }
+                //log in settings end
             // ============================ ADMIN PANEL ============================
             if (currentState == adminPanel) {
                 // add employee settings
@@ -609,7 +628,7 @@ int main()
             window.draw(welc);
         }
         else if (currentState == adminLogin) {
-            window.setTitle("ADMIN LOG IN");
+            window.setTitle("Admin Log In");
             window.draw(adminImageSprite);
             window.draw(topBar);
             idBox.draw(window);
@@ -620,16 +639,18 @@ int main()
                 window.draw(emptyloginbox);
         }
         else if (currentState == employeeLogin) {
-            window.setTitle("EMPLOYEE LOG IN");
+            window.setTitle("Employee Log In");
             window.draw(employeeImageSprite);
+            window.draw(topBar);
             idBoxEmp.draw(window);
             passwordBoxEmp.draw(window);
-            window.draw(topBar);
             backButton.mButton->draw(window);
             loginButton.mButton->draw(window);
+            if (Showerror == true)
+                window.draw(emptyloginbox);
         }
         else if (currentState == adminPanel) {
-            window.setTitle("ADMIN PANEL");
+            window.setTitle("Admin Panel");
             window.draw(adminImageSprite);
             window.draw(topBar);
             addButton.mButton->draw(window);
