@@ -32,7 +32,7 @@ struct Textboxdata {
     bool isFocused = false;
 
     Color defaultOutline = Color::Black;
-    Color focusedOutline = Color(31, 11, 64);
+    Color focusedOutline = Color(1, 46, 90);
 
     // Constructor to set everything up at once
     Textboxdata(Font& font, Vector2f size, Vector2f position,
@@ -139,13 +139,13 @@ int main()
     // top of the window details
     RectangleShape topBar(Vector2f(1600, 60));
     topBar.setPosition(0, 0);
-    topBar.setFillColor(Color(31, 11, 64));
+    topBar.setFillColor(Color(1, 46, 90));
     // top of the window details end
 
     // admin button details
     adminButton.label = "I am an Admin";
-    adminButton.defaultColor = Color(31, 11, 64);
-    adminButton.hoverColor = Color(31, 11, 64, 185);
+    adminButton.defaultColor = Color(1, 46, 90);
+    adminButton.hoverColor = Color(101, 192, 155);
 
     Text admin_text;
     admin_text.setFont(font);
@@ -162,8 +162,8 @@ int main()
 
     // employee button details
     employeeButton.label = "I am an Employee";
-    employeeButton.defaultColor = Color(31, 11, 64);
-    employeeButton.hoverColor = Color(31, 11, 64, 185);
+    employeeButton.defaultColor = Color(1, 46, 90);
+    employeeButton.hoverColor = Color(101, 192, 155);
 
     Text employee_text;
     employee_text.setFont(font);
@@ -205,8 +205,8 @@ int main()
 
     // log in button details
     loginButton.label = "LOG IN";
-    loginButton.defaultColor = Color(31, 11, 64);
-    loginButton.hoverColor = Color(31, 11, 64, 185);
+    loginButton.defaultColor = Color(1, 46, 90);
+    loginButton.hoverColor = Color(101, 192, 155);
 
     Text login_text;
     login_text.setFont(font);
@@ -224,8 +224,8 @@ int main()
 
     // add employee button details
     addButton.label = "Add Employee";
-    addButton.defaultColor = Color(31, 11, 64);
-    addButton.hoverColor = Color(31, 11, 64, 185);
+    addButton.defaultColor = Color(1, 46, 90);
+    addButton.hoverColor = Color(101, 192, 155);
 
     Text add_text;
     add_text.setFont(font);
@@ -242,7 +242,7 @@ int main()
 
     // log out button details
     logoutButton.label = "LOG OUT";
-    logoutButton.defaultColor = Color(31, 11, 64);
+    logoutButton.defaultColor = Color(1, 46, 90);
     logoutButton.hoverColor = Color(31, 11, 64);
 
     Text logout_text;
@@ -301,7 +301,7 @@ int main()
     Text welc;
     welc.setCharacterSize(64);
     welc.setFont(font);
-    welc.setFillColor(Color(31, 11, 64));
+    welc.setFillColor(Color(1, 46, 90));
     welc.setString("Welcome!");
     welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f); 
     welc.setPosition(width / 2.f, height / 4.f - 50.f);
@@ -310,7 +310,7 @@ int main()
     Text welc_admin;
     welc_admin.setCharacterSize(64);
     welc_admin.setFont(font);
-    welc_admin.setFillColor(Color(31, 11, 64));
+    welc_admin.setFillColor(Color(1, 46, 90));
     welc_admin.setString("Welcome back!");
     welc_admin.setOrigin(welc_admin.getLocalBounds().width / 2.f, welc_admin.getLocalBounds().height / 2.f);
     welc_admin.setPosition(width / 4.f, height / 4.f - 50.f); // (400,150) 
@@ -358,7 +358,7 @@ int main()
                 else if (adminButton.mButton->isHover) // what happens when hover
                 {
                     adminButton.mButton->setButtonColor(adminButton.hoverColor);
-                    adminButton.mButton->setLabelColor(Color::Black);
+                    adminButton.mButton->setLabelColor(Color(1, 46, 90));
                 }
                 else
                 {
@@ -376,7 +376,7 @@ int main()
                 else if (employeeButton.mButton->isHover) // what happens when hover
                 {
                     employeeButton.mButton->setButtonColor(employeeButton.hoverColor);
-                    employeeButton.mButton->setLabelColor(Color::Black);
+                    employeeButton.mButton->setLabelColor(Color(1, 46, 90));
                 }
                 else
                 {
@@ -439,7 +439,7 @@ int main()
                     }
                     else if (loginButton.mButton->isHover) {
                         loginButton.mButton->setButtonColor(loginButton.hoverColor);
-                        loginButton.mButton->setLabelColor(Color::Black);
+                        loginButton.mButton->setLabelColor(Color(1, 46, 90));
                     }
                     else {
                         loginButton.mButton->setButtonColor(loginButton.defaultColor);
@@ -463,7 +463,7 @@ int main()
                     }
                     else if (loginButton.mButton->isHover) {
                         loginButton.mButton->setButtonColor(loginButton.hoverColor);
-                        loginButton.mButton->setLabelColor(Color::Black);
+                        loginButton.mButton->setLabelColor(Color(1, 46, 90));
                     }
                     else
                     {
@@ -481,7 +481,7 @@ int main()
                 }
                 else if (addButton.mButton->isHover) {
                     addButton.mButton->setButtonColor(addButton.hoverColor);
-                    addButton.mButton->setLabelColor(Color::Black);
+                    addButton.mButton->setLabelColor(Color(1, 46, 90));
                 }
                 else
                 {
