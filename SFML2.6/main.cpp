@@ -206,7 +206,7 @@ int main()
     // back exit button details
 
     // log in button details
-    loginButton.label = "LOG IN";
+    loginButton.label = "Log In";
     loginButton.defaultColor = Color(1, 46, 90);
     loginButton.hoverColor = Color(101, 192, 155);
 
@@ -243,7 +243,7 @@ int main()
     // end add employee button details
 
     // log out button details
-    logoutButton.label = "LOG OUT";
+    logoutButton.label = "Log Out";
     logoutButton.defaultColor = Color(1, 46, 90);
     logoutButton.hoverColor = Color(31, 11, 64);
 
