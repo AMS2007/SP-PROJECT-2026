@@ -133,8 +133,8 @@ int main()
     window.setKeyRepeatEnabled(true); // one press each time
 
     Font font; // blockletter font
-    if (!font.loadFromFile("Fonts/Montserrat-Regular.ttf")) {
-        cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Blockletter.otf" << endl;
+    if (!font.loadFromFile("Fonts/Lato-Regular.ttf")) {
+        cerr << "ERROR :: COULD_NOT_OPEN_FROM_FILE :: MAIN::Fonts/Lato-Regular.ttf" << endl;
     }
 
     // top of the window details
