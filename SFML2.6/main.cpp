@@ -116,7 +116,7 @@ struct ButtonData {
         mButton->setButtonLabel(24, "");  // clear label inside here
         return true;
     }
-    }adminButton,employeeButton,exitButton,backButton, loginButton, addButton;
+    }adminButton,employeeButton,exitButton,backButton, loginButton, addButton, logoutButton;
     
 
 int main()
@@ -223,22 +223,41 @@ int main()
     // end log in button details
 
     // add employee button details
-    addButton.label = "add employee";
+    addButton.label = "Add Employee";
     addButton.defaultColor = Color(31, 11, 64);
     addButton.hoverColor = Color(31, 11, 64, 185);
 
     Text add_text;
     add_text.setFont(font);
-    add_text.setCharacterSize(24);
+    add_text.setCharacterSize(36);
     add_text.setString(addButton.label);
     FloatRect add_tb = add_text.getGlobalBounds();
     Vector2f add_size(add_tb.width * 1.5f, add_tb.height * 2.f);
 
-    addButton.mButton = new RectButton(font, add_size, Vector2f(width / 4.f * 3.f - add_size.x / 2.f, height / 4.f * 3.f - add_size.y / 2.f));
-    addButton.mButton->setButtonLabel(24, addButton.label);
+    addButton.mButton = new RectButton(font, add_size, Vector2f(width / 4.f * 3.f - add_size.x / 2.f, height / 4.f * 3.f - add_size.y / 2.f - 100.f));
+    addButton.mButton->setButtonLabel(36, addButton.label);
     addButton.mButton->setLabelColor(Color::White);
     addButton.mButton->setButtonColor(addButton.defaultColor);
     // end add employee button details
+
+    // log out button details
+    logoutButton.label = "LOG OUT";
+    logoutButton.defaultColor = Color(31, 11, 64);
+    logoutButton.hoverColor = Color(31, 11, 64);
+
+    Text logout_text;
+    logout_text.setFont(font);
+    logout_text.setCharacterSize(24);
+    logout_text.setString(logoutButton.label);
+    FloatRect logout_tb = logout_text.getGlobalBounds();
+    Vector2f logout_size(logout_tb.width * 1.5f, logout_tb.height * 2.f);
+
+    logoutButton.mButton = new RectButton(font, logout_size, Vector2f(0.f,20.f));
+
+    logoutButton.mButton->setButtonLabel(24, logoutButton.label);
+    logoutButton.mButton->setLabelColor(Color::White);
+    logoutButton.mButton->setButtonColor(logoutButton.defaultColor);
+    // end log in button details
 
     // menu admin and employee icons
     Texture adminTexture;
@@ -469,6 +488,18 @@ int main()
                     addButton.mButton->setLabelColor(Color::White);
                 }
                 // add employee settings end
+
+                // log out settings
+                logoutButton.mButton->getButtonStatus(window, event);
+                if (logoutButton.mButton->isPressed) {
+                    currentState = Menu;
+                }
+                else if (logoutButton.mButton->isHover) {
+                    logoutButton.mButton->setLabelColor(Color::Red);
+                }
+                else {
+                    logoutButton.mButton->setLabelColor(Color::White);
+                }
             }
         }
         // Update
@@ -511,6 +542,7 @@ int main()
             addButton.mButton->draw(window);
             window.draw(welc_admin);
             window.draw(question_admin);
+            logoutButton.mButton->draw(window);
             //addButton.mButton->draw(window);
         }
         else if (currentState == employeePanel) {
@@ -524,4 +556,5 @@ int main()
         delete backButton.mButton;
         delete loginButton.mButton;
         delete addButton.mButton;
+        delete logoutButton.mButton;
 } 
