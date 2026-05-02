@@ -676,6 +676,7 @@
                         }
                         else {
                             Showerror = true;
+                            emptyloginbox.setPosition(230, 500);
                             emptyloginbox.setString("Invalid ID");
                         }
 
