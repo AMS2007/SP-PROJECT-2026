@@ -22,7 +22,10 @@ enum GameState {
     employeePanel,
     addEmployeePanel,
     editEmployeePanel,
-    updatePanel
+    updatePanel,
+    attendanceEditPanel,
+    salaryCalcPanel,
+    deletePanel
 };
 
 
@@ -118,7 +121,18 @@ struct ButtonData {
         mButton->setButtonLabel(24, "");  // clear label inside here
         return true;
     }
-    }adminButton,employeeButton,exitButton,backButton, loginButton, addButton, logoutButton, updateButton, enterButton;
+}adminButton,
+employeeButton,
+exitButton,
+backButton,
+loginButton,
+addButton,
+logoutButton,
+updateButton,
+enterButton,
+attendanceButton,
+salaryButton,
+deleteButton;
     
 
 int main()
@@ -271,9 +285,9 @@ int main()
     update_text.setCharacterSize(36);
     update_text.setString(updateButton.label);
     FloatRect update_tb = update_text.getGlobalBounds();
-    Vector2f update_size(update_tb.width * 1.5f, update_tb.height * 2.f);
+    Vector2f update_size(update_tb.width * 1.2f, update_tb.height * 1.7f);
 
-    updateButton.mButton = new RectButton(font, update_size, Vector2f(width / 4.f * 3.f - update_size.x / 2.f, height / 4.f - update_size.y / 2.f));
+    updateButton.mButton = new RectButton(font, update_size, Vector2f(width / 4.f * 3.f - update_size.x / 2.f + 20.f, height / 4.f - update_size.y / 2.f));
 
     updateButton.mButton->setButtonLabel(36, updateButton.label);
     updateButton.mButton->setLabelColor(Color::White);
@@ -298,6 +312,63 @@ int main()
     enterButton.mButton->setLabelColor(Color::White);
     enterButton.mButton->setButtonColor(enterButton.defaultColor);
     // end update employee button details
+
+    // attendance button details
+    attendanceButton.label = "Record Attendance";
+    attendanceButton.defaultColor = Color(1, 46, 90);
+    attendanceButton.hoverColor = Color(101, 192, 155);
+
+    Text attendance_text;
+    attendance_text.setFont(font);
+    attendance_text.setCharacterSize(36);
+    attendance_text.setString(attendanceButton.label);
+    FloatRect attendance_tb = attendance_text.getGlobalBounds();
+    Vector2f attendance_size(attendance_tb.width * 1.2f, attendance_tb.height * 2.5f);
+
+    attendanceButton.mButton = new RectButton(font, attendance_size, Vector2f(width / 4.f*3.f - attendance_size.x / 2.f + 20.f, height / 2.f - attendance_size.y / 2.f - 50.f));
+
+    attendanceButton.mButton->setButtonLabel(36, attendanceButton.label);
+    attendanceButton.mButton->setLabelColor(Color::White);
+    attendanceButton.mButton->setButtonColor(attendanceButton.defaultColor);
+    // end attendance button details
+
+    // salary button details
+    salaryButton.label = "Calculate Salary";
+    salaryButton.defaultColor = Color(1, 46, 90);
+    salaryButton.hoverColor = Color(101, 192, 155);
+
+    Text salary_text;
+    salary_text.setFont(font);
+    salary_text.setCharacterSize(36);
+    salary_text.setString(salaryButton.label);
+    FloatRect salary_tb = salary_text.getGlobalBounds();
+    Vector2f salary_size(salary_tb.width * 1.2f, salary_tb.height * 1.7f);
+
+    salaryButton.mButton = new RectButton(font, salary_size, Vector2f(width / 4.f * 3.f - salary_size.x / 2.f + 20.f, height / 4.f*3.f - salary_size.y / 2.f-100.f));
+
+    salaryButton.mButton->setButtonLabel(36, salaryButton.label);
+    salaryButton.mButton->setLabelColor(Color::White);
+    salaryButton.mButton->setButtonColor(salaryButton.defaultColor);
+    // end salary button details
+
+    // delete button details
+    deleteButton.label = "Delete Employee";
+    deleteButton.defaultColor = Color(1, 46, 90);
+    deleteButton.hoverColor = Color(101, 192, 155);
+
+    Text delete_text;
+    delete_text.setFont(font);
+    delete_text.setCharacterSize(36);
+    delete_text.setString(salaryButton.label);
+    FloatRect delete_tb = delete_text.getGlobalBounds();
+    Vector2f delete_size(delete_tb.width * 1.2f, delete_tb.height * 1.7f);
+
+    deleteButton.mButton = new RectButton(font, delete_size, Vector2f(width / 2.f - delete_size.x / 2.f, height / 4.f * 3.f - delete_size.y / 2.f + 80.f));
+
+    deleteButton.mButton->setButtonLabel(36, deleteButton.label);
+    deleteButton.mButton->setLabelColor(Color::White);
+    deleteButton.mButton->setButtonColor(deleteButton.defaultColor);
+    // end salary button details
 
     // menu admin and employee icons
     Texture adminTexture;
@@ -363,6 +434,14 @@ int main()
     question_admin.setString("What would you like to do?");
     question_admin.setOrigin(question_admin.getLocalBounds().width / 2.f, question_admin.getLocalBounds().height / 2.f);
     question_admin.setPosition(width / 4.f + 50.f, height / 4.f + 50.f); // (400,150) 
+
+    // company name text
+    Text companyName;
+    companyName.setCharacterSize(36);
+    companyName.setFont(font);
+    companyName.setFillColor(Color::White);
+    companyName.setString("2202 Group");
+    companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 0.f);
 
     // trying to make a textbox
     Textboxdata idBox(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your Username:");
@@ -609,6 +688,54 @@ int main()
                 else
                     backButton.mButton->button.setFillColor(Color::White);
                 // back settings end
+
+                // attendance settings
+                attendanceButton.mButton->getButtonStatus(window, event);
+                if (attendanceButton.mButton->isPressed) {
+                    currentState = attendanceEditPanel;
+                }
+                else if (attendanceButton.mButton->isHover) {
+                    attendanceButton.mButton->setButtonColor(attendanceButton.hoverColor);
+                    attendanceButton.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else
+                {
+                    attendanceButton.mButton->setButtonColor(attendanceButton.defaultColor);
+                    attendanceButton.mButton->setLabelColor(Color::White);
+                }
+                // attendance settings end
+
+                // calc salary settings
+                salaryButton.mButton->getButtonStatus(window, event);
+                if (salaryButton.mButton->isPressed) {
+                    currentState = salaryCalcPanel;
+                }
+                else if (salaryButton.mButton->isHover) {
+                    salaryButton.mButton->setButtonColor(salaryButton.hoverColor);
+                    salaryButton.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else
+                {
+                    salaryButton.mButton->setButtonColor(salaryButton.defaultColor);
+                    salaryButton.mButton->setLabelColor(Color::White);
+                }
+                // calc salary settings end
+
+                // delete employee settings
+                deleteButton.mButton->getButtonStatus(window, event);
+                if (deleteButton.mButton->isPressed) {
+                    currentState = deletePanel;
+                }
+                else if (deleteButton.mButton->isHover) {
+                    deleteButton.mButton->setButtonColor(deleteButton.hoverColor);
+                    deleteButton.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else
+                {
+                    deleteButton.mButton->setButtonColor(deleteButton.defaultColor);
+                    deleteButton.mButton->setLabelColor(Color::White);
+                }
+                // delete employee settings end
             }
         }
         // Update
@@ -620,6 +747,7 @@ int main()
         {
             window.setTitle("Employee Payroll Management System By 2202 GROUP"); //added this so that title is set to this when we are in main menu 
             window.draw(topBar);
+            window.draw(companyName);
             adminButton.mButton->draw(window);
             employeeButton.mButton->draw(window);
             exitButton.mButton->draw(window);
@@ -631,6 +759,7 @@ int main()
             window.setTitle("Admin Log In");
             window.draw(adminImageSprite);
             window.draw(topBar);
+            window.draw(companyName);
             idBox.draw(window);
             passwordBox.draw(window);
             backButton.mButton->draw(window);
@@ -642,6 +771,7 @@ int main()
             window.setTitle("Employee Log In");
             window.draw(employeeImageSprite);
             window.draw(topBar);
+            window.draw(companyName);
             idBoxEmp.draw(window);
             passwordBoxEmp.draw(window);
             backButton.mButton->draw(window);
@@ -650,9 +780,10 @@ int main()
                 window.draw(emptyloginbox);
         }
         else if (currentState == adminPanel) {
-            window.setTitle("Admin Panel");
+            window.setTitle("ADMIN PANEL");
             window.draw(adminImageSprite);
             window.draw(topBar);
+            window.draw(companyName);
             addButton.mButton->draw(window);
             window.draw(welc_admin);
             window.draw(question_admin);
@@ -667,8 +798,12 @@ int main()
             window.setTitle("EDIT EMPLOYEE");
             window.draw(adminImageSprite);
             window.draw(topBar);
+            window.draw(companyName);
             updateButton.mButton->draw(window);
             backButton.mButton->draw(window);
+            attendanceButton.mButton->draw(window);
+            salaryButton.mButton->draw(window);
+            deleteButton.mButton->draw(window);
         }
         window.display();
     }
@@ -681,4 +816,7 @@ int main()
         delete logoutButton.mButton;
         delete enterButton.mButton;
         delete updateButton.mButton;
+        delete attendanceButton.mButton;
+        delete salaryButton.mButton;
+        delete deleteButton.mButton;
 } 
