@@ -636,6 +636,7 @@
                     //log in settings end
                 // ============================ ADMIN PANEL ============================
                 if (currentState == adminPanel) {
+                    employeeidadminpanel.handleEvent(event, window);
                     // add employee settings
                     addButton.mButton->getButtonStatus(window, event);
                     if (addButton.mButton->isPressed) {
@@ -666,11 +667,18 @@
                         logoutButton.mButton->setLabelColor(Color::White);
                     }
                     // log out settings end
-
+                    Showerror = false;
                     // enter settings
                     enterButton.mButton->getButtonStatus(window, event);
                     if (enterButton.mButton->isPressed) {
-                        currentState = editEmployeePanel;
+                        if (validateid(employeeidadminpanel.input)) {
+                            currentState = editEmployeePanel;
+                        }
+                        else {
+                            Showerror = true;
+                            emptyloginbox.setString("Invalid ID");
+                        }
+
                     }
                     else if (enterButton.mButton->isHover) {
                         enterButton.mButton->setButtonColor(enterButton.hoverColor);
@@ -705,6 +713,7 @@
                     backButton.mButton->getButtonStatus(window, event);
                     if (backButton.mButton->isPressed) {
                         if (currentState == editEmployeePanel) {
+                            employeeidadminpanel.clear();
                             currentState = adminPanel;
                         }
                     }
@@ -819,6 +828,8 @@
                 enterButton.mButton->draw(window);
                 employeeidadminpanel.draw(window);
                 employeeidadminpanel.draw(window);
+                if (Showerror == true)
+                    window.draw(emptyloginbox);
                 if (idBox.input == admin[0].username && passwordBox.input==admin[0].password) {
                     window.draw(admin[0].profilePicture);
                 }
@@ -855,4 +866,4 @@
             delete attendanceButton.mButton;
             delete salaryButton.mButton;
             delete deleteButton.mButton;
-    } 
+    }

@@ -14,6 +14,16 @@ bool validateAdmin(const string& username, const string& password) {
     return false;
 }
 
+bool validateid(string id) {
+    for (int i = 0; i < employeecount; i++) {
+        if (employee[i].id == stoi(id)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 bool validateEmployee(int id, const string& password, int& foundIndex) {
     for (int i = 0; i < employeecount; i++) {
         if (employee[i].id == id && employee[i].password == password) {
