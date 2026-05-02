@@ -465,10 +465,7 @@
         companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 0.f);
 
         // information employee
-        Text Emp;
-        setTextSettings(Emp, font);
-        Emp.setString("ID: ");
-        Emp.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f));
+        
 
 
         // seed test data
@@ -856,7 +853,6 @@
                 attendanceButton.mButton->draw(window);
                 salaryButton.mButton->draw(window);
                 deleteButton.mButton->draw(window);
-                window.draw(Emp);
             }
             window.display();
         }
