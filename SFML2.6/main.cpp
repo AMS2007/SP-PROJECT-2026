@@ -452,6 +452,11 @@ int main()
 
     // seed test data
     admin[0] = { "balona", "213" };
+    admin[0].photo.loadFromFile("Images/WhatsApp Image 2026-05-02 at 3.47.47 PM.jpeg");
+    admin[0].profilePicture.setTexture(admin[0].photo);
+    admin[0].profilePicture.setOrigin(Vector2f(admin[0].profilePicture.getLocalBounds().width / 2.f, admin[0].profilePicture.getLocalBounds().height / 2.f));
+    admin[0].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f));
+    admin[0].profilePicture.setScale(0.5f, 0.5f);
     admincount = 1;
     addEmployee("Sofia Talaat", "sofiasofia7", 2000, 20, 1234567890);
     int loggedInEmployeeIndex = -1;
@@ -789,6 +794,7 @@ int main()
             window.draw(question_admin);
             logoutButton.mButton->draw(window);
             enterButton.mButton->draw(window);
+            window.draw(admin[0].profilePicture);
         }
         else if (currentState == employeePanel) {
             window.setTitle("EMPLOYEE PANEL");

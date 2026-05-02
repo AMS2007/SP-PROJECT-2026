@@ -2,7 +2,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+
 using namespace std;
+using namespace sf;
+
 
 struct Attendance {
     int id;
@@ -18,11 +24,15 @@ struct Employee {
     long long phone, basicsalary;
     double netsalary, tax, bonus, overtimehrs;
     Attendance attendance;
+    Texture photo;
+    Sprite profilePicture;
 };
 
 struct Admin {
     string username;
     string password;
+    Texture photo;
+    Sprite profilePicture;
 };
 
 extern Employee employee[100];
