@@ -403,6 +403,14 @@
         adminImageSprite.setPosition(width / 2.f, height / 2.f); // (450,435)
         adminImageSprite.setScale(0.3f, 0.3f);
         // admin login image end
+        // trying to make a textbox
+        Textboxdata idBox(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your Username:");
+        Textboxdata passwordBox(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
+        Textboxdata idBoxEmp(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your ID Number:");
+        Textboxdata passwordBoxEmp(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
+        Textboxdata employeeidadminpanel(font, Vector2f(300, 40), Vector2f(215, 350), "Enter The Employee ID:");
+
+        // textbox attempt end
 
         // employee login image 
         Texture employeeImage;
@@ -423,14 +431,21 @@
         welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f); 
         welc.setPosition(width / 2.f, height / 4.f - 50.f);
 
-        // welcome text admin
         Text welc_admin;
         welc_admin.setCharacterSize(64);
         welc_admin.setFont(font);
         welc_admin.setFillColor(Color(1, 46, 90));
-        welc_admin.setString("Welcome back!");
+        welc_admin.setString("Welcome back, ");
         welc_admin.setOrigin(welc_admin.getLocalBounds().width / 2.f, welc_admin.getLocalBounds().height / 2.f);
         welc_admin.setPosition(width / 4.f, height / 4.f - 50.f); // (400,150) 
+        // welcome text admin
+        Text welc_admin_name;
+        welc_admin_name.setCharacterSize(64);
+        welc_admin_name.setFont(font);
+        welc_admin_name.setFillColor(Color(1, 46, 90));
+        welc_admin_name.setString("");
+        welc_admin_name.setOrigin(welc_admin_name.getLocalBounds().width / 2.f, welc_admin_name.getLocalBounds().height / 2.f);
+        welc_admin_name.setPosition(width / 4.f + 250, height / 4.f - 80.f); // (400,150) 
 
         // question admin
         Text question_admin;
@@ -449,26 +464,20 @@
         companyName.setString("2202 Group");
         companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 0.f);
 
-        // trying to make a textbox
-        Textboxdata idBox(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your Username:");
-        Textboxdata passwordBox(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
-        Textboxdata idBoxEmp(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your ID Number:");
-        Textboxdata passwordBoxEmp(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
-        // textbox attempt end
 
         // seed test data
-        admin[0] = { "elona", "123" };
+        admin[0] = { "Balona", "123" };
         admin[0].photo.loadFromFile("Images/elona.png");
         admin[0].profilePicture.setTexture(admin[0].photo);
         admin[0].profilePicture.setOrigin(Vector2f(admin[0].profilePicture.getLocalBounds().width / 2.f, admin[0].profilePicture.getLocalBounds().height / 2.f));
         admin[0].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f + 75.f));
         admin[0].profilePicture.setScale(0.37f, 0.37f);
-        admin[1] = { "sofia", "123" };
+        admin[1] = { "Sofia", "123" };
         admin[1].photo.loadFromFile("Images/sofia.png");
         admin[1].profilePicture.setTexture(admin[1].photo);
         admin[1].profilePicture.setOrigin(Vector2f(admin[1].profilePicture.getLocalBounds().width / 2.f, admin[1].profilePicture.getLocalBounds().height / 2.f));
         admin[1].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f + 75.f));
-        admin[1].profilePicture.setScale(0.37f, 0.37f);
+        admin[1].profilePicture.setScale(0.32f, 0.32f);
         admincount = 2;
         int loggedInEmployeeIndex = -1;
         // ================================ GAME LOOP ============================
@@ -802,9 +811,13 @@
                 window.draw(companyName);
                 addButton.mButton->draw(window);
                 window.draw(welc_admin);
+                welc_admin_name.setString(idBox.input);
+                window.draw(welc_admin_name);
                 window.draw(question_admin);
                 logoutButton.mButton->draw(window);
                 enterButton.mButton->draw(window);
+                employeeidadminpanel.draw(window);
+                employeeidadminpanel.draw(window);
                 if (idBox.input == admin[0].username && passwordBox.input==admin[0].password) {
                     window.draw(admin[0].profilePicture);
                 }
