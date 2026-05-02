@@ -466,7 +466,7 @@
         admin[1] = { "sofia", "123" };
         admin[1].photo.loadFromFile("Images/sofia.png");
         admin[1].profilePicture.setTexture(admin[1].photo);
-        admin[1].profilePicture.setOrigin(Vector2f(admin[1].profilePicture.getLocalBounds().width / 2.f, admin[0].profilePicture.getLocalBounds().height / 2.f));
+        admin[1].profilePicture.setOrigin(Vector2f(admin[1].profilePicture.getLocalBounds().width / 2.f, admin[1].profilePicture.getLocalBounds().height / 2.f));
         admin[1].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f + 75.f));
         admin[1].profilePicture.setScale(0.37f, 0.37f);
         admincount = 2;
