@@ -140,6 +140,7 @@
     <ClCompile Include="RectButton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="employeedec.h" />
     <ClInclude Include="logic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -35,5 +35,8 @@
     <ClInclude Include="logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="employeedec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
