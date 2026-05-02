@@ -363,7 +363,7 @@
         // delete button details
         deleteButton.label = "Delete Employee";
         deleteButton.defaultColor = Color(1, 46, 90);
-        deleteButton.hoverColor = Color(101, 192, 155);
+        deleteButton.hoverColor = Color(1, 46, 90);
 
         Text delete_text;
         delete_text.setFont(font);
@@ -756,7 +756,7 @@
                     }
                     else if (deleteButton.mButton->isHover) {
                         deleteButton.mButton->setButtonColor(deleteButton.hoverColor);
-                        deleteButton.mButton->setLabelColor(Color(1, 46, 90));
+                        deleteButton.mButton->setLabelColor(Color :: Red);
                     }
                     else
                     {
