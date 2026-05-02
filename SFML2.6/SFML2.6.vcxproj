@@ -135,7 +135,6 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="EllipseButton.cpp" />
-    <ClCompile Include="employeefunctions.cpp" />
     <ClCompile Include="logic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RectButton.cpp" />
