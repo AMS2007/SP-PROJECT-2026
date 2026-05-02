@@ -293,7 +293,7 @@
         FloatRect update_tb = update_text.getGlobalBounds();
         Vector2f update_size(update_tb.width * 1.2f, update_tb.height * 1.7f);
 
-        updateButton.mButton = new RectButton(font, update_size, Vector2f(width / 4.f * 3.f - update_size.x / 2.f + 20.f, height / 4.f - update_size.y / 2.f));
+        updateButton.mButton = new RectButton(font, update_size, Vector2f(width / 4.f - update_size.x / 2.f + 20.f, height / 4.f - update_size.y / 2.f));
 
         updateButton.mButton->setButtonLabel(36, updateButton.label);
         updateButton.mButton->setLabelColor(Color::White);
@@ -331,7 +331,7 @@
         FloatRect attendance_tb = attendance_text.getGlobalBounds();
         Vector2f attendance_size(attendance_tb.width * 1.2f, attendance_tb.height * 2.5f);
 
-        attendanceButton.mButton = new RectButton(font, attendance_size, Vector2f(width / 4.f*3.f - attendance_size.x / 2.f + 20.f, height / 2.f - attendance_size.y / 2.f - 50.f));
+        attendanceButton.mButton = new RectButton(font, attendance_size, Vector2f(width / 4.f - attendance_size.x / 2.f + 20.f, height / 2.f - attendance_size.y / 2.f - 50.f));
 
         attendanceButton.mButton->setButtonLabel(36, attendanceButton.label);
         attendanceButton.mButton->setLabelColor(Color::White);
@@ -350,7 +350,7 @@
         FloatRect salary_tb = salary_text.getGlobalBounds();
         Vector2f salary_size(salary_tb.width * 1.2f, salary_tb.height * 1.7f);
 
-        salaryButton.mButton = new RectButton(font, salary_size, Vector2f(width / 4.f * 3.f - salary_size.x / 2.f + 20.f, height / 4.f*3.f - salary_size.y / 2.f-100.f));
+        salaryButton.mButton = new RectButton(font, salary_size, Vector2f(width / 4.f - salary_size.x / 2.f + 20.f, height / 4.f*3.f - salary_size.y / 2.f-100.f));
 
         salaryButton.mButton->setButtonLabel(36, salaryButton.label);
         salaryButton.mButton->setLabelColor(Color::White);
@@ -403,6 +403,7 @@
         adminImageSprite.setPosition(width / 2.f, height / 2.f); // (450,435)
         adminImageSprite.setScale(0.3f, 0.3f);
         // admin login image end
+        
         // trying to make a textbox
         Textboxdata idBox(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your Username:");
         Textboxdata passwordBox(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
