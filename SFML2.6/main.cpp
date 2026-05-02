@@ -252,7 +252,7 @@ int main()
     logout_text.setCharacterSize(24);
     logout_text.setString(logoutButton.label);
     FloatRect logout_tb = logout_text.getGlobalBounds();
-    Vector2f logout_size(logout_tb.width * 1.5f, logout_tb.height * 2.f);
+    Vector2f logout_size(logout_tb.width * 1.5f, logout_tb.height * 1.f);
 
     logoutButton.mButton = new RectButton(font, logout_size, Vector2f(0.f,20.f));
 
