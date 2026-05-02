@@ -140,11 +140,12 @@
 
     int main()
     {
-        employee[0] = { 201, 19, "Ahmed",  "Ahmed123",    "IT Manager",             01142275561,        90000,  };
-        employee[1] = { 202, 19, "Ebram",  "Ebram123",    "IT",                     01152263354,        40000,  };
-        employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     01006034700,        80000,  };
-        employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              01006034720,        25000,  };
-        employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      01102446612,        16700,  };
+        employee[0] = { 201, 19, "Ahmed",  "Ahmed123",    "IT Manager",             201142275561,        90000,  };
+        employee[1] = { 202, 19, "Ebram",  "Ebram123",    "IT",                     201152263354,        40000,  };
+        employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     201006034700,        80000,  };
+        employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              201006034720,        25000,  };
+        employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      201102446612,        16700,  };
+        employeecount = 5;
         GameState currentState = Menu; // screen when you open window
 
         unsigned int height = 800; // height of window
@@ -459,14 +460,19 @@
         // textbox attempt end
 
         // seed test data
-        admin[0] = { "balona", "213" };
+        admin[0] = { "elona", "123" };
         admin[0].photo.loadFromFile("Images/elona.png");
         admin[0].profilePicture.setTexture(admin[0].photo);
         admin[0].profilePicture.setOrigin(Vector2f(admin[0].profilePicture.getLocalBounds().width / 2.f, admin[0].profilePicture.getLocalBounds().height / 2.f));
         admin[0].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f + 75.f));
         admin[0].profilePicture.setScale(0.37f, 0.37f);
-        admincount = 1;
-        addEmployee("Sofia Talaat", "sofiasofia7", 2000, 20, 1234567890);
+        admin[1] = { "sofia", "123" };
+        admin[1].photo.loadFromFile("Images/sofia.png");
+        admin[1].profilePicture.setTexture(admin[1].photo);
+        admin[1].profilePicture.setOrigin(Vector2f(admin[1].profilePicture.getLocalBounds().width / 2.f, admin[0].profilePicture.getLocalBounds().height / 2.f));
+        admin[1].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f + 75.f));
+        admin[1].profilePicture.setScale(0.37f, 0.37f);
+        admincount = 2;
         int loggedInEmployeeIndex = -1;
         // ================================ GAME LOOP ============================
         while (window.isOpen())
@@ -563,8 +569,6 @@
                             }
                             else if (validateAdmin(idBox.input, passwordBox.input)) {
                                 currentState = adminPanel;
-                                idBox.clear();
-                                passwordBox.clear();
                             }
                             else {
                                 Showerror = true;
@@ -644,6 +648,8 @@
                     // log out settings
                     logoutButton.mButton->getButtonStatus(window, event);
                     if (logoutButton.mButton->isPressed) {
+                        idBox.clear();
+                        passwordBox.clear();
                         currentState = Menu;
                     }
                     else if (logoutButton.mButton->isHover) {
@@ -802,7 +808,12 @@
                 window.draw(question_admin);
                 logoutButton.mButton->draw(window);
                 enterButton.mButton->draw(window);
-                window.draw(admin[0].profilePicture);
+                if (idBox.input == admin[0].username && passwordBox.input==admin[0].password) {
+                    window.draw(admin[0].profilePicture);
+                }
+                else if (idBox.input == admin[1].username && passwordBox.input == admin[1].password)
+                    window.draw(admin[1].profilePicture);
+
             }
             else if (currentState == employeePanel) {
                 window.setTitle("EMPLOYEE PANEL");
