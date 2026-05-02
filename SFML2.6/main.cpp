@@ -11,10 +11,7 @@
     #include <SFML/RectButton.hpp>
     using namespace sf; 
     using namespace std;
-    
-
-
-
+   
 
      // panels
     enum GameState {
@@ -140,11 +137,11 @@
 
     int main()
     {
-        employee[0] = { 201, 19, "Ahmed",  "Ahmed123",    "IT Manager",             01142275561,        90000,  };
-        employee[1] = { 202, 19, "Ebram",  "Ebram123",    "IT",                     01152263354,        40000,  };
-        employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     01006034700,        80000,  };
-        employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              01006034720,        25000,  };
-        employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      01102446612,        16700,  };
+        employee[0] = { 201, 19, "Ahmed",  "Ahmed123",    "IT Manager",             01142275561,        90000  };
+        employee[1] = { 202, 19, "Ebram",  "Ebram123",    "IT",                     01152263354,        40000  };
+        employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     01006034700,        80000  };
+        employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              01006034720,        25000  };
+        employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      01102446612,        16700  };
         GameState currentState = Menu; // screen when you open window
 
         unsigned int height = 800; // height of window
