@@ -133,7 +133,6 @@
     attendanceButton,
     salaryButton,
     deleteButton;
-    
 
     int main()
     {
@@ -374,7 +373,7 @@
         deleteButton.mButton->setButtonLabel(36, deleteButton.label);
         deleteButton.mButton->setLabelColor(Color::White);
         deleteButton.mButton->setButtonColor(deleteButton.defaultColor);
-        // end salary button details
+        // end delete button details
 
         // menu admin and employee icons
         Texture adminTexture;
@@ -464,6 +463,12 @@
         companyName.setFillColor(Color::White);
         companyName.setString("2202 Group");
         companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 0.f);
+
+        // information employee
+        Text Emp;
+        setTextSettings(Emp, font);
+        Emp.setString("ID: ");
+        Emp.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f));
 
 
         // seed test data
@@ -683,7 +688,7 @@
                     }
                     // end enter settings
                 }
-                // ====================== EDIT EMPLOYEE IN ADMIN PANEL ======================
+                // ====================== EDIT EMPLOYEE IN ADMIN PANEL ==========================
                 if (currentState == editEmployeePanel) {
                     // update settings
                     updateButton.mButton->getButtonStatus(window, event);
@@ -840,6 +845,7 @@
                 attendanceButton.mButton->draw(window);
                 salaryButton.mButton->draw(window);
                 deleteButton.mButton->draw(window);
+                window.draw(Emp);
             }
             window.display();
         }
