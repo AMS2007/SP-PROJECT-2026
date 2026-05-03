@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="admin.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="EllipseButton.cpp" />
     <ClCompile Include="logic.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="RectButton.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="admin.h" />
     <ClInclude Include="employeedec.h" />
     <ClInclude Include="logic.h" />
   </ItemGroup>

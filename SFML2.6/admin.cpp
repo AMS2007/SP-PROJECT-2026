@@ -1,110 +1,56 @@
-#include "logic.h"
+/*#include <iostream>
+#include <fstream>
+#include <string>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include <vector>
+#include <sstream>
+#include <SFML/Button.hpp>
+#include <SFML/sfmlbutton.hpp>
+#include <SFML/EllipseButton.hpp>
+#include <SFML/RectButton.hpp>
+using namespace sf;
+using namespace std;
 
-// your actual data lives here
-Employee employee[100];
-Admin admin[2];
-int employeecount = 0;
-int admincount = 0;
+const int months = 12;
+struct Attendance
+{
+    int id, month, dayspresent, daysabsent;
+};
 
-bool validateAdmin(const string& username, const string& password) {
-    for (int i = 0; i < admincount; i++) {
-        if (admin[i].username == username && admin[i].password == password)
-            return true;
-    }
-    return false;
-}
+struct Employee
+{
+    long long id, age, phone, basicsalary;
+    string name, password, position;
+    float netsalary = 0, tax, bonus, overtimehrs;
+    Attendance attendance[months];
+} employee[100];
 
-// validate employee id in edit employee panel
-bool validateid(string id) {
-    if (id.empty()) return false;
-    try {
-        int searchID = stoi(id);
-        for (int i = 0; i < employeecount; i++) {
-            if (employee[i].id == searchID)
-                return true;
-        }
-    }
-    catch (...) {
-        return false;
-    }
-    return false;
-}
+struct Admin
+{
+    int id;
+    string username;
+    string password;
+} admin[2];
+
+int admincount = 1;
+int employee_count = 5;
+int searchId;
+int deleteID;
+Text errormessage;
 
 
-bool validateEmployee(int id, const string& password, int& foundIndex) {
-    for (int i = 0; i < employeecount; i++) {
-        if (employee[i].id == id && employee[i].password == password) {
-            foundIndex = i;
-            return true;
-        }
-    }
-    return false;
-}
+//forward declarations 
+float salarycalc();
+void  addEmployee();
+void  manageAttendance();
+void  updateEmployee();
+void  deleteEmployee();
 
-void addEmployee(const string& name, const string& password,
-    long long salary, int age, long long phone) {
-    if (employeecount >= 100) return;
-    int newId = 200 + employeecount + 1;
-    employee[employeecount].id = newId;
-    employee[employeecount].name = name;
-    employee[employeecount].password = password;
-    employee[employeecount].basicsalary = salary;
-    employee[employeecount].age = age;
-    employee[employeecount].phone = phone;
-    employee[employeecount].netsalary = 0;
-    employee[employeecount].tax = 0;
-    employee[employeecount].attendance = { newId, 0, 0 };
-    employeecount++;
-    saveAll();
-}
 
-void manageAttendance(int id, int daysPresent, int daysAbsent) {
-    for (int i = 0; i < employeecount; i++) {
-        if (employee[i].id == id) {
-            employee[i].attendance.dayspresent += daysPresent;
-            employee[i].attendance.daysabsent += daysAbsent;
-            saveAll();
-            return;
-        }
-    }
-}
-
-double calcSalary(int id, double overtimeHrs, double overtimeRate,
-    double bonus, double salaryDeduction) {
-    for (int i = 0; i < employeecount; i++) {
-        if (employee[i].id == id) {
-            double taxfree = employee[i].basicsalary * 0.86;
-            double net = taxfree + (overtimeHrs * overtimeRate)
-                + bonus
-                - (employee[i].attendance.daysabsent * salaryDeduction);
-            employee[i].tax = employee[i].basicsalary * 0.14;
-            employee[i].netsalary = net;
-            saveAll();
-            return net;
-        }
-    }
-    return -1;
-}
-
-void saveAll() {
-    ofstream fE("employees.txt");
-    for (int i = 0; i < employeecount; i++)
-        fE << employee[i].id << " " << employee[i].name << " "
-        << employee[i].basicsalary << " " << employee[i].tax << " "
-        << employee[i].password << "\n";
-
-    ofstream fA("attendance.txt");
-    for (int i = 0; i < employeecount; i++)
-        fA << employee[i].attendance.id << " "
-        << employee[i].attendance.dayspresent << " "
-        << employee[i].attendance.daysabsent << "\n";
-
-    ofstream fAd("admins.txt");
-    for (int i = 0; i < admincount; i++)
-        fAd << admin[i].username << " " << admin[i].password << "\n";
-}
-
-/*float salarycalc()
+//definitions
+float salarycalc()
 {
     int id;
     float basicsalary, overtime, overtimerate, bonus;
@@ -161,6 +107,85 @@ void saveAll() {
         if (check == 0)
             cout << "Employee not found." << endl;
     } while (check == 0);
+}
+
+void addEmployee()
+{
+    if (employee_count >= 100)
+    {
+        cout << "You have reached maximum capacity." << endl;
+        return;
+    }
+
+    int newId = 200 + employee_count + 1;
+    employee[employee_count].id = newId;
+
+    cin.ignore();
+    cout << "Name:" << endl;
+    getline(cin, employee[employee_count].name);
+    cout << "Age:" << endl;
+    cin >> employee[employee_count].age;
+    cout << "Position:" << endl;
+    cin.ignore();
+    getline(cin, employee[employee_count].position);
+    cout << "Phone number:" << endl;
+    cin >> employee[employee_count].phone;
+    cout << "Salary:";
+    cin >> employee[employee_count].basicsalary;
+    cout << "Password: ";
+    cin.ignore();
+    getline(cin, employee[employee_count].password);
+
+    employee[employee_count].attendance[0] = { newId, 0, 0, 0 };
+    employee_count++;
+    cout << "Done! ID is: " << newId << endl;
+}
+
+void manageAttendance()
+{
+    int id;
+    char choice;
+    int check = 0;
+
+    do
+    {
+        cout << "Enter Employee ID: ";
+        cin >> id;
+        for (int i = 0; i < employee_count; i++)
+        {
+            if (employee[i].id == id)
+            {
+                check = 1;
+                int month;
+                cout << "Enter Month (1-12): ";
+                cin >> month;
+                if (month < 1 || month > 12)
+                {
+                    cout << "Invalid Month!" << endl;
+                    return;
+                }
+                cout << "Add Days Present for Month " << month << ": ";
+                cin >> employee[i].attendance[month - 1].dayspresent;
+                cout << "Add Days Absent for Month " << month << ": ";
+                cin >> employee[i].attendance[month - 1].daysabsent;
+
+                cout << "Attendance Recorded!" << endl;
+                cout << employee[i].name << " has "
+                    << employee[i].attendance[month - 1].dayspresent
+                    << " days present and "
+                    << employee[i].attendance[month - 1].daysabsent
+                    << " days absent in month " << month << "." << endl;
+                cout << "Do you want to manage attendance for another employee? (y/n): ";
+                cin >> choice;
+                break;
+            }
+        }
+
+        if (check == 0)
+        {
+            cout << "Employee ID not found!" << endl;
+        }
+    } while (choice == 'y' || choice == 'Y' || check == 0);
 }
 
 void updateEmployee()
@@ -244,4 +269,6 @@ void deleteEmployee()
             cout << "Remaining employees: " << employee_count << endl;
         }
     } while (check == 0);
-}*/
+}
+
+*/
