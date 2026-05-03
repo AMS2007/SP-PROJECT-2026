@@ -104,7 +104,7 @@ void saveAll() {
         fAd << admin[i].username << " " << admin[i].password << "\n";
 }
 
-void deleteEmployee(int deleteID, int employee_count)
+void deleteEmployee(int deleteID, int& employee_count)
 {
     if (employee_count == 0)
     {

@@ -162,6 +162,7 @@
             text.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
         }
     };
+    
 
     int main()
     {
@@ -1053,7 +1054,7 @@
                     while (stoi(monthBox.input) < 1 || stoi(monthBox.input) > 12) {
                         Showerror = true;
                         emptyloginbox.setString("Invalid Month Please Re-Enter");
-                        monthBox.clear();
+                        monthBox.clear(); 
                     }
 
                 }
@@ -1221,5 +1222,7 @@
             delete viewButton.mButton;
             delete viewSalaryButton.mButton;
             delete viewAttendButton.mButton;
+            delete deleteButtonOkay.mButton;
+
     }
  
