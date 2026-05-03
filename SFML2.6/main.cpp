@@ -1020,7 +1020,12 @@
                     else
                         backButton.mButton->button.setFillColor(Color::White);
                     // back settings end
-
+                    monthBox.handleEvent(event, window);
+                    presentBox.handleEvent(event, window);
+                    absentBox.handleEvent(event, window);
+                    if (stoi(monthBox.input) < 1 || stoi(monthBox.input) > 12) {
+                        
+                    }
 
                 }
             }
@@ -1137,6 +1142,8 @@
                 window.draw(topBar);
                 window.draw(companyName);
                 monthBox.draw(window);
+                presentBox.draw(window);
+                absentBox.draw(window);
             }
             
             window.display();
