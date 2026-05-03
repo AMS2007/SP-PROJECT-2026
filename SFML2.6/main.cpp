@@ -25,7 +25,10 @@
         updatePanel,
         attendanceEditPanel,
         salaryCalcPanel,
-        deletePanel
+        deletePanel,
+        viewPanel,
+        salaryPanel,
+        attendancePanel
     };
 
 
@@ -132,7 +135,10 @@
     enterButton,
     attendanceButton,
     salaryButton,
-    deleteButton;
+    deleteButton,
+    viewButton,
+    viewSalaryButton,
+    viewAttendButton;
 
     struct TextData {
         sf::Text text;
@@ -395,7 +401,7 @@
         Text delete_text;
         delete_text.setFont(font);
         delete_text.setCharacterSize(36);
-        delete_text.setString(salaryButton.label);
+        delete_text.setString(deleteButton.label);
         FloatRect delete_tb = delete_text.getGlobalBounds();
         Vector2f delete_size(delete_tb.width * 1.2f, delete_tb.height * 1.7f);
 
@@ -405,6 +411,63 @@
         deleteButton.mButton->setLabelColor(Color::White);
         deleteButton.mButton->setButtonColor(deleteButton.defaultColor);
         // end delete button details
+
+        // view button details
+        viewButton.label = "View Personal Details";
+        viewButton.defaultColor = Color(1, 46, 90);
+        viewButton.hoverColor = Color(101, 192, 155);
+
+        Text view_text;
+        view_text.setFont(font);
+        view_text.setCharacterSize(36);
+        view_text.setString(viewButton.label);
+        FloatRect view_tb = view_text.getGlobalBounds();
+        Vector2f view_size(view_tb.width * 1.2f, view_tb.height * 2.f);
+
+        viewButton.mButton = new RectButton(font, view_size, Vector2f(width / 2.f - view_size.x / 2.f, height / 4.f - view_size.y / 2.f + 100.f));
+
+        viewButton.mButton->setButtonLabel(36, viewButton.label);
+        viewButton.mButton->setLabelColor(Color::White);
+        viewButton.mButton->setButtonColor(viewButton.defaultColor);
+        // end view button details
+
+        // salary button details
+        viewSalaryButton.label = "View Salary";
+        viewSalaryButton.defaultColor = Color(1, 46, 90);
+        viewSalaryButton.hoverColor = Color(101, 192, 155);
+
+        Text vSalary_text;
+        vSalary_text.setFont(font);
+        vSalary_text.setCharacterSize(36);
+        vSalary_text.setString(viewSalaryButton.label);
+        FloatRect vSalary_tb = vSalary_text.getGlobalBounds();
+        Vector2f vSalary_size(vSalary_tb.width * 1.2f, vSalary_tb.height * 1.7f);
+
+        viewSalaryButton.mButton = new RectButton(font, vSalary_size, Vector2f(width / 2.f - vSalary_size.x / 2.f, height / 4.f - vSalary_size.y / 2.f + 200.f));
+
+        viewSalaryButton.mButton->setButtonLabel(36, viewSalaryButton.label);
+        viewSalaryButton.mButton->setLabelColor(Color::White);
+        viewSalaryButton.mButton->setButtonColor(viewSalaryButton.defaultColor);
+        // end salary button details
+
+        // attendance button details
+        viewAttendButton.label = "View Attendance Records";
+        viewAttendButton.defaultColor = Color(1, 46, 90);
+        viewAttendButton.hoverColor = Color(101, 192, 155);
+
+        Text vAttend_text;
+        vAttend_text.setFont(font);
+        vAttend_text.setCharacterSize(36);
+        vAttend_text.setString(viewAttendButton.label);
+        FloatRect vAttend_tb = vAttend_text.getGlobalBounds();
+        Vector2f vAttend_size(vAttend_tb.width * 1.2f, vAttend_tb.height * 2.f);
+
+        viewAttendButton.mButton = new RectButton(font, vAttend_size, Vector2f(width / 2.f - vAttend_size.x / 2.f, height / 4.f - vAttend_size.y / 2.f + 300.f));
+
+        viewAttendButton.mButton->setButtonLabel(36, viewAttendButton.label);
+        viewAttendButton.mButton->setLabelColor(Color::White);
+        viewAttendButton.mButton->setButtonColor(viewAttendButton.defaultColor);
+        // end attendance button details
 
         // menu admin and employee icons
         Texture adminTexture;
@@ -468,6 +531,7 @@
         welc_admin.setString("Welcome back, ");
         welc_admin.setOrigin(welc_admin.getLocalBounds().width / 2.f, welc_admin.getLocalBounds().height / 2.f);
         welc_admin.setPosition(width / 4.f, height / 4.f - 50.f); // (400,150) 
+
         // welcome text admin
         Text welc_admin_name;
         welc_admin_name.setCharacterSize(64);
@@ -476,6 +540,23 @@
         welc_admin_name.setString("");
         welc_admin_name.setOrigin(welc_admin_name.getLocalBounds().width / 2.f, welc_admin_name.getLocalBounds().height / 2.f);
         welc_admin_name.setPosition(width / 4.f + 250, height / 4.f - 80.f); // (400,150) 
+
+        Text welc_employee;
+        welc_employee.setCharacterSize(64);
+        welc_employee.setFont(font);
+        welc_employee.setFillColor(Color(1, 46, 90));
+        welc_employee.setString("Welcome back, ");
+        welc_employee.setOrigin(welc_employee.getLocalBounds().width / 2.f, welc_employee.getLocalBounds().height / 2.f);
+        welc_employee.setPosition(width / 2.f-100.f, height / 4.f - 50.f); // (400,150) 
+
+        // welcome text employee
+        Text welc_employee_name;
+        welc_employee_name.setCharacterSize(64);
+        welc_employee_name.setFont(font);
+        welc_employee_name.setFillColor(Color(1, 46, 90));
+        welc_employee_name.setString("");
+        welc_employee_name.setOrigin(welc_employee_name.getLocalBounds().width / 2.f, welc_employee_name.getLocalBounds().height / 2.f);
+        welc_employee_name.setPosition(width / 2.f + 280.f, height / 4.f - 54.f); // (400,150) 
 
         // question admin
         Text question_admin;
@@ -537,8 +618,6 @@
                 Vector2f(width / 2.f - 50.f, height / 4.f - 60.f + i * 140.f) // staggered y positions
             );
         }
-
-
 
 
         // seed test data
@@ -848,6 +927,71 @@
                     }
                     // delete employee settings end
                 }
+                // ======================== EMPLOYEE PANEL =========================
+                if (currentState == employeePanel) {
+                    // view settings
+                    viewButton.mButton->getButtonStatus(window, event);
+                    if (viewButton.mButton->isPressed) {
+                        currentState = viewPanel;
+                    }
+                    else if (viewButton.mButton->isHover) {
+                        viewButton.mButton->setButtonColor(viewButton.hoverColor);
+                        viewButton.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                    {
+                        viewButton.mButton->setButtonColor(viewButton.defaultColor);
+                        viewButton.mButton->setLabelColor(Color::White);
+                    }
+                    // view settings end
+
+                    // log out settings
+                    logoutButton.mButton->getButtonStatus(window, event);
+                    if (logoutButton.mButton->isPressed) {
+                        idBoxEmp.clear();
+                        passwordBoxEmp.clear();
+                        currentState = Menu;
+                    }
+                    else if (logoutButton.mButton->isHover) {
+                        logoutButton.mButton->setLabelColor(Color::Red);
+                    }
+                    else {
+                        logoutButton.mButton->setLabelColor(Color::White);
+                    }
+                    // log out settings end
+
+                    // view salary settings
+                    viewSalaryButton.mButton->getButtonStatus(window, event);
+                    if (viewSalaryButton.mButton->isPressed) {
+                        currentState = salaryPanel;
+                    }
+                    else if (viewSalaryButton.mButton->isHover) {
+                        viewSalaryButton.mButton->setButtonColor(viewSalaryButton.hoverColor);
+                        viewSalaryButton.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                    {
+                        viewSalaryButton.mButton->setButtonColor(viewSalaryButton.defaultColor);
+                        viewSalaryButton.mButton->setLabelColor(Color::White);
+                    }
+                    // view salary settings end 
+
+                    // view attendance settings
+                    viewAttendButton.mButton->getButtonStatus(window, event);
+                    if (viewAttendButton.mButton->isPressed) {
+                        currentState = attendancePanel;
+                    }
+                    else if (viewAttendButton.mButton->isHover) {
+                        viewAttendButton.mButton->setButtonColor(viewAttendButton.hoverColor);
+                        viewAttendButton.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                    {
+                        viewAttendButton.mButton->setButtonColor(viewAttendButton.defaultColor);
+                        viewAttendButton.mButton->setLabelColor(Color::White);
+                    }
+                    // view attendance settings end 
+                }
             }
             // Update
 
@@ -915,7 +1059,20 @@
             }
             else if (currentState == employeePanel) {
                 window.setTitle("EMPLOYEE PANEL");
+                window.draw(adminImageSprite);
                 window.draw(topBar);
+                window.draw(companyName);
+                viewButton.mButton->draw(window);
+                logoutButton.mButton->draw(window);
+                viewSalaryButton.mButton->draw(window);
+                viewAttendButton.mButton->draw(window);
+                window.draw(welc_employee);
+                if (loggedInEmployeeIndex != -1) {
+                    int i = loggedInEmployeeIndex;
+                    welc_employee_name.setString(employee[i].name);
+                    welc_employee_name.setOrigin(welc_employee_name.getLocalBounds().width / 2.f, welc_employee_name.getLocalBounds().height / 2.f);
+                    window.draw(welc_employee_name);
+                }
             }
             else if (currentState == editEmployeePanel) {
                 window.setTitle("EDIT EMPLOYEE");
@@ -956,5 +1113,8 @@
             delete attendanceButton.mButton;
             delete salaryButton.mButton;
             delete deleteButton.mButton;
+            delete viewButton.mButton;
+            delete viewSalaryButton.mButton;
+            delete viewAttendButton.mButton;
     }
  
