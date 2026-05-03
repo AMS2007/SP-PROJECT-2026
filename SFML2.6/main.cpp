@@ -35,6 +35,7 @@
         Text displayText;
         string input;
         bool isFocused = false;
+        bool isNumeric = false;
 
         Color defaultOutline = Color::Black;
         Color focusedOutline = Color(1, 46, 90);
@@ -81,6 +82,8 @@
                         input.pop_back();
                 }
                 else if (event.text.unicode < 128) {
+                    if (isNumeric && (event.text.unicode < '0' || event.text.unicode > '9'))
+                        return; // block non-digits for numeric boxes
                     string test = input + static_cast<char>(event.text.unicode);
                     displayText.setString(test);
                     if (displayText.getGlobalBounds().width < box.getSize().x - 10)
@@ -91,7 +94,6 @@
                 displayText.setString(input);
             }
         }
-
         void draw(RenderWindow& window) {
             window.draw(box);
             window.draw(label);
@@ -145,6 +147,7 @@
             text.setCharacterSize(charSize);
             text.setFillColor(color);
             text.setPosition(position);
+
         }
 
         void centerOrigin() {
@@ -168,20 +171,23 @@
         employee[2].photo.loadFromFile("Images/mona.png");
         employee[3].photo.loadFromFile("Images/steven.png");
         employee[4].photo.loadFromFile("Images/marwan.png");
-        for(int i = 0; i<5;i++)
-        {
-            employee[i].profilePicture.setTexture(employee[i].photo);
-            employee[i].profilePicture.setOrigin(Vector2f(employee[i].profilePicture.getLocalBounds().width / 2.f, employee[i].profilePicture.getLocalBounds().height / 2.f));
-            employee[i].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f));
-            employee[i].profilePicture.setScale(0.3f, 0.3f);
-        }
+            for (int i = 0; i < 5; i++)
+            {
+                employee[i].profilePicture.setTexture(employee[i].photo);
+                employee[i].profilePicture.setOrigin(
+                    employee[i].profilePicture.getLocalBounds().width / 2.f,
+                    employee[i].profilePicture.getLocalBounds().height / 2.f
+                );
+                employee[i].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f - 20.f));
+                employee[i].profilePicture.setScale(0.37f, 0.37f);
+            }
         employeecount = 5;
         GameState currentState = Menu; // screen when you open window
 
         RenderWindow window(VideoMode(width, height), "Employee Payroll Management System By 2202 GROUP");
 
         window.setFramerateLimit(60); // frame limit of window
-        window.setKeyRepeatEnabled(true); // one press each time
+        window.setKeyRepeatEnabled(false); // one press each time
 
         Font font; // blockletter font
         if (!font.loadFromFile("Fonts/Ranade-Regular.otf")) {
@@ -440,6 +446,7 @@
         Textboxdata idBoxEmp(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your ID Number:");
         Textboxdata passwordBoxEmp(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
         Textboxdata employeeidadminpanel(font, Vector2f(300, 40), Vector2f(215, 350), "Enter The Employee ID:");
+        employeeidadminpanel.isNumeric = true;
         // textbox end
 
         // employee login image 
@@ -517,6 +524,7 @@
                 Vector2f(width / 4.f - 200.f, height / 4.f - 30.f)
             );
         }
+        TextData PhoneNumberText(font, "Phone Number:", 20, Color::Black, Vector2f(width / 4.f * 3.f, height / 4.f + 300.f));
         TextData* EmpPhone = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
             EmpPhone[i] = TextData(
@@ -524,7 +532,7 @@
                 to_string(employee[i].phone), // reuse template text
                 24,
                 Color::Black,
-                Vector2f(width / 4.f - 150.f, height / 4.f - 80.f)
+                Vector2f(Vector2f(width / 4.f * 3.f, height / 4.f + 250.f))
             );
         }
         TextData* EmpPosition = new TextData[employeecount];
@@ -768,7 +776,7 @@
                     // end enter settings
                 }
                 // ====================== EDIT EMPLOYEE IN ADMIN PANEL ==========================
-                if (currentState == editEmployeePanel) {
+                else if (currentState == editEmployeePanel) {
                     // update settings
                     updateButton.mButton->getButtonStatus(window, event);
                     if (updateButton.mButton->isPressed) {
@@ -927,13 +935,15 @@
                 attendanceButton.mButton->draw(window);
                 salaryButton.mButton->draw(window);
                 deleteButton.mButton->draw(window);
+                 window.draw(PhoneNumberText.text);
                 try {
                     int searchID = stoi(employeeidadminpanel.input);
                     for (int i = 0; i < employeecount; i++) {
                         if (searchID == employee[i].id) {              // draw field labels
                             window.draw(EmpName[i].text);       // draw name
                             window.draw(EmpID[i].text);         // draw ID
-                            window.draw(EmpPhone[i].text);      // draw phone
+                            window.draw(EmpPhone[i].text);  
+                            // draw phone
                            // window.draw(EmpPosition[i].text);   // draw position
                             window.draw(employee[i].profilePicture);
                         }
@@ -958,3 +968,4 @@
             delete deleteButton.mButton;
     }
  
+    // talata na3em w talata 5eshen w talata selk

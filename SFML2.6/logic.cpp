@@ -16,10 +16,16 @@ bool validateAdmin(const string& username, const string& password) {
 
 // validate employee id in edit employee panel
 bool validateid(string id) {
-    for (int i = 0; i < employeecount; i++) {
-        if (employee[i].id == stoi(id)) {
-            return true;
+    if (id.empty()) return false;
+    try {
+        int searchID = stoi(id);
+        for (int i = 0; i < employeecount; i++) {
+            if (employee[i].id == searchID)
+                return true;
         }
+    }
+    catch (...) {
+        return false;
     }
     return false;
 }
