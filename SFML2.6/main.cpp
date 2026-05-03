@@ -28,7 +28,8 @@
         deletePanel,
         viewPanel,
         salaryPanel,
-        attendancePanel
+        attendancePanel,
+        attendanceOkPanel
     };
 
 
@@ -141,7 +142,8 @@
     viewButton,
     viewSalaryButton,
     viewAttendButton,
-    deleteButtonOkay;
+    deleteButtonOkay,
+    enterOkButton;
 
     struct TextData {
         sf::Text text;
@@ -494,8 +496,26 @@
         deleteButtonOkay.mButton->setButtonLabel(36, deleteButtonOkay.label);
         deleteButtonOkay.mButton->setLabelColor(Color::White);
         deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
-
         // okay button deleted succefully details END
+
+        // enter attendance button details
+        enterOkButton.label = "Enter";
+        enterOkButton.defaultColor = Color(1, 46, 90);
+        enterOkButton.hoverColor = Color(101, 192, 155);
+
+        Text enterA_text;
+        enterA_text.setFont(font);
+        enterA_text.setCharacterSize(24);
+        enterA_text.setString(enterOkButton.label);
+        FloatRect enterA_tb = enterA_text.getGlobalBounds();
+        Vector2f enterA_size(enterA_tb.width * 1.5f, enterA_tb.height * 2.f);
+
+        enterOkButton.mButton = new RectButton(font, enterA_size, Vector2f(width / 2.f - enterA_size.x / 2.f, height / 4.f * 3.f - enterA_size.y / 2.f));
+
+        enterOkButton.mButton->setButtonLabel(24, enterOkButton.label);
+        enterOkButton.mButton->setLabelColor(Color::White);
+        enterOkButton.mButton->setButtonColor(enterOkButton.defaultColor);
+        // end enter employee button details
 
 
         // menu admin and employee icons
@@ -1046,14 +1066,47 @@
                     else
                         backButton.mButton->button.setFillColor(Color::White);
                     // back settings end
+
                     monthBox.handleEvent(event, window);
                     presentBox.handleEvent(event, window);
                     absentBox.handleEvent(event, window);
-                     // if button is pressed then
-                    while (stoi(monthBox.input) < 1 || stoi(monthBox.input) > 12) {
-                        Showerror = true;
-                        emptyloginbox.setString("Invalid Month Please Re-Enter");
-                        monthBox.clear();
+                     
+                    enterOkButton.mButton->getButtonStatus(window, event);
+                    if (enterOkButton.mButton->isPressed) {
+                        Showerror = false;
+                        if (monthBox.input.empty() || presentBox.input.empty() || absentBox.input.empty()) {
+                            Showerror = true;
+                            emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
+                            emptyloginbox.setString("Fields cannot be empty!");
+                        }
+                        else {
+                            try {
+                                int month = stoi(monthBox.input);
+                                if (month < 1 || month > 12) {
+                                    Showerror = true;
+                                    emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
+                                    emptyloginbox.setString("Invalid Month! Enter 1-12");
+                                    monthBox.clear();
+                                }
+                                else {
+                                    currentState = attendanceOkPanel;
+                                    manageAttendance(stoi(employeeidadminpanel.input), stoi(presentBox.input), stoi(absentBox.input));
+                                }
+                            }
+                            catch (...) {
+                                Showerror = true;
+                                emptyloginbox.setString("Month must be a number!");
+                            }
+                        }
+                    }
+                    else if (enterOkButton.mButton->isHover) {
+                        enterOkButton.mButton->setButtonColor(enterOkButton.hoverColor);
+                        enterOkButton.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                    {
+                        enterOkButton.mButton->setButtonColor(enterOkButton.defaultColor);
+                        enterOkButton.mButton->setLabelColor(Color::White);
                     }
 
                 }
@@ -1194,6 +1247,7 @@
                 if (Showerror == true) {
                     window.draw(emptyloginbox);
                 }
+                enterOkButton.mButton->draw(window);
             }
             else if (currentState == deletePanel) {
                 window.setTitle("DELETED SUCCESSFULLY!");
