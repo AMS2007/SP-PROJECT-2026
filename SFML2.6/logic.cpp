@@ -103,3 +103,145 @@ void saveAll() {
     for (int i = 0; i < admincount; i++)
         fAd << admin[i].username << " " << admin[i].password << "\n";
 }
+
+float salarycalc()
+{
+    int id;
+    float basicsalary, overtime, overtimerate, bonus;
+    float salary = 0;
+    float taxfree = 0, salarydeduction;
+    int daysAbsent = 0;
+    int month;
+    int check = 0;
+    do
+    {
+        cout << "Enter employee id:" << endl;
+        cin >> id;
+
+        for (int i = 0; i < 100; i++)
+        {
+            if (id != employee[i].id)
+                continue;
+            check = 1;
+            cout << employee[i].name << endl;
+            while (true)
+            {
+                cout << "Enter month (1-12):";
+                cin >> month;
+                if (month < 1 || month > 12)
+                {
+                    cout << "Invalid Month!" << endl;
+                    continue;
+                }
+                else
+                    break;
+            }
+            cout << "Enter basic salary:";
+            cin >> basicsalary;
+            cout << "Enter over time hours:";
+            cin >> overtime;
+            cout << "Enter overtime rate:";
+            cin >> overtimerate;
+            cout << "Enter bonus:";
+            cin >> bonus;
+            cout << "Enter salary deduction (per day absent):";
+            cin >> salarydeduction;
+
+            employee[i].overtimehrs = overtime;
+            employee[i].bonus = bonus;
+            employee[i].tax = (basicsalary * 0.14f);
+            daysAbsent = employee[i].attendance[month - 1].daysabsent;
+            taxfree = basicsalary - (basicsalary * 0.14f);
+            salary = taxfree + (overtime * overtimerate)
+                + bonus - (daysAbsent * salarydeduction);
+            employee[i].netsalary = salary;
+            cout << "Net Salary of " << employee[i].name << ": " << salary << endl;
+            return employee[i].netsalary;
+        }
+        if (check == 0)
+            cout << "Employee not found." << endl;
+    } while (check == 0);
+}
+
+void updateEmployee()
+{
+    if (employee_count == 0)
+    {
+        cout << "\nNo employees registered yet!" << endl;
+        return;
+    }
+    int found = 0;
+    do
+    {
+        cout << "\n--- Update Employee Data ---" << endl;
+        cout << "Enter Employee ID to update: ";
+        cin >> searchId;
+
+        for (int i = 0; i < employee_count; i++)
+        {
+            if (employee[i].id == searchId)
+            {
+                found = 1;
+                cout << "Employee Found! Updating: " << employee[i].name << endl;
+                cout << "Enter New Age: ";
+                cin >> employee[i].age;
+                cout << "Enter New Phone: ";
+                cin >> employee[i].phone;
+                cout << "Enter New Position: ";
+                cin.ignore();
+                getline(cin, employee[i].position);
+                cout << "Enter New Basic Salary: ";
+                cin >> employee[i].basicsalary;
+
+                cout << "\nData updated successfully!" << endl;
+                break;
+            }
+        }
+
+        if (found == 0)
+        {
+            cout << "Error: Employee with ID " << searchId << " not found."
+                << endl;
+        }
+    } while (found == 0);
+}
+
+void deleteEmployee()
+{
+    if (employee_count == 0)
+    {
+        cout << "No employees to delete!\n";
+        return;
+    }
+    int check = 0;
+    do
+    {
+        cout << "Enter Employee ID to delete: ";
+        cin >> deleteID;
+        int index = -1;
+        for (int i = 0; i < employee_count; i++)
+        {
+            if (employee[i].id == deleteID)
+            {
+                index = i;
+                check = 1;
+                break;
+            }
+        }
+
+        if (index == -1)
+        {
+            cout << "Employee ID not found!\n";
+            check = 0;
+        }
+        else
+        {
+            for (int i = index; i < employee_count - 1; i++)
+                employee[i] = employee[i + 1];
+
+            employee_count--;
+            cout << "Employee deleted successfully!" << endl;
+            cout << "Remaining employees: " << employee_count << endl;
+        }
+    } while (check == 0);
+}
