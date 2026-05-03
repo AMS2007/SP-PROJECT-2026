@@ -173,7 +173,7 @@
             employee[i].profilePicture.setTexture(employee[i].photo);
             employee[i].profilePicture.setOrigin(Vector2f(employee[i].profilePicture.getLocalBounds().width / 2.f, employee[i].profilePicture.getLocalBounds().height / 2.f));
             employee[i].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f));
-            employee[i].profilePicture.setScale(0.5f, 0.5f);
+            employee[i].profilePicture.setScale(0.3f, 0.3f);
         }
         employeecount = 5;
         GameState currentState = Menu; // screen when you open window
@@ -323,14 +323,14 @@
         FloatRect update_tb = update_text.getGlobalBounds();
         Vector2f update_size(update_tb.width * 1.2f, update_tb.height * 1.7f);
 
-        updateButton.mButton = new RectButton(font, update_size, Vector2f(width / 4.f - update_size.x / 2.f-20.f, height / 4.f - update_size.y / 2.f));
+        updateButton.mButton = new RectButton(font, update_size, Vector2f(width / 4.f - update_size.x / 2.f-20.f, height / 4.f - update_size.y / 2.f +100.f));
 
         updateButton.mButton->setButtonLabel(36, updateButton.label);
         updateButton.mButton->setLabelColor(Color::White);
         updateButton.mButton->setButtonColor(updateButton.defaultColor);
         // end update employee button details
 
-        // update employee button details
+        // enter employee button details
         enterButton.label = "Enter";
         enterButton.defaultColor = Color(1, 46, 90);
         enterButton.hoverColor = Color(101, 192, 155);
@@ -347,7 +347,7 @@
         enterButton.mButton->setButtonLabel(24, enterButton.label);
         enterButton.mButton->setLabelColor(Color::White);
         enterButton.mButton->setButtonColor(enterButton.defaultColor);
-        // end update employee button details
+        // end enter employee button details
 
         // attendance button details
         attendanceButton.label = "Record Attendance";
@@ -361,7 +361,7 @@
         FloatRect attendance_tb = attendance_text.getGlobalBounds();
         Vector2f attendance_size(attendance_tb.width * 1.2f, attendance_tb.height * 2.5f);
 
-        attendanceButton.mButton = new RectButton(font, attendance_size, Vector2f(width / 4.f - attendance_size.x / 2.f -5.f, height / 2.f - attendance_size.y / 2.f - 50.f));
+        attendanceButton.mButton = new RectButton(font, attendance_size, Vector2f(width / 4.f - attendance_size.x / 2.f -5.f, height / 2.f - attendance_size.y / 2.f + 35.f));
 
         attendanceButton.mButton->setButtonLabel(36, attendanceButton.label);
         attendanceButton.mButton->setLabelColor(Color::White);
@@ -380,7 +380,7 @@
         FloatRect salary_tb = salary_text.getGlobalBounds();
         Vector2f salary_size(salary_tb.width * 1.2f, salary_tb.height * 1.7f);
 
-        salaryButton.mButton = new RectButton(font, salary_size, Vector2f(width / 4.f - salary_size.x / 2.f - 37.f, height / 4.f*3.f - salary_size.y / 2.f-100.f));
+        salaryButton.mButton = new RectButton(font, salary_size, Vector2f(width / 4.f - salary_size.x / 2.f - 37.f, height / 4.f*3.f - salary_size.y / 2.f-35.f));
 
         salaryButton.mButton->setButtonLabel(36, salaryButton.label);
         salaryButton.mButton->setLabelColor(Color::White);
@@ -399,7 +399,7 @@
         FloatRect delete_tb = delete_text.getGlobalBounds();
         Vector2f delete_size(delete_tb.width * 1.2f, delete_tb.height * 1.7f);
 
-        deleteButton.mButton = new RectButton(font, delete_size, Vector2f(width / 4.f - delete_size.x / 2.f - 40.f, height / 4.f * 3.f - delete_size.y / 2.f + 45.f));
+        deleteButton.mButton = new RectButton(font, delete_size, Vector2f(width / 4.f - delete_size.x / 2.f - 40.f, height / 4.f * 3.f - delete_size.y / 2.f + 90.f));
 
         deleteButton.mButton->setButtonLabel(36, deleteButton.label);
         deleteButton.mButton->setLabelColor(Color::White);
@@ -495,11 +495,49 @@
         companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 0.f);
 
         // information employee
-        TextData Emp(font, "Employee ID: \n \nFull Name: \n \nAge: \n \nPosition: \n \nPhone No.: \n \nBasic Salary: ", 36, Color(1, 46, 90), Vector2f(width/2.f-50.f, height/4.f-60.f));
-        TextData* EmpInfo = new TextData[employeecount];
+        //TextData Emp(font, "Employee ID: \n \nFull Name: \n \nAge: \n \nPosition: \n \nPhone No.: \n \nBasic Salary: ", 36, Color(1, 46, 90), Vector2f(width/2.f-50.f, height/4.f-60.f));
+        TextData* EmpID = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
-            //INCOMPLETE
+            EmpID[i] = TextData(
+                font,
+                to_string(employee[i].id), // reuse template text
+                36,
+                Color::Black,
+                Vector2f(width/4.f*3.f, height/4.f*3.f) // staggered y positions
+            );
         }
+        
+        TextData* EmpName = new TextData[employeecount];
+        for (int i = 0; i < employeecount; i++) {
+            EmpName[i] = TextData(
+                font,
+                employee[i].name, // reuse template text
+                64,
+                Color(1, 46, 90),
+                Vector2f(width / 4.f - 200.f, height / 4.f - 30.f)
+            );
+        }
+        TextData* EmpPhone = new TextData[employeecount];
+        for (int i = 0; i < employeecount; i++) {
+            EmpPhone[i] = TextData(
+                font,
+                to_string(employee[i].phone), // reuse template text
+                24,
+                Color::Black,
+                Vector2f(width / 4.f - 150.f, height / 4.f - 80.f)
+            );
+        }
+        TextData* EmpPosition = new TextData[employeecount];
+        for (int i = 0; i < employeecount; i++) {
+            EmpPosition[i] = TextData(
+                font,
+                employee[i].position, // reuse template text
+                36,
+                Color::Black,
+                Vector2f(width / 2.f - 50.f, height / 4.f - 60.f + i * 140.f) // staggered y positions
+            );
+        }
+
 
 
 
@@ -889,8 +927,21 @@
                 attendanceButton.mButton->draw(window);
                 salaryButton.mButton->draw(window);
                 deleteButton.mButton->draw(window);
-                window.draw(Emp.text);
+                try {
+                    int searchID = stoi(employeeidadminpanel.input);
+                    for (int i = 0; i < employeecount; i++) {
+                        if (searchID == employee[i].id) {              // draw field labels
+                            window.draw(EmpName[i].text);       // draw name
+                            window.draw(EmpID[i].text);         // draw ID
+                            window.draw(EmpPhone[i].text);      // draw phone
+                           // window.draw(EmpPosition[i].text);   // draw position
+                            window.draw(employee[i].profilePicture);
+                        }
+                    }
+                }
+                catch (...) {} // silently ignore if input isn't a number yet
             }
+            
             window.display();
         }
             delete adminButton.mButton;
@@ -906,3 +957,4 @@
             delete salaryButton.mButton;
             delete deleteButton.mButton;
     }
+ 
