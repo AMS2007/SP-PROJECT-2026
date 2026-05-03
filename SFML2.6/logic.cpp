@@ -14,6 +14,7 @@ bool validateAdmin(const string& username, const string& password) {
     return false;
 }
 
+// validate employee id in edit employee panel
 bool validateid(string id) {
     for (int i = 0; i < employeecount; i++) {
         if (employee[i].id == stoi(id)) {

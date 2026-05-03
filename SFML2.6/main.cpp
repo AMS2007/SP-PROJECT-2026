@@ -134,18 +134,49 @@
     salaryButton,
     deleteButton;
 
+    struct TextData {
+        sf::Text text;
+
+        TextData() {}
+
+        TextData(sf::Font& font, const string& str, unsigned int charSize, sf::Color color, sf::Vector2f position) {
+            text.setFont(font);
+            text.setString(str);
+            text.setCharacterSize(charSize);
+            text.setFillColor(color);
+            text.setPosition(position);
+        }
+
+        void centerOrigin() {
+            sf::FloatRect bounds = text.getLocalBounds();
+            text.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+        }
+    };
+
     int main()
     {
+        unsigned int height = 800; // height of window
+        unsigned int width = 1600; // width of window
+
         employee[0] = { 201, 19, "Ahmed",  "Ahmed123",    "IT Manager",             201142275561,        90000,  };
         employee[1] = { 202, 19, "Ebram",  "Ebram123",    "IT",                     201152263354,        40000,  };
         employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     201006034700,        80000,  };
         employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              201006034720,        25000,  };
         employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      201102446612,        16700,  };
+        employee[0].photo.loadFromFile("Images/ahmed.png");
+        employee[1].photo.loadFromFile("Images/ebram.png");
+        employee[2].photo.loadFromFile("Images/mona.png");
+        employee[3].photo.loadFromFile("Images/steven.png");
+        employee[4].photo.loadFromFile("Images/marwan.png");
+        for(int i = 0; i<5;i++)
+        {
+            employee[i].profilePicture.setTexture(employee[i].photo);
+            employee[i].profilePicture.setOrigin(Vector2f(employee[i].profilePicture.getLocalBounds().width / 2.f, employee[i].profilePicture.getLocalBounds().height / 2.f));
+            employee[i].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f));
+            employee[i].profilePicture.setScale(0.5f, 0.5f);
+        }
         employeecount = 5;
         GameState currentState = Menu; // screen when you open window
-
-        unsigned int height = 800; // height of window
-        unsigned int width = 1600; // width of window
 
         RenderWindow window(VideoMode(width, height), "Employee Payroll Management System By 2202 GROUP");
 
@@ -292,7 +323,7 @@
         FloatRect update_tb = update_text.getGlobalBounds();
         Vector2f update_size(update_tb.width * 1.2f, update_tb.height * 1.7f);
 
-        updateButton.mButton = new RectButton(font, update_size, Vector2f(width / 4.f - update_size.x / 2.f + 20.f, height / 4.f - update_size.y / 2.f));
+        updateButton.mButton = new RectButton(font, update_size, Vector2f(width / 4.f - update_size.x / 2.f-20.f, height / 4.f - update_size.y / 2.f));
 
         updateButton.mButton->setButtonLabel(36, updateButton.label);
         updateButton.mButton->setLabelColor(Color::White);
@@ -330,7 +361,7 @@
         FloatRect attendance_tb = attendance_text.getGlobalBounds();
         Vector2f attendance_size(attendance_tb.width * 1.2f, attendance_tb.height * 2.5f);
 
-        attendanceButton.mButton = new RectButton(font, attendance_size, Vector2f(width / 4.f - attendance_size.x / 2.f + 20.f, height / 2.f - attendance_size.y / 2.f - 50.f));
+        attendanceButton.mButton = new RectButton(font, attendance_size, Vector2f(width / 4.f - attendance_size.x / 2.f -5.f, height / 2.f - attendance_size.y / 2.f - 50.f));
 
         attendanceButton.mButton->setButtonLabel(36, attendanceButton.label);
         attendanceButton.mButton->setLabelColor(Color::White);
@@ -349,7 +380,7 @@
         FloatRect salary_tb = salary_text.getGlobalBounds();
         Vector2f salary_size(salary_tb.width * 1.2f, salary_tb.height * 1.7f);
 
-        salaryButton.mButton = new RectButton(font, salary_size, Vector2f(width / 4.f - salary_size.x / 2.f + 20.f, height / 4.f*3.f - salary_size.y / 2.f-100.f));
+        salaryButton.mButton = new RectButton(font, salary_size, Vector2f(width / 4.f - salary_size.x / 2.f - 37.f, height / 4.f*3.f - salary_size.y / 2.f-100.f));
 
         salaryButton.mButton->setButtonLabel(36, salaryButton.label);
         salaryButton.mButton->setLabelColor(Color::White);
@@ -368,7 +399,7 @@
         FloatRect delete_tb = delete_text.getGlobalBounds();
         Vector2f delete_size(delete_tb.width * 1.2f, delete_tb.height * 1.7f);
 
-        deleteButton.mButton = new RectButton(font, delete_size, Vector2f(width / 2.f - delete_size.x / 2.f, height / 4.f * 3.f - delete_size.y / 2.f + 80.f));
+        deleteButton.mButton = new RectButton(font, delete_size, Vector2f(width / 4.f - delete_size.x / 2.f - 40.f, height / 4.f * 3.f - delete_size.y / 2.f + 45.f));
 
         deleteButton.mButton->setButtonLabel(36, deleteButton.label);
         deleteButton.mButton->setLabelColor(Color::White);
@@ -403,14 +434,13 @@
         adminImageSprite.setScale(0.3f, 0.3f);
         // admin login image end
         
-        // trying to make a textbox
+        // textbox
         Textboxdata idBox(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your Username:");
         Textboxdata passwordBox(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
         Textboxdata idBoxEmp(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your ID Number:");
         Textboxdata passwordBoxEmp(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
         Textboxdata employeeidadminpanel(font, Vector2f(300, 40), Vector2f(215, 350), "Enter The Employee ID:");
-
-        // textbox attempt end
+        // textbox end
 
         // employee login image 
         Texture employeeImage;
@@ -465,7 +495,12 @@
         companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 0.f);
 
         // information employee
-        
+        TextData Emp(font, "Employee ID: \n \nFull Name: \n \nAge: \n \nPosition: \n \nPhone No.: \n \nBasic Salary: ", 36, Color(1, 46, 90), Vector2f(width/2.f-50.f, height/4.f-60.f));
+        TextData* EmpInfo = new TextData[employeecount];
+        for (int i = 0; i < employeecount; i++) {
+            //INCOMPLETE
+        }
+
 
 
         // seed test data
@@ -475,7 +510,7 @@
         admin[0].profilePicture.setOrigin(Vector2f(admin[0].profilePicture.getLocalBounds().width / 2.f, admin[0].profilePicture.getLocalBounds().height / 2.f));
         admin[0].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f + 75.f));
         admin[0].profilePicture.setScale(0.37f, 0.37f);
-        admin[1] = { "Sofia", "123" };
+        admin[1] = { "Safsaf", "123" };
         admin[1].photo.loadFromFile("Images/sofia.png");
         admin[1].profilePicture.setTexture(admin[1].photo);
         admin[1].profilePicture.setOrigin(Vector2f(admin[1].profilePicture.getLocalBounds().width / 2.f, admin[1].profilePicture.getLocalBounds().height / 2.f));
@@ -854,6 +889,7 @@
                 attendanceButton.mButton->draw(window);
                 salaryButton.mButton->draw(window);
                 deleteButton.mButton->draw(window);
+                window.draw(Emp.text);
             }
             window.display();
         }
