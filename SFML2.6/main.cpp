@@ -487,13 +487,13 @@
         deleteButtonTextOkay.setCharacterSize(36);
         deleteButtonTextOkay.setString(deleteButtonOkay.label);
         FloatRect deleteButtonText1 = deleteButtonTextOkay.getGlobalBounds();
-        Vector2f deleteButtonText1(vAttend_tb.width * 1.2f, vAttend_tb.height * 2.f);
+        Vector2f Okay_size(deleteButtonText1.width * 1.2f, deleteButtonText1.height * 2.f);
 
-        deleteButtonOkay.mButton = new RectButton(font, vAttend_size, Vector2f(width / 2.f - vAttend_size.x / 2.f, height / 4.f - vAttend_size.y / 2.f + 300.f));
+        deleteButtonOkay.mButton = new RectButton(font, Okay_size, Vector2f(width / 2.f - Okay_size.x / 2.f, height / 4.f *3.f - Okay_size.y / 2.f + 100.f));
 
-        deleteButtonOkay.mButton->setButtonLabel(36, viewAttendButton.label);
+        deleteButtonOkay.mButton->setButtonLabel(36, deleteButtonOkay.label);
         deleteButtonOkay.mButton->setLabelColor(Color::White);
-        deleteButtonOkay.mButton->setButtonColor(viewAttendButton.defaultColor);
+        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
 
         // okay button deleted succefully details END
 
@@ -621,7 +621,8 @@
             );
         }
         
-        TextData Deletedsuccefully(font, "Employee Deleted Succefully",64,Color::Red, Vector2f(width / 4.f - 200.f, height / 4.f - 30.f));
+        TextData Deletedsuccessfully(font, "Employee Deleted Successfully",64,Color::Red, Vector2f(width / 2.f, height / 2.f));
+        Deletedsuccessfully.centerOrigin();
 
         TextData* EmpName = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
@@ -1053,6 +1054,24 @@
                     }
 
                 }
+                // ====================== DELETE PANEL =======================
+                else if (currentState == deletePanel) {
+                    // okay button settings
+                    deleteButtonOkay.mButton->getButtonStatus(window, event);
+                    if (deleteButtonOkay.mButton->isPressed) {
+                        currentState = adminPanel;
+                    }
+                    else if (deleteButtonOkay.mButton->isHover) {
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                    {
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color::White);
+                    }
+                    // okay button settings end
+                }
             }
             // Update
 
@@ -1171,10 +1190,12 @@
                 absentBox.draw(window);
             }
             else if (currentState == deletePanel) {
-                window.setTitle("DELETED SUCCEFULLY!");
+                window.setTitle("DELETED SUCCESSFULLY!");
                 window.draw(adminImageSprite);
                 window.draw(topBar);
                 window.draw(companyName);
+                deleteButtonOkay.mButton->draw(window);
+                window.draw(Deletedsuccessfully.text);
 
             }
             window.display();
