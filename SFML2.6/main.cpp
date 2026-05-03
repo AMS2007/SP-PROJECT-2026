@@ -1048,8 +1048,11 @@
                     monthBox.handleEvent(event, window);
                     presentBox.handleEvent(event, window);
                     absentBox.handleEvent(event, window);
-                    if (stoi(monthBox.input) < 1 || stoi(monthBox.input) > 12) {
-                        
+                     // if button is pressed then
+                    while (stoi(monthBox.input) < 1 || stoi(monthBox.input) > 12) {
+                        Showerror = true;
+                        emptyloginbox.setString("Invalid Month Please Re-Enter");
+                        monthBox.clear();
                     }
 
                 }
@@ -1169,6 +1172,9 @@
                 monthBox.draw(window);
                 presentBox.draw(window);
                 absentBox.draw(window);
+                if (Showerror == true) {
+                    window.draw(emptyloginbox);
+                }
             }
             else if (currentState == deletePanel) {
                 window.setTitle("DELETED SUCCEFULLY!");
