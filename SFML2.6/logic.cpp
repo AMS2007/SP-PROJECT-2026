@@ -104,6 +104,47 @@ void saveAll() {
         fAd << admin[i].username << " " << admin[i].password << "\n";
 }
 
+void deleteEmployee(int deleteID, int employee_count)
+{
+    if (employee_count == 0)
+    {
+        cout << "No employees to delete!\n";
+        return;
+    }
+    int check = 0;
+    do
+    {
+        cout << "Enter Employee ID to delete: ";
+        cin >> deleteID;
+        int index = -1;
+        for (int i = 0; i < employee_count; i++)
+        {
+            if (employee[i].id == deleteID)
+            {
+                index = i;
+                check = 1;
+                break;
+            }
+        }
+
+        if (index == -1)
+        {
+            cout << "Employee ID not found!\n";
+            check = 0;
+        }
+        else
+        {
+            for (int i = index; i < employee_count - 1; i++)
+                employee[i] = employee[i + 1];
+
+            employee_count--;
+            cout << "Employee deleted successfully!" << endl;
+            cout << "Remaining employees: " << employee_count << endl;
+        }
+    } while (check == 0);
+}
+
+
 /*float salarycalc()
 {
     int id;
