@@ -164,6 +164,7 @@
             text.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
         }
     };
+    
 
     int main()
     {
@@ -1275,5 +1276,7 @@
             delete viewButton.mButton;
             delete viewSalaryButton.mButton;
             delete viewAttendButton.mButton;
+            delete deleteButtonOkay.mButton;
+
     }
  
