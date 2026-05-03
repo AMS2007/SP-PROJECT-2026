@@ -115,7 +115,6 @@ void deleteEmployee(int deleteID, int employee_count)
     do
     {
         cout << "Enter Employee ID to delete: ";
-        cin >> deleteID;
         int index = -1;
         for (int i = 0; i < employee_count; i++)
         {
@@ -139,7 +138,6 @@ void deleteEmployee(int deleteID, int employee_count)
 
             employee_count--;
             cout << "Employee deleted successfully!" << endl;
-            cout << "Remaining employees: " << employee_count << endl;
         }
     } while (check == 0);
 }
