@@ -509,6 +509,9 @@
         Textboxdata idBoxEmp(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your ID Number:");
         Textboxdata passwordBoxEmp(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
         Textboxdata employeeidadminpanel(font, Vector2f(300, 40), Vector2f(215, 350), "Enter The Employee ID:");
+        Textboxdata monthBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Month (1-12):");
+        Textboxdata presentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Days Present:");
+        Textboxdata absentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Days Absent:");
         employeeidadminpanel.isNumeric = true;
         // textbox end
 
@@ -1000,6 +1003,24 @@
                     }
                     // view attendance settings end 
                 }
+                // ================= EDIT ATTENDANCE PANEL =======================
+                else if (currentState == attendanceEditPanel) {
+                    // back settings
+                    backButton.mButton->getButtonStatus(window, event);
+                    if (backButton.mButton->isPressed) {
+                        if (currentState == attendanceEditPanel) {
+                            currentState = editEmployeePanel;
+                        }
+                    }
+                    else if (backButton.mButton->isHover) {
+                        backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                    }
+                    else
+                        backButton.mButton->button.setFillColor(Color::White);
+                    // back settings end
+
+
+                }
             }
             // Update
 
@@ -1107,6 +1128,13 @@
                     }
                 }
                 catch (...) {} // silently ignore if input isn't a number yet
+            }
+            else if (currentState == attendanceEditPanel) {
+                window.setTitle("EDIT ATTENDANCE");
+                window.draw(adminImageSprite);
+                window.draw(topBar);
+                window.draw(companyName);
+                monthBox.draw(window);
             }
             
             window.display();

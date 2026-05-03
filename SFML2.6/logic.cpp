@@ -104,6 +104,53 @@ void saveAll() {
         fAd << admin[i].username << " " << admin[i].password << "\n";
 }
 
+/*void manageAttendance(int employee_count)
+{
+    int id;
+    char choice;
+    int check = 0;
+
+    do
+    {
+        cout << "Enter Employee ID: ";
+        cin >> id;
+        for (int i = 0; i < employee_count; i++)
+        {
+            if (employee[i].id == id)
+            {
+                check = 1;
+                int month;
+                cout << "Enter Month (1-12): ";
+                cin >> month;
+                if (month < 1 || month > 12)
+                {
+                    cout << "Invalid Month!" << endl;
+                    return;
+                }
+                cout << "Add Days Present for Month " << month << ": ";
+                cin >> employee[i].attendance[month - 1].dayspresent;
+                cout << "Add Days Absent for Month " << month << ": ";
+                cin >> employee[i].attendance[month - 1].daysabsent;
+
+                cout << "Attendance Recorded!" << endl;
+                cout << employee[i].name << " has "
+                    << employee[i].attendance[month - 1].dayspresent
+                    << " days present and "
+                    << employee[i].attendance[month - 1].daysabsent
+                    << " days absent in month " << month << "." << endl;
+                cout << "Do you want to manage attendance for another employee? (y/n): ";
+                cin >> choice;
+                break;
+            }
+        }
+
+        if (check == 0)
+        {
+            cout << "Employee ID not found!" << endl;
+        }
+    } while (choice == 'y' || choice == 'Y' || check == 0);
+}
+*/
 /*float salarycalc()
 {
     int id;
