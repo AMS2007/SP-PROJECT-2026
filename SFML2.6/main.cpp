@@ -193,7 +193,7 @@
         RenderWindow window(VideoMode(width, height), "Employee Payroll Management System By 2202 GROUP");
 
         window.setFramerateLimit(60); // frame limit of window
-        window.setKeyRepeatEnabled(false); // one press each time
+        window.setKeyRepeatEnabled(true); // one press each time
 
         Font font; // blockletter font
         if (!font.loadFromFile("Fonts/Ranade-Regular.otf")) {
@@ -1128,4 +1128,3 @@
             delete viewAttendButton.mButton;
     }
  
-    // talata na3em w talata 5eshen w talata selk
