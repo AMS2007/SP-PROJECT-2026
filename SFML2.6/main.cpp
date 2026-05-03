@@ -140,7 +140,8 @@
     deleteButton,
     viewButton,
     viewSalaryButton,
-    viewAttendButton;
+    viewAttendButton,
+    deleteButtonOkay;
 
     struct TextData {
         sf::Text text;
@@ -475,6 +476,28 @@
         viewAttendButton.mButton->setButtonColor(viewAttendButton.defaultColor);
         // end attendance button details
 
+
+        // okay button deleted succefully details
+        deleteButtonOkay.label = "Okay";
+        deleteButtonOkay.defaultColor = Color(1, 46, 90);
+        deleteButtonOkay.hoverColor = Color(101, 192, 155);
+
+        Text deleteButtonTextOkay;
+        deleteButtonTextOkay.setFont(font);
+        deleteButtonTextOkay.setCharacterSize(36);
+        deleteButtonTextOkay.setString(deleteButtonOkay.label);
+        FloatRect deleteButtonText1 = deleteButtonTextOkay.getGlobalBounds();
+        Vector2f deleteButtonText1(vAttend_tb.width * 1.2f, vAttend_tb.height * 2.f);
+
+        deleteButtonOkay.mButton = new RectButton(font, vAttend_size, Vector2f(width / 2.f - vAttend_size.x / 2.f, height / 4.f - vAttend_size.y / 2.f + 300.f));
+
+        deleteButtonOkay.mButton->setButtonLabel(36, viewAttendButton.label);
+        deleteButtonOkay.mButton->setLabelColor(Color::White);
+        deleteButtonOkay.mButton->setButtonColor(viewAttendButton.defaultColor);
+
+        // okay button deleted succefully details END
+
+
         // menu admin and employee icons
         Texture adminTexture;
         adminTexture.loadFromFile("Images/employee_622846.png");
@@ -598,6 +621,8 @@
             );
         }
         
+        TextData Deletedsuccefully(font, "Employee Deleted Succefully",64,Color::Red, Vector2f(width / 4.f - 200.f, height / 4.f - 30.f));
+
         TextData* EmpName = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
             EmpName[i] = TextData(
@@ -926,8 +951,8 @@
                     deleteButton.mButton->getButtonStatus(window, event);
                     if (deleteButton.mButton->isPressed) {
                         deleteEmployee(stoi(employeeidadminpanel.input), employeecount);
-                        currentState = adminPanel;
                         employeeidadminpanel.clear();
+                        currentState = deletePanel;
                     }
                     else if (deleteButton.mButton->isHover) {
                         deleteButton.mButton->setButtonColor(deleteButton.hoverColor);
@@ -1138,7 +1163,13 @@
                 window.draw(companyName);
                 monthBox.draw(window);
             }
-            
+            else if (currentState == deletePanel) {
+                window.setTitle("DELETED SUCCEFULLY!");
+                window.draw(adminImageSprite);
+                window.draw(topBar);
+                window.draw(companyName);
+
+            }
             window.display();
         }
             delete adminButton.mButton;
