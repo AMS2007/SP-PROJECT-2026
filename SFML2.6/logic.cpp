@@ -104,53 +104,47 @@ void saveAll() {
         fAd << admin[i].username << " " << admin[i].password << "\n";
 }
 
-/*void manageAttendance(int employee_count)
+void deleteEmployee(int deleteID, int employee_count)
 {
-    int id;
-    char choice;
+    if (employee_count == 0)
+    {
+        cout << "No employees to delete!\n";
+        return;
+    }
     int check = 0;
-
     do
     {
-        cout << "Enter Employee ID: ";
-        cin >> id;
+        cout << "Enter Employee ID to delete: ";
+        cin >> deleteID;
+        int index = -1;
         for (int i = 0; i < employee_count; i++)
         {
-            if (employee[i].id == id)
+            if (employee[i].id == deleteID)
             {
+                index = i;
                 check = 1;
-                int month;
-                cout << "Enter Month (1-12): ";
-                cin >> month;
-                if (month < 1 || month > 12)
-                {
-                    cout << "Invalid Month!" << endl;
-                    return;
-                }
-                cout << "Add Days Present for Month " << month << ": ";
-                cin >> employee[i].attendance[month - 1].dayspresent;
-                cout << "Add Days Absent for Month " << month << ": ";
-                cin >> employee[i].attendance[month - 1].daysabsent;
-
-                cout << "Attendance Recorded!" << endl;
-                cout << employee[i].name << " has "
-                    << employee[i].attendance[month - 1].dayspresent
-                    << " days present and "
-                    << employee[i].attendance[month - 1].daysabsent
-                    << " days absent in month " << month << "." << endl;
-                cout << "Do you want to manage attendance for another employee? (y/n): ";
-                cin >> choice;
                 break;
             }
         }
 
-        if (check == 0)
+        if (index == -1)
         {
-            cout << "Employee ID not found!" << endl;
+            cout << "Employee ID not found!\n";
+            check = 0;
         }
-    } while (choice == 'y' || choice == 'Y' || check == 0);
+        else
+        {
+            for (int i = index; i < employee_count - 1; i++)
+                employee[i] = employee[i + 1];
+
+            employee_count--;
+            cout << "Employee deleted successfully!" << endl;
+            cout << "Remaining employees: " << employee_count << endl;
+        }
+    } while (check == 0);
 }
-*/
+
+
 /*float salarycalc()
 {
     int id;

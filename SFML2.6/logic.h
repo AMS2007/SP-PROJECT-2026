@@ -48,6 +48,7 @@ void addEmployee(const string& name, const string& password, long long salary, i
 void manageAttendance(int id, int daysPresent, int daysAbsent);
 double calcSalary(int id, double overtimeHrs, double overtimeRate, double bonus, double salaryDeduction);
 void saveAll();
+void deleteEmployee(int deleteID, int employee_count);
 //float salarycalc();
 //void  updateEmployee();
 //void  deleteEmployee();

@@ -11,7 +11,7 @@
     #include <SFML/RectButton.hpp>
     using namespace sf; 
     using namespace std;
-   
+
 
      // panels
     enum GameState {
@@ -921,11 +921,13 @@
                         salaryButton.mButton->setLabelColor(Color::White);
                     }
                     // calc salary settings end
-
+                   
                     // delete employee settings
                     deleteButton.mButton->getButtonStatus(window, event);
                     if (deleteButton.mButton->isPressed) {
-                        currentState = deletePanel;
+                        deleteEmployee(stoi(employeeidadminpanel.input), employeecount);
+                        currentState = adminPanel;
+                        employeeidadminpanel.clear();
                     }
                     else if (deleteButton.mButton->isHover) {
                         deleteButton.mButton->setButtonColor(deleteButton.hoverColor);
