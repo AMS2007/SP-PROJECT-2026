@@ -176,12 +176,15 @@
         employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     201006034700,        80000,  };
         employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              201006034720,        25000,  };
         employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      201102446612,        16700,  };
+        for (int i = 0; i < employeecount; i++) {
+            employee[i].photo.loadFromFile("Images/user.jpg");
+        }
         employee[0].photo.loadFromFile("Images/ahmed.png");
         employee[1].photo.loadFromFile("Images/ebram.png");
         employee[2].photo.loadFromFile("Images/mona.png");
         employee[3].photo.loadFromFile("Images/steven.png");
         employee[4].photo.loadFromFile("Images/marwan.png");
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < employeecount; i++)
             {
                 employee[i].profilePicture.setTexture(employee[i].photo);
                 employee[i].profilePicture.setOrigin(
@@ -644,6 +647,8 @@
         
         TextData Deletedsuccessfully(font, "Employee Deleted Successfully",64,Color::Red, Vector2f(width / 2.f, height / 2.f));
         Deletedsuccessfully.centerOrigin();
+        TextData Recorded(font, "Attendance Recorded Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
+        Recorded.centerOrigin();
 
         TextData* EmpName = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
@@ -664,6 +669,16 @@
                 24,
                 Color::Black,
                 Vector2f(Vector2f(width / 4.f * 3.f, height / 4.f + 250.f))
+            );
+        }
+        TextData* EmpPosition = new TextData[employeecount];
+        for (int i = 0; i < employeecount; i++) {
+            EmpPosition[i] = TextData(
+                font,
+                employee[i].position, // reuse template text
+                36,
+                Color::Black,
+                Vector2f(width / 2.f - 50.f, height / 4.f - 60.f + i * 140.f) // staggered y positions
             );
         }
         TextData* EmpPosition = new TextData[employeecount];
@@ -1117,6 +1132,7 @@
                     deleteButtonOkay.mButton->getButtonStatus(window, event);
                     if (deleteButtonOkay.mButton->isPressed) {
                         currentState = adminPanel;
+                        employeeidadminpanel.clear();
                     }
                     else if (deleteButtonOkay.mButton->isHover) {
                         deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
@@ -1128,6 +1144,21 @@
                         deleteButtonOkay.mButton->setLabelColor(Color::White);
                     }
                     // okay button settings end
+                }
+                else if (currentState == attendanceOkPanel) {
+                    deleteButtonOkay.mButton->getButtonStatus(window, event);
+                    if (deleteButtonOkay.mButton->isPressed) {
+                        currentState = adminPanel;
+                    }
+                    else if (deleteButtonOkay.mButton->isHover) {
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                    {
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color::White);
+                    }
                 }
             }
             // Update
@@ -1258,6 +1289,14 @@
                 deleteButtonOkay.mButton->draw(window);
                 window.draw(Deletedsuccessfully.text);
 
+            }
+            else if (currentState == attendanceOkPanel) {
+                window.setTitle("RECORDED SUCCESSFULLY!");
+                window.draw(adminImageSprite);
+                window.draw(topBar);
+                window.draw(companyName);
+                deleteButtonOkay.mButton->draw(window);
+                window.draw(Recorded.text);
             }
             window.display();
         }
