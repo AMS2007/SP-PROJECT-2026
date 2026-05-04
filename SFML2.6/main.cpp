@@ -30,8 +30,7 @@ enum GameState {
     salaryPanel,
     attendancePanel,
     attendanceOkPanel,
-    netSalaryPanel,
-    salaryViewPanel
+    salaryViewPanel,
     netSalaryPanel,
     attendanceViewPanel,
 };
