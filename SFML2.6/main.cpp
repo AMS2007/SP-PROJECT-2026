@@ -665,7 +665,7 @@ int main()
             Vector2f(width / 4.f - 200.f - 50, height / 4.f - 100)
         );
     }
-    TextData PhoneNumberText(font, "Phone Number:", 20, Color::Black, Vector2f(width / 4.f * 3.f, height / 4.f + 300.f));
+    TextData PhoneNumberText(font, "Phone Number :", 20, Color::Black, Vector2f(width / 4.f * 3.f - 50, height / 4.f + 250.f));
 
     TextData* EmpPhone = new TextData[employeecount];
     for (int i = 0; i < employeecount; i++) {
@@ -698,7 +698,6 @@ int main()
             Vector2f(width / 4.f * 3.f + 5, height / 4.f + 370.f) // staggered y positions
         );
     }
-    
 
     // seed test data
     admin[0] = { "Balona", "123" };
