@@ -32,6 +32,8 @@ enum GameState {
     attendanceOkPanel,
     netSalaryPanel,
     salaryViewPanel
+    netSalaryPanel,
+    attendanceViewPanel,
 };
 
 
@@ -695,6 +697,10 @@ int main()
             Vector2f(width / 4.f - 200.f - 47, height / 4.f - 14.f) // staggered y positions
         );
     }
+    TextData daysPresent(font, "Number Of Present Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f , height / 4.f + 70));
+    daysPresent.centerOrigin();
+    TextData daysAbsent(font, "Number Of Absent Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f, height / 4.f + 120.f));
+    daysAbsent.centerOrigin();
     TextData AgeText(font, "Age :", 20, Color::Black, Vector2f(width / 4.f * 3.f - 50, height / 4.f + 370.f));
     TextData* EmpAge = new TextData[employeecount];
     for (int i = 0; i < employeecount; i++) {
@@ -1174,6 +1180,64 @@ int main()
                     deleteButtonOkay.mButton->setLabelColor(Color::White);
                 }
             }
+            // ======================== VIEW ATTENDANCE AS EMPLOYEE======================
+            else if (currentState == attendancePanel) {
+                monthBox.handleEvent(event, window);
+                enterOkButton.mButton->getButtonStatus(window, event);
+                if (enterOkButton.mButton->isPressed) {
+                    Showerror = false;
+                    if (monthBox.input.empty() ) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
+                        emptyloginbox.setString("Fields cannot be empty!");
+                    }
+                    else {
+                        try {
+                            int month = stoi(monthBox.input);
+                            if (month < 1 || month > 12) {
+                                Showerror = true;
+                                emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
+                                emptyloginbox.setString("Invalid Month! Enter 1-12");
+                                monthBox.clear();
+                            }
+                            else {
+                                currentState = attendanceViewPanel;
+                            }
+                        }
+                        catch (...) {
+                            Showerror = true;
+                            emptyloginbox.setString("Month must be a number!");
+                        }
+                    }
+                }
+                else if (enterOkButton.mButton->isHover) {
+                    enterOkButton.mButton->setButtonColor(enterOkButton.hoverColor);
+                    enterOkButton.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else
+                {
+                    enterOkButton.mButton->setButtonColor(enterOkButton.defaultColor);
+                    enterOkButton.mButton->setLabelColor(Color::White);
+                }
+            }
+           //===========================attendanceViewPanel==============================
+            else if (currentState == attendanceViewPanel) {
+                deleteButtonOkay.mButton->getButtonStatus(window, event);
+                if (deleteButtonOkay.mButton->isPressed) {
+                    if (currentState == attendanceViewPanel) {
+                        currentState = employeePanel;
+                    }
+                    else if (deleteButtonOkay.mButton->isHover) {
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                    deleteButtonOkay.mButton->setLabelColor(Color::White);
+                    // back settings end
+                   
+                }
+            }
             // ======================== CALCULATE SALARY PANEL ==========================
             else if (currentState == salaryCalcPanel) {
                 basicSalBox.handleEvent(event, window);
@@ -1439,6 +1503,23 @@ else if (currentState == attendanceEditPanel) {
     }
     enterOkButton.mButton->draw(window);
 }
+else if (currentState == attendanceViewPanel) {
+    window.setTitle("View Your Attendance");
+    window.draw(adminImageSprite);
+    window.draw(topBar);
+    window.draw(companyName);
+    monthBox.draw(window);
+    deleteButtonOkay.mButton->draw(window);
+    for (int i = 0; i < employeecount; i++) {
+        if (stoi(idBoxEmp.input) == employee[i].id) {
+            daysPresent.text.setString("Days Present : " + to_string(employee[i].attendance.dayspresent));
+            window.draw(daysPresent.text);
+            daysAbsent.text.setString("Days Absent : " + to_string(employee[i].attendance.daysabsent));
+            window.draw(daysAbsent.text);
+
+        }
+    }
+    }
 else if (currentState == deletePanel) {
     window.setTitle("DELETED SUCCESSFULLY!");
     window.draw(adminImageSprite);
@@ -1511,6 +1592,18 @@ else if (currentState == salaryCalcPanel) {
     deductionBox.draw(window);
     enterOkButton.mButton->draw(window);
     backButton.mButton->draw(window);
+}
+else if (currentState == attendancePanel) {
+    window.setTitle("View Attendance Records");
+    window.draw(adminImageSprite);
+    window.draw(topBar);
+    window.draw(companyName);
+    monthBox.draw(window);
+    if (Showerror == true) {
+        window.draw(emptyloginbox);
+    }
+    enterOkButton.mButton->draw(window);
+    //Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
 }
 else if (currentState == netSalaryPanel) {
     window.setTitle("NET SALARY");
