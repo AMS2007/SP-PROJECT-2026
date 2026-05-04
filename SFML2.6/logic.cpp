@@ -143,6 +143,7 @@ void deleteEmployee(int deleteID, int& employee_count)
 }
 
 
+
 /*float salarycalc()
 {
     int id;

@@ -39,7 +39,6 @@
         Text displayText;
         string input;
         bool isFocused = false;
-        bool isNumeric = false;
 
         Color defaultOutline = Color::Black;
         Color focusedOutline = Color(1, 46, 90);
@@ -86,7 +85,7 @@
                         input.pop_back();
                 }
                 else if (event.text.unicode < 128) {
-                    if (isNumeric && (event.text.unicode < '0' || event.text.unicode > '9'))
+                    if ((event.text.unicode < '0' || event.text.unicode > '9'))
                         return; // block non-digits for numeric boxes
                     string test = input + static_cast<char>(event.text.unicode);
                     displayText.setString(test);
@@ -176,15 +175,13 @@
         employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     201006034700,        80000,  };
         employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              201006034720,        25000,  };
         employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      201102446612,        16700,  };
-        for (int i = 0; i < employeecount; i++) {
-            employee[i].photo.loadFromFile("Images/user.jpg");
-        }
+ 
         employee[0].photo.loadFromFile("Images/ahmed.png");
         employee[1].photo.loadFromFile("Images/ebram.png");
         employee[2].photo.loadFromFile("Images/mona.png");
         employee[3].photo.loadFromFile("Images/steven.png");
         employee[4].photo.loadFromFile("Images/marwan.png");
-            for (int i = 0; i < employeecount; i++)
+            for (int i = 0; i < 5; i++)
             {
                 employee[i].profilePicture.setTexture(employee[i].photo);
                 employee[i].profilePicture.setOrigin(
@@ -559,7 +556,11 @@
         Textboxdata monthBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Month (1-12):");
         Textboxdata presentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Days Present:");
         Textboxdata absentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Days Absent:");
-        employeeidadminpanel.isNumeric = true;
+        Textboxdata basicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Basic Salary:");
+        Textboxdata taxBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+100.f), "Enter Tax:");
+        Textboxdata bonusBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Bonus:");
+        Textboxdata overtimeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Enter Overtime Hours:");
+
         // textbox end
 
         // employee login image 
@@ -1145,6 +1146,7 @@
                     }
                     // okay button settings end
                 }
+                // ========================= ATTENDANCE RECORDED PANEL ========================
                 else if (currentState == attendanceOkPanel) {
                     deleteButtonOkay.mButton->getButtonStatus(window, event);
                     if (deleteButtonOkay.mButton->isPressed) {
@@ -1159,6 +1161,13 @@
                         deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
                         deleteButtonOkay.mButton->setLabelColor(Color::White);
                     }
+                }
+                // ======================== CALCULATE SALARY PANEL ==========================
+                else if (currentState == salaryCalcPanel) {
+                    basicSalBox.handleEvent(event, window);
+                    taxBox.handleEvent(event, window);
+                    bonusBox.handleEvent(event, window);
+                    overtimeBox.handleEvent(event, window);
                 }
             }
             // Update
@@ -1297,6 +1306,16 @@
                 window.draw(companyName);
                 deleteButtonOkay.mButton->draw(window);
                 window.draw(Recorded.text);
+            }
+            else if (currentState == salaryCalcPanel) {
+                window.setTitle("CALCULATE SALARY");
+                window.draw(adminImageSprite);
+                window.draw(topBar);
+                window.draw(companyName);
+                basicSalBox.draw(window);
+                taxBox.draw(window);
+                bonusBox.draw(window);
+                overtimeBox.draw(window);
             }
             window.display();
         }
