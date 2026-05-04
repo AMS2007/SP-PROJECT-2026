@@ -654,7 +654,7 @@ int main()
     Recorded.centerOrigin();
     TextData Netsal(font, "Net Salary:", 36, Color(1, 46, 90), Vector2f(width / 2.f - 200.f, height / 2.f));
     Netsal.centerOrigin();
-
+    TextData basicsal(font, "Basic Salary:", 36, Color(1, 46, 90), Vector2f(width / 4.f * 3.f, height / 4.f));
     TextData* EmpName = new TextData[employeecount];
     for (int i = 0; i < employeecount; i++) {
         EmpName[i] = TextData(
@@ -698,17 +698,7 @@ int main()
             Vector2f(width / 4.f * 3.f + 5, height / 4.f + 370.f) // staggered y positions
         );
     }
-    TextData* EmpAge = new TextData[employeecount];
-    for (int i = 0; i < employeecount; i++) {
-        EmpAge[i] = TextData(
-            font,
-            to_string(employee[i].age), // reuse template text
-            20,
-            Color::Black,
-            Vector2f(width / 4.f * 3.f + 5, height / 4.f + 370.f) // staggered y positions
-        );
-    }
-
+    
 
     // seed test data
     admin[0] = { "Balona", "123" };
@@ -1462,6 +1452,7 @@ else if (currentState == netSalaryPanel) {
     window.draw(Netsal.text);
     deleteButtonOkay.mButton->draw(window);
 }
+else if (salaryPanel==)
 
 
 window.display();
