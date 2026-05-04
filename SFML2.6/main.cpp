@@ -681,11 +681,11 @@
                 Vector2f(width / 2.f - 50.f, height / 4.f - 60.f + i * 140.f) // staggered y positions
             );
         }
-        TextData* EmpPosition = new TextData[employeecount];
+        TextData* EmpAge = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
-            EmpPosition[i] = TextData(
+            EmpAge[i] = TextData(
                 font,
-                employee[i].position, // reuse template text
+                to_string(employee[i].age), // reuse template text
                 36,
                 Color::Black,
                 Vector2f(width / 2.f - 50.f, height / 4.f - 60.f + i * 140.f) // staggered y positions
