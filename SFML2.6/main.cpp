@@ -85,8 +85,6 @@
                         input.pop_back();
                 }
                 else if (event.text.unicode < 128) {
-                    if ((event.text.unicode < '0' || event.text.unicode > '9'))
-                        return; // block non-digits for numeric boxes
                     string test = input + static_cast<char>(event.text.unicode);
                     displayText.setString(test);
                     if (displayText.getGlobalBounds().width < box.getSize().x - 10)
