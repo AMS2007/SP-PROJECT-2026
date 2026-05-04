@@ -187,7 +187,7 @@
                     employee[i].profilePicture.getLocalBounds().width / 2.f,
                     employee[i].profilePicture.getLocalBounds().height / 2.f
                 );
-                employee[i].profilePicture.setPosition(Vector2f(width / 4.f * 3.f, height / 4.f - 20.f));
+                employee[i].profilePicture.setPosition(Vector2f(width / 4.f * 3.f + 45, height / 4.f + 40.f));
                 employee[i].profilePicture.setScale(0.37f, 0.37f);
             }
         employeecount = 5;
@@ -636,14 +636,15 @@
 
         // information employee
         //TextData Emp(font, "Employee ID: \n \nFull Name: \n \nAge: \n \nPosition: \n \nPhone No.: \n \nBasic Salary: ", 36, Color(1, 46, 90), Vector2f(width/2.f-50.f, height/4.f-60.f));
+        TextData IDText(font, "ID :", 20, Color::Black, Vector2f(width / 4.f * 3.f - 50, height / 4.f + 310.f));
         TextData* EmpID = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
             EmpID[i] = TextData(
                 font,
                 to_string(employee[i].id), // reuse template text
-                36,
+                20,
                 Color::Black,
-                Vector2f(width/4.f*3.f, height/4.f*3.f) // staggered y positions
+                Vector2f(width / 4.f * 3.f -5.f, height / 4.f + 310.f) // staggered y positions
             );
         }
         
@@ -661,7 +662,7 @@
                 employee[i].name, // reuse template text
                 64,
                 Color(1, 46, 90),
-                Vector2f(width / 4.f - 200.f, height / 4.f - 30.f)
+                Vector2f(width / 4.f - 200.f - 50, height / 4.f - 100)
             );
         }
         TextData PhoneNumberText(font, "Phone Number:", 20, Color::Black, Vector2f(width / 4.f * 3.f, height / 4.f + 300.f));
@@ -671,9 +672,9 @@
             EmpPhone[i] = TextData(
                 font,
                 to_string(employee[i].phone), // reuse template text
-                24,
+                20,
                 Color::Black,
-                Vector2f(Vector2f(width / 4.f * 3.f, height / 4.f + 250.f))
+                Vector2f(Vector2f(width / 4.f * 3.f + 125, height / 4.f + 250.f))
             );
         }
         TextData* EmpPosition = new TextData[employeecount];
@@ -681,19 +682,20 @@
             EmpPosition[i] = TextData(
                 font,
                 employee[i].position, // reuse template text
-                36,
+                26,
                 Color::Black,
-                Vector2f(width / 2.f - 50.f, height / 4.f - 60.f + i * 140.f) // staggered y positions
+                Vector2f(width / 4.f - 200.f - 47, height / 4.f - 14.f ) // staggered y positions
             );
         }
+        TextData AgeText(font, "Age :", 20, Color::Black, Vector2f(width / 4.f * 3.f - 50, height / 4.f + 370.f));
         TextData* EmpAge = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
             EmpAge[i] = TextData(
                 font,
                 to_string(employee[i].age), // reuse template text
-                36,
+                20,
                 Color::Black,
-                Vector2f(width / 2.f - 50.f, height / 4.f - 60.f + i * 140.f) // staggered y positions
+                Vector2f(width / 4.f * 3.f+ 5, height / 4.f + 370.f) // staggered y positions
             );
         }
 
@@ -1148,7 +1150,7 @@
                     }
                     // okay button settings end
                 }
-                // ========================= ATTENDANCE RECORDED PANEL ========================
+                // ========================= ATTENDANCE RECORDED PANEL =======================
                 else if (currentState == attendanceOkPanel) {
                     deleteButtonOkay.mButton->getButtonStatus(window, event);
                     if (deleteButtonOkay.mButton->isPressed) {
@@ -1246,6 +1248,25 @@
                     // okay button settings end
                 }
             }
+                }
+                //===================================================================
+                    if (backButton.mButton->isPressed) {
+                        if (currentState == viewPanel) {
+                            backButton.mButton->getButtonStatus(window, event);
+                            currentState = employeePanel;
+                        }
+                    }
+                logoutButton.mButton->getButtonStatus(window, event);
+                if (logoutButton.mButton->isPressed) {
+                    currentState = Menu;
+                }
+                else if (logoutButton.mButton->isHover) {
+                    logoutButton.mButton->setLabelColor(Color::Red);
+                }
+                else {
+                    logoutButton.mButton->setLabelColor(Color::White);
+                }
+            }
             // Update
 
             // Draw
@@ -1338,15 +1359,18 @@
                 salaryButton.mButton->draw(window);
                 deleteButton.mButton->draw(window);
                  window.draw(PhoneNumberText.text);
+                 window.draw(IDText.text);
+                 window.draw(AgeText.text);
                 try {
                     int searchID = stoi(employeeidadminpanel.input);
                     for (int i = 0; i < employeecount; i++) {
                         if (searchID == employee[i].id) {              // draw field labels
+                            window.draw(EmpAge[i].text);
                             window.draw(EmpName[i].text);       // draw name
                             window.draw(EmpID[i].text);         // draw ID
                             window.draw(EmpPhone[i].text);  
                             // draw phone
-                           // window.draw(EmpPosition[i].text);   // draw position
+                            window.draw(EmpPosition[i].text);   // draw position
                             window.draw(employee[i].profilePicture);
                         }
                     }
@@ -1387,6 +1411,7 @@
                 window.setTitle("View Your Information");
                 window.draw(adminImageSprite);
                 window.draw(topBar);
+                backButton.mButton->draw(window);
                 window.draw(companyName);
                 try {
                     int searchEmpID = stoi(idBoxEmp.input);
@@ -1395,6 +1420,12 @@
                             window.draw(EmpName[i].text);       // draw name
                             window.draw(EmpID[i].text);         // draw ID
                             window.draw(EmpPhone[i].text);
+                            window.draw(EmpPosition[i].text);
+                            window.draw(PhoneNumberText.text);
+                            window.draw(IDText.text);
+                            window.draw(EmpAge[i].text);
+                            window.draw(AgeText.text);
+                            window.draw(EmpPosition[i].text);   // draw position
                             // draw phone
                            // window.draw(EmpPosition[i].text);   // draw position
                             window.draw(employee[i].profilePicture);
