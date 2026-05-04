@@ -1168,12 +1168,12 @@
                     overtimeBox.handleEvent(event, window);
                 }
                 //===================================================================
-                else if (currentState == viewPanel) {
-                    backButton.mButton->getButtonStatus(window, event);
                     if (backButton.mButton->isPressed) {
-                        currentState = employeePanel;
+                        if (currentState == viewPanel) {
+                            backButton.mButton->getButtonStatus(window, event);
+                            currentState = employeePanel;
+                        }
                     }
-}
                 logoutButton.mButton->getButtonStatus(window, event);
                 if (logoutButton.mButton->isPressed) {
                     currentState = Menu;
