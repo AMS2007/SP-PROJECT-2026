@@ -69,23 +69,6 @@ void manageAttendance(int id, int daysPresent, int daysAbsent) {
     }
 }
 
-double calcSalary(int id, double overtimeHrs, double overtimeRate,
-    double bonus, double salaryDeduction) {
-    for (int i = 0; i < employeecount; i++) {
-        if (employee[i].id == id) {
-            double taxfree = employee[i].basicsalary * 0.86;
-            double net = taxfree + (overtimeHrs * overtimeRate)
-                + bonus
-                - (employee[i].attendance.daysabsent * salaryDeduction);
-            employee[i].tax = employee[i].basicsalary * 0.14;
-            employee[i].netsalary = net;
-            saveAll();
-            return net;
-        }
-    }
-    return -1;
-}
-
 void saveAll() {
     ofstream fE("employees.txt");
     for (int i = 0; i < employeecount; i++)
@@ -142,7 +125,36 @@ void deleteEmployee(int deleteID, int& employee_count)
     } while (check == 0);
 }
 
+float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
+    const string& overtimeInput, int month, const string& deductionInput)
+{
+    for (int i = 0; i < employeecount; i++)
+    {
+        if (employee[i].id == id)
+        {
+            float basicsalary = stof(basicSalInput);
+            float bonus = stof(bonusInput);
+            float overtime = stof(overtimeInput);
+            float overtimerate = 50.f;  // set your overtime rate here
+            float salarydeduction = stof(deductionInput); // deduction per absent day
 
+            int daysAbsent = employee[i].attendance.daysabsent;
+
+            float taxfree = basicsalary - (basicsalary * 0.14f);
+            float salary = taxfree + (overtime * overtimerate)
+                + bonus - (daysAbsent * salarydeduction);
+
+            employee[i].tax = basicsalary * 0.14f;
+            employee[i].netsalary = salary;
+            employee[i].bonus = bonus;
+            employee[i].overtimehrs = overtime;
+
+            saveAll();
+            return salary;
+        }
+    }
+    return -1; // employee not found
+}
 
 /*float salarycalc()
 {

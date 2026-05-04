@@ -29,7 +29,8 @@
         viewPanel,
         salaryPanel,
         attendancePanel,
-        attendanceOkPanel
+        attendanceOkPanel,
+        netSalaryPanel
     };
 
 
@@ -190,6 +191,7 @@
                 employee[i].profilePicture.setScale(0.37f, 0.37f);
             }
         employeecount = 5;
+        float calculatedNetSalary = 0.f;
         GameState currentState = Menu; // screen when you open window
 
         RenderWindow window(VideoMode(width, height), "Employee Payroll Management System By 2202 GROUP");
@@ -509,7 +511,7 @@
         FloatRect enterA_tb = enterA_text.getGlobalBounds();
         Vector2f enterA_size(enterA_tb.width * 1.5f, enterA_tb.height * 2.f);
 
-        enterOkButton.mButton = new RectButton(font, enterA_size, Vector2f(width / 2.f - enterA_size.x / 2.f, height / 4.f * 3.f - enterA_size.y / 2.f));
+        enterOkButton.mButton = new RectButton(font, enterA_size, Vector2f(width / 2.f - enterA_size.x / 2.f, height / 4.f * 3.f - enterA_size.y / 2.f + 100.f));
 
         enterOkButton.mButton->setButtonLabel(24, enterOkButton.label);
         enterOkButton.mButton->setLabelColor(Color::White);
@@ -558,6 +560,7 @@
         Textboxdata taxBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+100.f), "Enter Tax:");
         Textboxdata bonusBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Bonus:");
         Textboxdata overtimeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Enter Overtime Hours:");
+        Textboxdata deductionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 400.f), "Enter Salary Deduction (per day absent):");
 
         // textbox end
 
@@ -648,6 +651,8 @@
         Deletedsuccessfully.centerOrigin();
         TextData Recorded(font, "Attendance Recorded Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
         Recorded.centerOrigin();
+        TextData Netsal(font, "Net Salary:", 36, Color(1, 46, 90), Vector2f(width / 2.f - 200.f, height / 2.f));
+        Netsal.centerOrigin();
 
         TextData* EmpName = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
@@ -660,6 +665,7 @@
             );
         }
         TextData PhoneNumberText(font, "Phone Number:", 20, Color::Black, Vector2f(width / 4.f * 3.f, height / 4.f + 300.f));
+
         TextData* EmpPhone = new TextData[employeecount];
         for (int i = 0; i < employeecount; i++) {
             EmpPhone[i] = TextData(
@@ -1164,11 +1170,85 @@
                     taxBox.handleEvent(event, window);
                     bonusBox.handleEvent(event, window);
                     overtimeBox.handleEvent(event, window);
+                    deductionBox.handleEvent(event, window);
+
+                    enterOkButton.mButton->getButtonStatus(window, event);
+                    if (enterOkButton.mButton->isPressed) {
+                        Showerror = false;
+                        if (basicSalBox.input.empty() || bonusBox.input.empty() || overtimeBox.input.empty()) {
+                            Showerror = true;
+                            emptyloginbox.setString("Fields cannot be empty!");
+                        }
+                        else {
+                            try {
+                                int empID = stoi(employeeidadminpanel.input);
+                                int month = stoi(monthBox.input);
+                                float net = calcSalary(empID, basicSalBox.input,
+                                    bonusBox.input, overtimeBox.input, month, deductionBox.input);
+                                if (net == -1) {
+                                    Showerror = true;
+                                    emptyloginbox.setString("Employee not found!");
+                                }
+                                else {
+                                    calculatedNetSalary = net;
+                                    currentState = netSalaryPanel;
+                                }
+                            }
+                            catch (...) {
+                                Showerror = true;
+                                emptyloginbox.setString("Invalid input!");
+                            }
+                        }
+                        
+                    }
+                    else if (enterOkButton.mButton->isHover) {
+                        enterOkButton.mButton->setButtonColor(enterOkButton.hoverColor);
+                        enterOkButton.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                    {
+                        enterOkButton.mButton->setButtonColor(enterOkButton.defaultColor);
+                        enterOkButton.mButton->setLabelColor(Color::White);
+
+                    }
+                    // back settings
+                    backButton.mButton->getButtonStatus(window, event);
+                    if (backButton.mButton->isPressed) {
+                        if (currentState == salaryCalcPanel) {
+                            currentState = editEmployeePanel;
+                        }
+                    }
+                    else if (backButton.mButton->isHover) {
+                        backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                    }
+                    else
+                        backButton.mButton->button.setFillColor(Color::White);
+                    // back settings end
+                    
+                }
+                // ============ NET SALARY PANEL ================
+                else if (currentState == netSalaryPanel) {
+                    // okay button settings
+                    deleteButtonOkay.mButton->getButtonStatus(window, event);
+                    if (deleteButtonOkay.mButton->isPressed) {
+                        currentState = adminPanel;
+                        employeeidadminpanel.clear();
+                    }
+                    else if (deleteButtonOkay.mButton->isHover) {
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                    {
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color::White);
+                    }
+                    // okay button settings end
                 }
             }
             // Update
 
-                   // Draw
+            // Draw
             window.clear(Color::White); // white background
 
             if (currentState == Menu)
@@ -1332,6 +1412,22 @@
                 taxBox.draw(window);
                 bonusBox.draw(window);
                 overtimeBox.draw(window);
+                deductionBox.draw(window);
+                enterOkButton.mButton->draw(window);
+                backButton.mButton->draw(window);
+            }
+            else if (currentState == netSalaryPanel) {
+                window.setTitle("NET SALARY");
+                window.draw(adminImageSprite);
+                window.draw(topBar);
+                window.draw(companyName);
+                Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
+                window.draw(Netsal.text);
+                deleteButtonOkay.mButton->draw(window);
+
+
+
+
             }
             window.display();
         }
@@ -1351,6 +1447,7 @@
             delete viewSalaryButton.mButton;
             delete viewAttendButton.mButton;
             delete deleteButtonOkay.mButton;
+            delete enterOkButton.mButton;
 
     }
  

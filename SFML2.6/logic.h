@@ -46,7 +46,8 @@ bool validateAdmin(const string& username, const string& password);
 bool validateEmployee(int id, const string& password, int& foundIndex);
 void addEmployee(const string& name, const string& password, long long salary, int age, long long phone);
 void manageAttendance(int id, int daysPresent, int daysAbsent);
-double calcSalary(int id, double overtimeHrs, double overtimeRate, double bonus, double salaryDeduction);
+float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
+    const string& overtimeInput, int month, const string& deductionInput);
 void saveAll();
 void deleteEmployee(int deleteID, int& employeecount);
 //float salarycalc();
