@@ -838,8 +838,6 @@
                                 int foundIndex = -1;
                                 if (validateEmployee(stoi(idBoxEmp.input), passwordBoxEmp.input, foundIndex)){                                loggedInEmployeeIndex = foundIndex;
                                     currentState = employeePanel;
-                                    idBoxEmp.clear();
-                                    passwordBoxEmp.clear();
                                 }
                                 else {
                                     Showerror = true;
@@ -1306,6 +1304,26 @@
                 window.draw(companyName);
                 deleteButtonOkay.mButton->draw(window);
                 window.draw(Recorded.text);
+            }
+            else if (currentState == viewPanel) {
+                window.setTitle("View Your Information");
+                window.draw(adminImageSprite);
+                window.draw(topBar);
+                window.draw(companyName);
+                try {
+                    int searchEmpID = stoi(idBoxEmp.input);
+                    for (int i = 0; i < employeecount; i++) {
+                        if (searchEmpID == employee[i].id) {              // draw field labels
+                            window.draw(EmpName[i].text);       // draw name
+                            window.draw(EmpID[i].text);         // draw ID
+                            window.draw(EmpPhone[i].text);
+                            // draw phone
+                           // window.draw(EmpPosition[i].text);   // draw position
+                            window.draw(employee[i].profilePicture);
+                        }
+                    }
+                }
+                catch (...) {} // silently ignore if input isn't a number yet
             }
             else if (currentState == salaryCalcPanel) {
                 window.setTitle("CALCULATE SALARY");
