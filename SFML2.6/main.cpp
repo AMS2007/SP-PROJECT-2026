@@ -706,7 +706,7 @@ int main()
             Vector2f(width / 4.f - 200.f - 47, height / 4.f - 14.f) // staggered y positions
         );
     }
-    TextData IdNewEmployee(font, "New Employee ID IS : ", 30, Color::Black, Vector2f(width / 2.f- 100, height / 2.f + 100));
+    TextData IdNewEmployee(font, "New Employee ID IS : ", 30, Color::Black, Vector2f(width / 2.f - 180, height / 2.f + 100));
     TextData daysPresent(font, "Number Of Present Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f , height / 4.f + 70));
     daysPresent.centerOrigin(); 
     TextData daysAbsent(font, "Number Of Absent Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f, height / 4.f + 120.f));
