@@ -34,6 +34,7 @@ enum GameState {
     netSalaryPanel,
     attendanceViewPanel,
     addedsuccessfully,
+    zerotrailsleft,
 };
 
 
@@ -144,7 +145,8 @@ viewButton,
 viewSalaryButton,
 viewAttendButton,
 deleteButtonOkay,
-enterOkButton;
+enterOkButton,
+exitAppButton;
 
 struct TextData {
     sf::Text text;
@@ -258,6 +260,11 @@ int main()
     emptyloginbox.setPosition(1050, 500);
     emptyloginbox.setString("Fields are empty");
 
+
+    // exit app button if trails reached 3 
+    exitAppButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
+    exitAppButton.mButton->setButtonLabel(24, exitAppButton.label);
+    exitAppButton.mButton->setButtonLabel(24, "EXIT");
 
 
     // exit button details
@@ -740,6 +747,7 @@ int main()
     admin[1].profilePicture.setScale(0.32f, 0.32f);
     admincount = 2;
     int loggedInEmployeeIndex = -1;
+    int exitcounter = 0;
     // ================================ GAME LOOP ============================
     while (window.isOpen())
     {
@@ -839,6 +847,10 @@ int main()
                         else {
                             Showerror = true;
                             emptyloginbox.setString("Wrong ID or Password!");
+                            exitcounter++;
+                            if (exitcounter == 3) {
+                                currentState = zerotrailsleft;
+                            }
                         }
                     }
                     else if (loginButton.mButton->isHover) {
@@ -1491,6 +1503,19 @@ else if (currentState == adminLogin) {
     loginButton.mButton->draw(window);
     if (Showerror == true)
         window.draw(emptyloginbox);
+}
+
+else if (currentState == zerotrailsleft) {
+    topBar.setFillColor(Color :: Red);
+    window.setTitle("NUMBER OF TRAILS EXCEEDED");
+    window.draw(adminImageSprite);
+    window.draw(topBar);
+    window.draw(companyName);
+    exitAppButton.mButton->draw(window);
+    exitAppButton.mButton->getButtonStatus(window, event);
+    if (exitAppButton.mButton->isPressed) {
+        window.close();
+    }
 }
 else if (currentState == employeeLogin) {
     window.setTitle("Employee Log In");
