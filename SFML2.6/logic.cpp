@@ -48,7 +48,12 @@ void addEmployee(int& employee_count, const string& name, int age,
 {
     if (employee_count >= 100) return;
 
-    int newId = 200 + employee_count + 1;
+    int maxId = 200;
+    for (int i = 0; i < employee_count; i++)
+        if (employee[i].id > maxId)
+            maxId = employee[i].id;
+
+    int newId = maxId + 1;
     employee[employee_count].id = newId;
     employee[employee_count].name = name;
     employee[employee_count].age = age;
@@ -57,13 +62,14 @@ void addEmployee(int& employee_count, const string& name, int age,
     employee[employee_count].password = password;
     employee[employee_count].attendance = { 0, 0 };
     employee[employee_count].basicsalary = basicsal;
-    employee[employee_count].photo.loadFromFile("Images/user.jpg");
+    employee[employee_count].photo.loadFromFile("Images/user.png");
     employee[employee_count].profilePicture.setTexture(employee[employee_count].photo);
     employee_count++;
+    employeecount = employee_count;
 }
 
-void manageAttendance(int id, int daysPresent, int daysAbsent) {
-    for (int i = 0; i < employeecount; i++) {
+void manageAttendance(int id, int daysPresent, int daysAbsent, int employee_count) {
+    for (int i = 0; i < employee_count; i++) {
         if (employee[i].id == id) {
             employee[i].attendance.dayspresent += daysPresent;
             employee[i].attendance.daysabsent += daysAbsent;
@@ -115,6 +121,7 @@ void deleteEmployee(int deleteID, int& employee_count)
         employee[i] = employee[i + 1];
 
     employee_count--;
+    employeecount = employee_count;
     saveAll();
 }
 
