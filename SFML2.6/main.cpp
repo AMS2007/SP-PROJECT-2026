@@ -33,6 +33,7 @@ enum GameState {
     salaryViewPanel,
     netSalaryPanel,
     attendanceViewPanel,
+    addedsuccessfully,
 };
 
 
@@ -562,6 +563,12 @@ int main()
     Textboxdata bonusBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Bonus:");
     Textboxdata overtimeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Enter Overtime Hours:");
     Textboxdata deductionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 400.f), "Enter Salary Deduction (per day absent):");
+    Textboxdata NameBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Name: ");
+    Textboxdata PassBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Password: ");
+    Textboxdata AgeBox2(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f +200.f), "Enter Age: ");
+    Textboxdata PositionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+300.f), "Enter Position: ");
+    Textboxdata PhoneNumberBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+400.f), "Enter Phone Number: ");
+
 
     // textbox end
 
@@ -650,6 +657,8 @@ int main()
     }
 
     TextData Deletedsuccessfully(font, "Employee Deleted Successfully", 64, Color::Red, Vector2f(width / 2.f, height / 2.f));
+    Deletedsuccessfully.centerOrigin();
+    TextData Addedsuccessfully(font, "Employee Added Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
     Deletedsuccessfully.centerOrigin();
     TextData Recorded(font, "Attendance Recorded Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
     Recorded.centerOrigin();
@@ -1180,6 +1189,36 @@ int main()
                     deleteButtonOkay.mButton->setLabelColor(Color::White);
                 }
             }
+            //============================ addEmployeePanel =============================
+            else if (currentState == addEmployeePanel) {
+                NameBox.handleEvent(event, window);
+                PassBox.handleEvent(event, window);
+                AgeBox2.handleEvent(event, window);
+                PositionBox.handleEvent(event, window);
+                PhoneNumberBox.handleEvent(event, window);
+                enterOkButton.mButton->getButtonStatus(window, event);
+                if (enterOkButton.mButton->isPressed) {
+                    Showerror = false;
+                    if (NameBox.input.empty() || PassBox.input.empty() || AgeBox2.input.empty()) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
+                        emptyloginbox.setString("Fields cannot be empty!");
+                    }
+                    else {
+                        addEmployee(employeecount, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input);                        currentState = addedsuccessfully;
+                    }
+                }
+                else if (enterOkButton.mButton->isHover) {
+                    enterOkButton.mButton->setButtonColor(enterOkButton.hoverColor);
+                    enterOkButton.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else
+                {
+                    enterOkButton.mButton->setButtonColor(enterOkButton.defaultColor);
+                    enterOkButton.mButton->setLabelColor(Color::White);
+                }
+
+            }
             // ======================== VIEW ATTENDANCE AS EMPLOYEE======================
             else if (currentState == attendancePanel) {
                 monthBox.handleEvent(event, window);
@@ -1399,6 +1438,23 @@ int main()
                     // back settings end
 
                 }
+                // =============== ADDED SUCCESSFULLY==========
+                else if (currentState == addedsuccessfully) {
+                    deleteButtonOkay.mButton->getButtonStatus(window, event);
+                    if (deleteButtonOkay.mButton->isPressed) {
+                        if (currentState == addedsuccessfully) {
+                            currentState = adminPanel;
+                        }
+                        else if (deleteButtonOkay.mButton->isHover) {
+                            deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                            deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                        }
+                        else
+                            deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color::White);
+                        // back settings end
+                    }
+                }
             }
             
         }
@@ -1557,6 +1613,29 @@ else if (currentState == attendanceOkPanel) {
     deleteButtonOkay.mButton->draw(window);
     window.draw(Recorded.text);
 }
+else if (currentState == addEmployeePanel) {
+    window.setTitle("Add Employee");
+    window.draw(adminImageSprite);
+    window.draw(topBar);
+    window.draw(companyName);
+    NameBox.draw(window);
+    AgeBox2.draw(window);
+    PositionBox.draw(window);
+    PhoneNumberBox.draw(window);
+    PassBox.draw(window);
+    enterOkButton.mButton->draw(window);
+
+  
+
+}
+else if (currentState == addedsuccessfully) {
+    window.setTitle("ADDED SUCCESSFULLY");
+    window.draw(adminImageSprite);
+    window.draw(topBar);
+    window.draw(companyName);
+    window.draw(Addedsuccessfully.text);
+    deleteButtonOkay.mButton->draw(window);
+}
 else if (currentState == viewPanel) {
     window.setTitle("View Your Information");
     window.draw(adminImageSprite);
@@ -1663,15 +1742,16 @@ else if (currentState == salaryViewPanel) {
             window.draw(overtimesal.text);
         }
     }
-    deleteButtonOkay.mButton->draw(window);
-
 
 }
 
 
-window.display();
+
+
+    window.display();
 
     }
+
     
 
     delete adminButton.mButton;
