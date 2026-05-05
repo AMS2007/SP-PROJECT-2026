@@ -1209,7 +1209,9 @@ int main()
                         emptyloginbox.setString("Fields cannot be empty!");
                     }
                     else {
-                        addEmployee(employee_count, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));                        currentState = addedsuccessfully;
+                        addEmployee(employee_count, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));                     
+                        currentState = addedsuccessfully;
+                        
                     }
                 }
                 else if (enterOkButton.mButton->isHover) {
@@ -1642,7 +1644,7 @@ else if (currentState == addedsuccessfully) {
     window.draw(topBar);
     window.draw(companyName);
     window.draw(Addedsuccessfully.text);
-    IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employee_count].id));
+    IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employee_count-1].id));
     window.draw(IdNewEmployee.text);
     deleteButtonOkay.mButton->draw(window);
 }
