@@ -409,7 +409,13 @@ int main()
     attendanceButton.label = "Record Attendance";
     attendanceButton.defaultColor = Color(1, 46, 90);
     attendanceButton.hoverColor = Color(101, 192, 155);
-
+    
+    Text trailsLeft;
+    trailsLeft.setFont(font);
+    trailsLeft.setCharacterSize(24);
+    trailsLeft.setString("Trails Left : 3");
+    trailsLeft.setFillColor(Color::Red);
+    trailsLeft.setPosition(720.f, 470.f);
     Text attendance_text;
     attendance_text.setFont(font);
     attendance_text.setCharacterSize(36);
@@ -744,7 +750,9 @@ int main()
             Vector2f(width / 4.f - 200.f - 47, height / 4.f - 14.f) // staggered y positions
         );
     }
-    TextData IdNewEmployee(font, "New Employee ID IS : ", 30, Color::Black, Vector2f(width / 2.f - 180, height / 2.f + 100));
+    TextData TrailsZeroText(font, "You Exceeded Allowed Number Of Trails, Re-open To Log In", 37, Color::Red, Vector2f(780.f, 450.f));
+    TrailsZeroText.centerOrigin();
+    TextData IdNewEmployee(font, "", 30, Color::Black, Vector2f(width / 2.f - 180, height / 2.f + 100));
     TextData daysPresent(font, "Number Of Present Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f , height / 4.f + 70));
     daysPresent.centerOrigin(); 
     TextData daysAbsent(font, "Number Of Absent Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f, height / 4.f + 120.f));
@@ -778,6 +786,8 @@ int main()
     admincount = 2;
     int loggedInEmployeeIndex = -1;
     int exitcounter = 0;
+    int trailsCounter = 3;
+
     // ================================ GAME LOOP ============================
     while (window.isOpen())
     {
@@ -877,7 +887,9 @@ int main()
                         else {
                             Showerror = true;
                             emptyloginbox.setString("Wrong ID or Password!");
+                            trailsCounter--; 
                             exitcounter++;
+                            trailsLeft.setString("Trails Left : " + to_string(trailsCounter));
                             if (exitcounter == 3) {
                                 currentState = zerotrailsleft;
                             }
@@ -1538,6 +1550,7 @@ else if (currentState == adminLogin) {
     window.draw(companyName);
     idBox.draw(window);
     passwordBox.draw(window);
+    window.draw(trailsLeft);
     backButton.mButton->draw(window);
     loginButton.mButton->draw(window);
     if (Showerror == true)
@@ -1550,6 +1563,7 @@ else if (currentState == zerotrailsleft) {
     window.draw(adminImageSprite);
     window.draw(topBar);
     window.draw(companyName);
+    window.draw(TrailsZeroText.text);
     exitAppButton.mButton->draw(window);
     exitAppButton.mButton->getButtonStatus(window, event);
     if (exitAppButton.mButton->isPressed) {
@@ -1707,7 +1721,7 @@ else if (currentState == addedsuccessfully) {
     window.draw(topBar);
     window.draw(companyName);
     window.draw(Addedsuccessfully.text);
-    IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employee_count-1].id));
+    IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employee_count-1].id) + "You Can Now Log In With This ID ");
     window.draw(IdNewEmployee.text);
     deleteButtonOkay.mButton->draw(window);
 }
