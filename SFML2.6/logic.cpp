@@ -56,6 +56,8 @@ void addEmployee(int& employee_count, const string& name, int age,
     employee[employee_count].password = password;
     employee[employee_count].attendance = { 0, 0 };
     employee[employee_count].basicsalary = basicsal;
+    employee[employee_count].photo.loadFromFile("Images/user.jpg");
+    employee[employee_count].profilePicture.setTexture(employee[employee_count].photo);
     employee_count++;
 }
 
