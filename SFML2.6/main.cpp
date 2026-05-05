@@ -166,6 +166,36 @@ struct TextData {
     }
 };
 
+void rebuildData(TextData*& empID, TextData*&empName, TextData*& empPhone, TextData*& empPosition, TextData*& empAge, int employee_count, Font& font, float width, float height) {
+    delete[] empID;
+    delete[] empName;
+    delete[] empPhone;
+    delete[] empPosition;
+    delete[] empAge;
+
+    empID = new TextData[employee_count];
+    empName = new TextData[employee_count];
+    empPhone = new TextData[employee_count];
+    empPosition = new TextData[employee_count];
+    empAge = new TextData[employee_count];
+
+    for (int i = 0; i < employee_count; i++) {
+        empID[i] = TextData(font, to_string(employee[i].id), 20, Color::Black, Vector2f(width / 4.f * 3.f - 5.f, height / 4.f + 310.f));
+        empName[i] = TextData(font, employee[i].name, 64, Color(1, 46, 90), Vector2f(width / 4.f - 250.f, height / 4.f - 100));
+        empPhone[i] = TextData(font, to_string(employee[i].phone), 20, Color::Black, Vector2f(width / 4.f * 3.f + 125, height / 4.f + 250.f));
+        empPosition[i] = TextData(font, employee[i].position, 26, Color::Black, Vector2f(width / 4.f - 247.f, height / 4.f - 14.f));
+        empAge[i] = TextData(font, to_string(employee[i].age), 20, Color::Black, Vector2f(width / 4.f * 3.f + 5, height / 4.f + 370.f));
+        employee[i].profilePicture.setTexture(employee[i].photo);
+        employee[i].profilePicture.setOrigin(
+            employee[i].profilePicture.getLocalBounds().width / 2.f,
+            employee[i].profilePicture.getLocalBounds().height / 2.f
+        );
+        employee[i].profilePicture.setPosition(Vector2f(width / 4.f * 3.f + 45, height / 4.f + 40.f));
+        employee[i].profilePicture.setScale(0.37f, 0.37f);
+    }
+
+}
+
 
 int main()
 {
@@ -1019,6 +1049,7 @@ int main()
                 deleteButton.mButton->getButtonStatus(window, event);
                 if (deleteButton.mButton->isPressed) {
                     deleteEmployee(stoi(employeeidadminpanel.input), employee_count);
+                    rebuildData(EmpID, EmpName, EmpPhone, EmpPosition, EmpAge, employee_count, font, width, height);
                     employeeidadminpanel.clear();
                     currentState = deletePanel;
                 }
@@ -1209,7 +1240,8 @@ int main()
                         emptyloginbox.setString("Fields cannot be empty!");
                     }
                     else {
-                        addEmployee(employee_count, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));                     
+                        addEmployee(employee_count, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));      
+                        rebuildData(EmpID, EmpName, EmpPhone, EmpPosition, EmpAge, employee_count, font, width, height);
                         currentState = addedsuccessfully;
                         
                     }
@@ -1285,17 +1317,16 @@ int main()
                     if (currentState == attendanceViewPanel) {
                         currentState = employeePanel;
                     }
-                    else if (deleteButtonOkay.mButton->isHover) {
-                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
-                        deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
-                    }
-                    else
-                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
-                    deleteButtonOkay.mButton->setLabelColor(Color::White);
-                    // back settings end
-
                 }
-
+                else if (deleteButtonOkay.mButton->isHover) {
+                    deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                    deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else
+                {
+                    deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                    deleteButtonOkay.mButton->setLabelColor(Color::White);
+                }
             }
             // ======================== CALCULATE SALARY PANEL ==========================
             else if (currentState == salaryCalcPanel) {
@@ -1665,8 +1696,6 @@ else if (currentState == viewPanel) {
                 window.draw(EmpAge[i].text);
                 window.draw(AgeText.text);
                 window.draw(EmpPosition[i].text);   // draw position
-                // draw phone
-               // window.draw(EmpPosition[i].text);   // draw position
                 window.draw(employee[i].profilePicture);
             }
         }

@@ -93,40 +93,29 @@ void saveAll() {
 
 void deleteEmployee(int deleteID, int& employee_count)
 {
-    if (employee_count == 0)
+    // find the employee
+    int index = -1;
+    for (int i = 0; i < employee_count; i++)
     {
-        cout << "No employees to delete!\n";
+        if (employee[i].id == deleteID)
+        {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1)
+    {
+        cout << "Employee ID not found!" << endl;
         return;
     }
-    int check = 0;
-    do
-    {
-        cout << "Enter Employee ID to delete: ";
-        int index = -1;
-        for (int i = 0; i < employee_count; i++)
-        {
-            if (employee[i].id == deleteID)
-            {
-                index = i;
-                check = 1;
-                break;
-            }
-        }
 
-        if (index == -1)
-        {
-            cout << "Employee ID not found!\n";
-            check = 0;
-        }
-        else
-        {
-            for (int i = index; i < employee_count - 1; i++)
-                employee[i] = employee[i + 1];
+    // shift all employees after index one position left
+    for (int i = index; i < employee_count - 1; i++)
+        employee[i] = employee[i + 1];
 
-            employee_count--;
-            cout << "Employee deleted successfully!" << endl;
-        }
-    } while (check == 0);
+    employee_count--;
+    saveAll();
 }
 
 float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
