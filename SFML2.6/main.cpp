@@ -706,17 +706,16 @@ int main()
     Addedsuccessfully.centerOrigin();
     TextData Recorded(font, "Attendance Recorded Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
     Recorded.centerOrigin();
-    TextData Netsal(font, "Net Salary:", 36, Color(1, 46, 90), Vector2f(width / 2.f - 200.f, height / 2.f));
-    Netsal.centerOrigin();
+    TextData Netsal(font, "Net Salary:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f +400.f));
+    
     TextData basicsal(font, "Basic Salary:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f));
-    basicsal.centerOrigin();
+    
     TextData taxsal(font, "Tax:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+100.f));
-    taxsal.centerOrigin();
+    
     TextData bonussal(font, "Bonus:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+200.f));
-    bonussal.centerOrigin();
+    
     TextData overtimesal(font, "OverTime Hours:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+300.f));
-    overtimesal.centerOrigin();
-
+    
 
     TextData* EmpName = new TextData[employee_count];
     for (int i = 0; i < employee_count; i++) {
@@ -1166,6 +1165,9 @@ int main()
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == attendanceEditPanel) {
+                        monthBox.clear();
+                        presentBox.clear();
+                        absentBox.clear();
                         currentState = editEmployeePanel;
                     }
                 }
@@ -1199,7 +1201,7 @@ int main()
                             }
                             else {
                                 currentState = attendanceOkPanel;
-                                manageAttendance(stoi(employeeidadminpanel.input), stoi(presentBox.input), stoi(absentBox.input), employee_count);
+                                manageAttendance(stoi(employeeidadminpanel.input), stoi(presentBox.input), stoi(absentBox.input), stoi(monthBox.input), employee_count);
                             }
                         }
                         catch (...) {
@@ -1244,6 +1246,9 @@ int main()
                 if (deleteButtonOkay.mButton->isPressed) {
                     currentState = adminPanel;
                     employeeidadminpanel.clear();
+                    monthBox.clear();
+                    presentBox.clear();
+                    absentBox.clear();
                 }
                 else if (deleteButtonOkay.mButton->isHover) {
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
@@ -1287,6 +1292,25 @@ int main()
                     enterOkButton.mButton->setButtonColor(enterOkButton.defaultColor);
                     enterOkButton.mButton->setLabelColor(Color::White);
                 }
+                // back settings
+                backButton.mButton->getButtonStatus(window, event);
+                if (backButton.mButton->isPressed) {
+                    if (currentState == addEmployeePanel) {
+                        NameBox.clear();
+                        PassBox.clear();
+                        AgeBox2.clear();
+                        PositionBox.clear();
+                        PhoneNumberBox.clear();
+                        BasicSalBox.clear();
+                        currentState = adminPanel;
+                    }
+                }
+                else if (backButton.mButton->isHover) {
+                    backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                }
+                else
+                    backButton.mButton->button.setFillColor(Color::White);
+                // back settings end
 
             }
             // ======================== VIEW ATTENDANCE AS EMPLOYEE======================
@@ -1332,6 +1356,7 @@ int main()
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == attendancePanel) {
+                        monthBox.clear();
                         currentState = employeePanel;
                     }
                 }
@@ -1419,6 +1444,7 @@ int main()
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == salaryCalcPanel) {
+                        monthBox.clear();
                         currentState = editEmployeePanel;
                     }
                 }
@@ -1437,6 +1463,7 @@ int main()
                 if (deleteButtonOkay.mButton->isPressed) {
                     currentState = adminPanel;
                     employeeidadminpanel.clear();
+                    monthBox.clear();
                 }
                 else if (deleteButtonOkay.mButton->isHover) {
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
@@ -1488,6 +1515,19 @@ int main()
                     enterOkButton.mButton->setButtonColor(enterOkButton.defaultColor);
                     enterOkButton.mButton->setLabelColor(Color::White);
                 }
+                // back settings
+                backButton.mButton->getButtonStatus(window, event);
+                if (backButton.mButton->isPressed) {
+                    if (currentState == salaryPanel) {
+                        currentState = employeePanel;
+                    }
+                }
+                else if (backButton.mButton->isHover) {
+                    backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                }
+                else
+                    backButton.mButton->button.setFillColor(Color::White);
+                // back settings end
 
 
             }
@@ -1497,6 +1537,7 @@ int main()
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
                     if (currentState == salaryViewPanel) {
+                        monthBox.clear();
                         currentState = employeePanel;
                     }
 
@@ -1515,6 +1556,12 @@ int main()
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
                     if (currentState == addedsuccessfully) {
+                        NameBox.clear();
+                        PassBox.clear();
+                        AgeBox2.clear();
+                        PositionBox.clear();
+                        PhoneNumberBox.clear();
+                        BasicSalBox.clear();
                         currentState = adminPanel;
                     }
 
@@ -1677,9 +1724,10 @@ else if (currentState == attendanceViewPanel) {
     deleteButtonOkay.mButton->draw(window);
     for (int i = 0; i < employee_count; i++) {
         if (stoi(idBoxEmp.input) == employee[i].id) {
-            daysPresent.text.setString("Days Present : " + to_string(employee[i].attendance.dayspresent));
+            int month = stoi(monthBox.input);
+            daysPresent.text.setString("Days Present : " + to_string(employee[i].attendance.dayspresent[month-1]));
             window.draw(daysPresent.text);
-            daysAbsent.text.setString("Days Absent : " + to_string(employee[i].attendance.daysabsent));
+            daysAbsent.text.setString("Days Absent : " + to_string(employee[i].attendance.daysabsent[month-1]));
             window.draw(daysAbsent.text);
 
         }
@@ -1714,6 +1762,7 @@ else if (currentState == addEmployeePanel) {
     PassBox.draw(window);
     BasicSalBox.draw(window);
     enterOkButton.mButton->draw(window);
+    backButton.mButton->draw(window);
 
   
 
@@ -1801,6 +1850,7 @@ else if (currentState == netSalaryPanel) {
     window.draw(topBar);
     window.draw(companyName);
     Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
+    Netsal.text.setPosition(Vector2f(width / 2.f - 200.f, height / 2.f));
     window.draw(Netsal.text);
     deleteButtonOkay.mButton->draw(window);
 }
@@ -1813,6 +1863,7 @@ else if (currentState == salaryPanel) {
     monthBox.draw(window);
     if (Showerror == true)
         window.draw(emptyloginbox);
+    backButton.mButton->draw(window);
 }
 else if (currentState == salaryViewPanel) {
     window.setTitle("SALARY VIEW CONT.");
@@ -1828,6 +1879,7 @@ else if (currentState == salaryViewPanel) {
             bonussal.text.setString("Bonus : " + to_string(employee[i].bonus));
             overtimesal.text.setString("Overtime : " + to_string(employee[i].overtimehrs));
             Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
+            Netsal.text.setPosition(Vector2f(width / 4.f, height / 4.f + 400.f));
             window.draw(Netsal.text);
             window.draw(bonussal.text);
             window.draw(overtimesal.text);

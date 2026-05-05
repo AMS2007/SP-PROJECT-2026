@@ -12,8 +12,8 @@ using namespace sf;
 
 struct Attendance {
     int id;
-    int dayspresent;
-    int daysabsent;
+    int dayspresent[12] = { 0 };
+    int daysabsent[12] = { 0 };
 };
 
 struct Employee {
@@ -50,7 +50,7 @@ void addEmployee(int& employee_count, const string& name, int age,
     const string& position, long long phone,
      const string& password, int basicsal);
 
-void manageAttendance(int id, int daysPresent, int daysAbsent, int employee_count);
+void manageAttendance(int id, int daysPresent, int daysAbsent, int month, int employee_count);
 
 
 float calcSalary(int id, const string& bonusInput,

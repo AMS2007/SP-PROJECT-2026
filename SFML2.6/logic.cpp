@@ -68,11 +68,11 @@ void addEmployee(int& employee_count, const string& name, int age,
     employeecount = employee_count;
 }
 
-void manageAttendance(int id, int daysPresent, int daysAbsent, int employee_count) {
+void manageAttendance(int id, int daysPresent, int daysAbsent, int month, int employee_count) {
     for (int i = 0; i < employee_count; i++) {
         if (employee[i].id == id) {
-            employee[i].attendance.dayspresent += daysPresent;
-            employee[i].attendance.daysabsent += daysAbsent;
+            employee[i].attendance.dayspresent[month-1] = daysPresent;
+            employee[i].attendance.daysabsent[month-1] = daysAbsent;
             saveAll();
             return;
         }
@@ -138,7 +138,7 @@ float calcSalary(int id, const string& bonusInput,
             float overtimerate = 50.f;  // set your overtime rate here
             float salarydeduction = stof(deductionInput); // deduction per absent day
 
-            int daysAbsent = employee[i].attendance.daysabsent;
+            int daysAbsent = employee[i].attendance.daysabsent[month-1];
 
             float taxfree = employee[i].basicsalary - (employee[i].basicsalary * 0.14f);
             float salary = taxfree + (overtime * overtimerate)
