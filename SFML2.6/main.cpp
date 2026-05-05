@@ -1229,7 +1229,7 @@ int main()
                 enterOkButton.mButton->getButtonStatus(window, event);
                 if (enterOkButton.mButton->isPressed) {
                     Showerror = false;
-                    if (monthBox.input.empty() ) {
+                    if (monthBox.input.empty()) {
                         Showerror = true;
                         emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
                         emptyloginbox.setString("Fields cannot be empty!");
@@ -1276,7 +1276,7 @@ int main()
                     backButton.mButton->button.setFillColor(Color::White);
                 // back settings end
             }
-           //===========================attendanceViewPanel==============================
+            //===========================attendanceViewPanel==============================
             else if (currentState == attendanceViewPanel) {
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
@@ -1291,7 +1291,7 @@ int main()
                         deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
                     deleteButtonOkay.mButton->setLabelColor(Color::White);
                     // back settings end
-                   
+
                 }
 
             }
@@ -1431,39 +1431,37 @@ int main()
                     if (currentState == salaryViewPanel) {
                         currentState = employeePanel;
                     }
-                    else if (deleteButtonOkay.mButton->isHover) {
-                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
-                        deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
-                    }
-                    else {
-                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
-                        deleteButtonOkay.mButton->setLabelColor(Color::White);
-                    }
-                    // back settings end
 
                 }
-                // =============== ADDED SUCCESSFULLY==========
-                else if (currentState == addedsuccessfully) {
-                    deleteButtonOkay.mButton->getButtonStatus(window, event);
-                    if (deleteButtonOkay.mButton->isPressed) {
-                        if (currentState == addedsuccessfully) {
-                            currentState = adminPanel;
-                        }
-                    }
-                    else if (deleteButtonOkay.mButton->isHover) {
-                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
-                        deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
-                    }
-                    else
-                    {
-                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
-                        deleteButtonOkay.mButton->setLabelColor(Color::White);
-                    }
-                        // back settings end
-                    
+                else if (deleteButtonOkay.mButton->isHover) {
+                    deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                    deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else {
+                    deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                    deleteButtonOkay.mButton->setLabelColor(Color::White);
                 }
             }
-            
+            // =============== ADDED SUCCESSFULLY==========
+            else if (currentState == addedsuccessfully) {
+                deleteButtonOkay.mButton->getButtonStatus(window, event);
+                if (deleteButtonOkay.mButton->isPressed) {
+                    if (currentState == addedsuccessfully) {
+                        currentState = adminPanel;
+                    }
+
+                }
+                else if (deleteButtonOkay.mButton->isHover) {
+                    deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                    deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else {
+                    deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                    deleteButtonOkay.mButton->setLabelColor(Color::White);
+                }
+
+            }
+
         }
     // Draw
 window.clear(Color::White); // white background
@@ -1752,6 +1750,7 @@ else if (currentState == salaryViewPanel) {
             window.draw(overtimesal.text);
         }
     }
+    deleteButtonOkay.mButton->draw(window);
 
 }
 
