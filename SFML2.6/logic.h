@@ -50,7 +50,7 @@ void addEmployee(int& employee_count, const string& name, int age,
     const string& position, long long phone,
      const string& password, int basicsal);
 
-void manageAttendance(int id, int daysPresent, int daysAbsent);
+void manageAttendance(int id, int daysPresent, int daysAbsent, int employee_count);
 
 
 float calcSalary(int id, const string& bonusInput,

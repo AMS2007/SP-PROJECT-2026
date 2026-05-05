@@ -1184,7 +1184,7 @@ int main()
                             }
                             else {
                                 currentState = attendanceOkPanel;
-                                manageAttendance(stoi(employeeidadminpanel.input), stoi(presentBox.input), stoi(absentBox.input));
+                                manageAttendance(stoi(employeeidadminpanel.input), stoi(presentBox.input), stoi(absentBox.input), employee_count);
                             }
                         }
                         catch (...) {
