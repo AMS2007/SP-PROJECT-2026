@@ -41,9 +41,10 @@ extern int employeecount;
 extern int admincount;
 
 // these are all your functions, declared here so main.cpp can see them
-bool validateid(string id);
+bool validateid(string id,int & employee_count);
+
 bool validateAdmin(const string& username, const string& password);
-bool validateEmployee(int id, const string& password, int& foundIndex);
+bool validateEmployee(int id, const string& password, int& foundIndex , int & employee_count);
 
 void addEmployee(int& employee_count, const string& name, int age,
     const string& position, long long phone,

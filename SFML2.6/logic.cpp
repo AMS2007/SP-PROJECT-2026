@@ -15,11 +15,12 @@ bool validateAdmin(const string& username, const string& password) {
 }
 
 // validate employee id in edit employee panel
-bool validateid(string id) {
+bool validateid(string id , int & employee_count) {
+
     if (id.empty()) return false;
     try {
         int searchID = stoi(id);
-        for (int i = 0; i < employeecount; i++) {
+        for (int i = 0; i < employee_count; i++) {
             if (employee[i].id == searchID)
                 return true;
         }
@@ -31,8 +32,8 @@ bool validateid(string id) {
 }
 
 
-bool validateEmployee(int id, const string& password, int& foundIndex) {
-    for (int i = 0; i < employeecount; i++) {
+bool validateEmployee(int id, const string& password, int& foundIndex,int & employee_count) {
+    for (int i = 0; i < employee_count; i++) {
         if (employee[i].id == id && employee[i].password == password) {
             foundIndex = i;
             return true;
