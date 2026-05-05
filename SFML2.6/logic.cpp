@@ -41,21 +41,21 @@ bool validateEmployee(int id, const string& password, int& foundIndex) {
     return false;
 }
 
-void addEmployee(const string& name, const string& password,
-    long long salary, int age, long long phone) {
-    if (employeecount >= 100) return;
-    int newId = 200 + employeecount + 1;
-    employee[employeecount].id = newId;
-    employee[employeecount].name = name;
-    employee[employeecount].password = password;
-    employee[employeecount].basicsalary = salary;
-    employee[employeecount].age = age;
-    employee[employeecount].phone = phone;
-    employee[employeecount].netsalary = 0;
-    employee[employeecount].tax = 0;
-    employee[employeecount].attendance = { newId, 0, 0 };
-    employeecount++;
-    saveAll();
+void addEmployee(int& employee_count, const string& name, int age,
+    const string& position, long long phone,
+     const string& password)
+{
+    if (employee_count >= 100) return;
+
+    int newId = 200 + employee_count + 1;
+    employee[employee_count].id = newId;
+    employee[employee_count].name = name;
+    employee[employee_count].age = age;
+    employee[employee_count].position = position;
+    employee[employee_count].phone = phone;
+    employee[employee_count].password = password;
+    employee[employee_count].attendance = { 0, 0 };
+    employee_count++;
 }
 
 void manageAttendance(int id, int daysPresent, int daysAbsent) {
@@ -149,7 +149,7 @@ float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
             employee[i].bonus = bonus;
             employee[i].overtimehrs = overtime;
 
-            saveAll();
+            //ssaveAll();
             return salary;
         }
     }

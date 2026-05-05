@@ -44,8 +44,14 @@ extern int admincount;
 bool validateid(string id);
 bool validateAdmin(const string& username, const string& password);
 bool validateEmployee(int id, const string& password, int& foundIndex);
-void addEmployee(const string& name, const string& password, long long salary, int age, long long phone);
+
+void addEmployee(int& employee_count, const string& name, int age,
+    const string& position, long long phone,
+     const string& password);
+
 void manageAttendance(int id, int daysPresent, int daysAbsent);
+
+
 float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
     const string& overtimeInput, int month, const string& deductionInput);
 void saveAll();
