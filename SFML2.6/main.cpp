@@ -193,7 +193,7 @@ int main()
         employee[i].profilePicture.setPosition(Vector2f(width / 4.f * 3.f + 45, height / 4.f + 40.f));
         employee[i].profilePicture.setScale(0.37f, 0.37f);
     }
-    employeecount = 5;
+    int employee_count = 5;
     float calculatedNetSalary = 0.f;
     GameState currentState = Menu; // screen when you open window
 
@@ -646,8 +646,8 @@ int main()
     // information employee
     //TextData Emp(font, "Employee ID: \n \nFull Name: \n \nAge: \n \nPosition: \n \nPhone No.: \n \nBasic Salary: ", 36, Color(1, 46, 90), Vector2f(width/2.f-50.f, height/4.f-60.f));
     TextData IDText(font, "ID :", 20, Color::Black, Vector2f(width / 4.f * 3.f - 50, height / 4.f + 310.f));
-    TextData* EmpID = new TextData[employeecount];
-    for (int i = 0; i < employeecount; i++) {
+    TextData* EmpID = new TextData[employee_count];
+    for (int i = 0; i < employee_count; i++) {
         EmpID[i] = TextData(
             font,
             to_string(employee[i].id), // reuse template text
@@ -675,8 +675,8 @@ int main()
     overtimesal.centerOrigin();
 
 
-    TextData* EmpName = new TextData[employeecount];
-    for (int i = 0; i < employeecount; i++) {
+    TextData* EmpName = new TextData[employee_count];
+    for (int i = 0; i < employee_count; i++) {
         EmpName[i] = TextData(
             font,
             employee[i].name, // reuse template text
@@ -687,8 +687,8 @@ int main()
     }
     TextData PhoneNumberText(font, "Phone Number :", 20, Color::Black, Vector2f(width / 4.f * 3.f - 50, height / 4.f + 250.f));
 
-    TextData* EmpPhone = new TextData[employeecount];
-    for (int i = 0; i < employeecount; i++) {
+    TextData* EmpPhone = new TextData[employee_count];
+    for (int i = 0; i < employee_count; i++) {
         EmpPhone[i] = TextData(
             font,
             to_string(employee[i].phone), // reuse template text
@@ -697,8 +697,8 @@ int main()
             Vector2f(Vector2f(width / 4.f * 3.f + 125, height / 4.f + 250.f))
         );
     }
-    TextData* EmpPosition = new TextData[employeecount];
-    for (int i = 0; i < employeecount; i++) {
+    TextData* EmpPosition = new TextData[employee_count];
+    for (int i = 0; i < employee_count; i++) {
         EmpPosition[i] = TextData(
             font,
             employee[i].position, // reuse template text
@@ -713,8 +713,8 @@ int main()
     TextData daysAbsent(font, "Number Of Absent Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f, height / 4.f + 120.f));
     daysAbsent.centerOrigin();
     TextData AgeText(font, "Age :", 20, Color::Black, Vector2f(width / 4.f * 3.f - 50, height / 4.f + 370.f));
-    TextData* EmpAge = new TextData[employeecount];
-    for (int i = 0; i < employeecount; i++) {
+    TextData* EmpAge = new TextData[employee_count];
+    for (int i = 0; i < employee_count; i++) {
         EmpAge[i] = TextData(
             font,
             to_string(employee[i].age), // reuse template text
@@ -1018,7 +1018,7 @@ int main()
                 // delete employee settings
                 deleteButton.mButton->getButtonStatus(window, event);
                 if (deleteButton.mButton->isPressed) {
-                    deleteEmployee(stoi(employeeidadminpanel.input), employeecount);
+                    deleteEmployee(stoi(employeeidadminpanel.input), employee_count);
                     employeeidadminpanel.clear();
                     currentState = deletePanel;
                 }
@@ -1209,7 +1209,7 @@ int main()
                         emptyloginbox.setString("Fields cannot be empty!");
                     }
                     else {
-                        addEmployee(employeecount, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));                        currentState = addedsuccessfully;
+                        addEmployee(employee_count, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));                        currentState = addedsuccessfully;
                     }
                 }
                 else if (enterOkButton.mButton->isHover) {
@@ -1559,7 +1559,7 @@ else if (currentState == editEmployeePanel) {
     window.draw(AgeText.text);
     try {
         int searchID = stoi(employeeidadminpanel.input);
-        for (int i = 0; i < employeecount; i++) {
+        for (int i = 0; i < employee_count; i++) {
             if (searchID == employee[i].id) {              // draw field labels
                 window.draw(EmpAge[i].text);
                 window.draw(EmpName[i].text);       // draw name
@@ -1593,7 +1593,7 @@ else if (currentState == attendanceViewPanel) {
     window.draw(companyName);
     monthBox.draw(window);
     deleteButtonOkay.mButton->draw(window);
-    for (int i = 0; i < employeecount; i++) {
+    for (int i = 0; i < employee_count; i++) {
         if (stoi(idBoxEmp.input) == employee[i].id) {
             daysPresent.text.setString("Days Present : " + to_string(employee[i].attendance.dayspresent));
             window.draw(daysPresent.text);
@@ -1642,7 +1642,7 @@ else if (currentState == addedsuccessfully) {
     window.draw(topBar);
     window.draw(companyName);
     window.draw(Addedsuccessfully.text);
-    IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employeecount].id));
+    IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employee_count].id));
     window.draw(IdNewEmployee.text);
     deleteButtonOkay.mButton->draw(window);
 }
@@ -1654,7 +1654,7 @@ else if (currentState == viewPanel) {
     window.draw(companyName);
     try {
         int searchEmpID = stoi(idBoxEmp.input);
-        for (int i = 0; i < employeecount; i++) {
+        for (int i = 0; i < employee_count; i++) {
             if (searchEmpID == employee[i].id) {              // draw field labels
                 window.draw(EmpName[i].text);       // draw name
                 window.draw(EmpID[i].text);         // draw ID
@@ -1738,7 +1738,7 @@ else if (currentState == salaryViewPanel) {
     window.draw(adminImageSprite);
     window.draw(topBar);
     window.draw(companyName);
-    for (int i = 0; i < employeecount; i++) {
+    for (int i = 0; i < employee_count; i++) {
         if (stoi(idBoxEmp.input) == employee[i].id) {
             basicsal.text.setString("Basic Salary : " + to_string(employee[i].basicsalary));
             window.draw(basicsal.text);
