@@ -968,6 +968,9 @@ int main()
                 // log out settings
                 logoutButton.mButton->getButtonStatus(window, event);
                 if (logoutButton.mButton->isPressed) {
+                    trailsCounter = 3;
+                    exitcounter = 0;  
+                    trailsLeft.setString("Trails Left : 3");  
                     idBox.clear();
                     passwordBox.clear();
                     currentState = Menu;
