@@ -659,7 +659,7 @@ int main()
     TextData Deletedsuccessfully(font, "Employee Deleted Successfully", 64, Color::Red, Vector2f(width / 2.f, height / 2.f));
     Deletedsuccessfully.centerOrigin();
     TextData Addedsuccessfully(font, "Employee Added Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
-    Deletedsuccessfully.centerOrigin();
+    Addedsuccessfully.centerOrigin();
     TextData Recorded(font, "Attendance Recorded Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
     Recorded.centerOrigin();
     TextData Netsal(font, "Net Salary:", 36, Color(1, 46, 90), Vector2f(width / 2.f - 200.f, height / 2.f));
