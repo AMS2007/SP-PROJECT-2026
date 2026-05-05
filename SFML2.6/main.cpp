@@ -597,9 +597,9 @@ int main()
     Textboxdata presentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Days Present:");
     Textboxdata absentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Days Absent:");
     Textboxdata basicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Basic Salary:");
-    Textboxdata bonusBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Bonus:");
-    Textboxdata overtimeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Enter Overtime Hours:");
-    Textboxdata deductionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 400.f), "Enter Salary Deduction (per day absent):");
+    Textboxdata bonusBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Bonus:");
+    Textboxdata overtimeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Overtime Hours:");
+    Textboxdata deductionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Enter Salary Deduction (per day absent):");
     Textboxdata NameBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Name: ");
     Textboxdata PassBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Password: ");
     Textboxdata AgeBox2(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f +200.f), "Enter Age: ");
@@ -1044,6 +1044,10 @@ int main()
                 // calc salary settings
                 salaryButton.mButton->getButtonStatus(window, event);
                 if (salaryButton.mButton->isPressed) {
+                    bonusBox.clear();
+                    overtimeBox.clear();
+                    deductionBox.clear();
+                    monthBox.clear();
                     currentState = salaryCalcPanel;
                 }
                 else if (salaryButton.mButton->isHover) {
@@ -1224,6 +1228,7 @@ int main()
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
                     currentState = adminPanel;
+                    employeeidadminpanel.clear();
                 }
                 else if (deleteButtonOkay.mButton->isHover) {
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
@@ -1342,7 +1347,6 @@ int main()
             }
             // ======================== CALCULATE SALARY PANEL ==========================
             else if (currentState == salaryCalcPanel) {
-                basicSalBox.handleEvent(event, window);
                 bonusBox.handleEvent(event, window);
                 overtimeBox.handleEvent(event, window);
                 deductionBox.handleEvent(event, window);
@@ -1351,7 +1355,7 @@ int main()
                 enterOkButton.mButton->getButtonStatus(window, event);
                 if (enterOkButton.mButton->isPressed) {
                     Showerror = false;
-                    if (basicSalBox.input.empty() || bonusBox.input.empty() || overtimeBox.input.empty() || monthBox.input.empty()) {
+                    if (deductionBox.input.empty() || bonusBox.input.empty() || overtimeBox.input.empty() || monthBox.input.empty()) {
                         Showerror = true;
                         emptyloginbox.setString("Fields cannot be empty!");
                     }
@@ -1359,20 +1363,24 @@ int main()
                         try {
                             int empID = stoi(employeeidadminpanel.input);
                             int month = stoi(monthBox.input);
-                            float net = calcSalary(empID, basicSalBox.input,
-                                bonusBox.input, overtimeBox.input, month, deductionBox.input);
-                            if (net == -1) {
-                                Showerror = true;
-                                emptyloginbox.setString("Employee not found!");
-                            }
-                            else if (month < 1 || month > 12) {
+                            if (month < 1 || month > 12) {
                                 Showerror = true;
                                 emptyloginbox.setString("Invalid Month! Enter 1-12");
                                 monthBox.clear();
                             }
-                            else {
-                                calculatedNetSalary = net;
-                                currentState = netSalaryPanel;
+                            else
+                            {
+                                float net = calcSalary(empID,
+                                    bonusBox.input, overtimeBox.input, month, deductionBox.input, employee_count);
+                                if (net == -1) {
+                                    Showerror = true;
+                                    emptyloginbox.setString("Employee not found!");
+                                }
+
+                                else {
+                                    calculatedNetSalary = net;
+                                    currentState = netSalaryPanel;
+                                }
                             }
                         }
                         catch (...) {
@@ -1641,6 +1649,7 @@ else if (currentState == attendanceEditPanel) {
         window.draw(emptyloginbox);
     }
     enterOkButton.mButton->draw(window);
+    backButton.mButton->draw(window);
 }
 else if (currentState == attendanceViewPanel) {
     window.setTitle("View Your Attendance");
@@ -1748,11 +1757,12 @@ else if (currentState == salaryCalcPanel) {
     window.draw(adminImageSprite);
     window.draw(topBar);
     window.draw(companyName);
-    basicSalBox.draw(window);
     bonusBox.draw(window);
     overtimeBox.draw(window);
     deductionBox.draw(window);
     monthBox.draw(window);
+    if (Showerror == true)
+        window.draw(emptyloginbox);
     enterOkButton.mButton->draw(window);
     backButton.mButton->draw(window);
 }

@@ -118,14 +118,14 @@ void deleteEmployee(int deleteID, int& employee_count)
     saveAll();
 }
 
-float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
-    const string& overtimeInput, int month, const string& deductionInput)
+float calcSalary(int id, const string& bonusInput,
+    const string& overtimeInput, int month, const string& deductionInput, int&employee_count)
 {
-    for (int i = 0; i < employeecount; i++)
+    for (int i = 0; i < employee_count; i++)
     {
         if (employee[i].id == id)
         {
-            float basicsalary = stof(basicSalInput);
+            
             float bonus = stof(bonusInput);
             float overtime = stof(overtimeInput);
             float overtimerate = 50.f;  // set your overtime rate here
@@ -133,16 +133,14 @@ float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
 
             int daysAbsent = employee[i].attendance.daysabsent;
 
-            float taxfree = basicsalary - (basicsalary * 0.14f);
+            float taxfree = employee[i].basicsalary - (employee[i].basicsalary * 0.14f);
             float salary = taxfree + (overtime * overtimerate)
                 + bonus - (daysAbsent * salarydeduction);
 
-            employee[i].tax = basicsalary * 0.14f;
+            employee[i].tax = employee[i].basicsalary * 0.14f;
             employee[i].netsalary = salary;
             employee[i].bonus = bonus;
             employee[i].overtimehrs = overtime;
-            employee[i].basicsalary = basicsalary;
-
             //ssaveAll();
             return salary;
         }

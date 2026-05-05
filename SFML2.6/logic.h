@@ -53,8 +53,8 @@ void addEmployee(int& employee_count, const string& name, int age,
 void manageAttendance(int id, int daysPresent, int daysAbsent);
 
 
-float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
-    const string& overtimeInput, int month, const string& deductionInput);
+float calcSalary(int id, const string& bonusInput,
+    const string& overtimeInput, int month, const string& deductionInput, int& employee_count);
 void saveAll();
 void deleteEmployee(int deleteID, int& employeecount);
 //float salarycalc();
