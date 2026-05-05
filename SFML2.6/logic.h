@@ -47,7 +47,7 @@ bool validateEmployee(int id, const string& password, int& foundIndex);
 
 void addEmployee(int& employee_count, const string& name, int age,
     const string& position, long long phone,
-     const string& password);
+     const string& password, int basicsal);
 
 void manageAttendance(int id, int daysPresent, int daysAbsent);
 

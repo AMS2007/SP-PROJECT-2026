@@ -568,6 +568,7 @@ int main()
     Textboxdata AgeBox2(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f +200.f), "Enter Age: ");
     Textboxdata PositionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+300.f), "Enter Position: ");
     Textboxdata PhoneNumberBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+400.f), "Enter Phone Number: ");
+    Textboxdata BasicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 500.f), "Enter Basic Salary: ");
 
 
     // textbox end
@@ -721,6 +722,7 @@ int main()
             Vector2f(width / 4.f * 3.f + 5, height / 4.f + 370.f) // staggered y positions
         );
     }
+
 
     // seed test data
     admin[0] = { "Balona", "123" };
@@ -1196,6 +1198,7 @@ int main()
                 AgeBox2.handleEvent(event, window);
                 PositionBox.handleEvent(event, window);
                 PhoneNumberBox.handleEvent(event, window);
+                BasicSalBox.handleEvent(event, window);
                 enterOkButton.mButton->getButtonStatus(window, event);
                 if (enterOkButton.mButton->isPressed) {
                     Showerror = false;
@@ -1205,7 +1208,7 @@ int main()
                         emptyloginbox.setString("Fields cannot be empty!");
                     }
                     else {
-                        addEmployee(employeecount, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input);                        currentState = addedsuccessfully;
+                        addEmployee(employeecount, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));                        currentState = addedsuccessfully;
                     }
                 }
                 else if (enterOkButton.mButton->isHover) {
@@ -1445,15 +1448,18 @@ int main()
                         if (currentState == addedsuccessfully) {
                             currentState = adminPanel;
                         }
-                        else if (deleteButtonOkay.mButton->isHover) {
-                            deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
-                            deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
-                        }
-                        else
-                            deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
-                        deleteButtonOkay.mButton->setLabelColor(Color::White);
-                        // back settings end
                     }
+                    else if (deleteButtonOkay.mButton->isHover) {
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                    }
+                    else
+                    {
+                        deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                        deleteButtonOkay.mButton->setLabelColor(Color::White);
+                    }
+                        // back settings end
+                    
                 }
             }
             
@@ -1623,6 +1629,7 @@ else if (currentState == addEmployeePanel) {
     PositionBox.draw(window);
     PhoneNumberBox.draw(window);
     PassBox.draw(window);
+    BasicSalBox.draw(window);
     enterOkButton.mButton->draw(window);
 
   
