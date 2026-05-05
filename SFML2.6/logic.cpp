@@ -43,7 +43,7 @@ bool validateEmployee(int id, const string& password, int& foundIndex) {
 
 void addEmployee(int& employee_count, const string& name, int age,
     const string& position, long long phone,
-     const string& password, int&basicsal)
+     const string& password, int basicsal)
 {
     if (employee_count >= 100) return;
 
