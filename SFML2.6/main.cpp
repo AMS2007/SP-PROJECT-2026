@@ -1,4 +1,4 @@
-#include "logic.h"
+﻿#include "logic.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
@@ -74,10 +74,12 @@ struct Textboxdata {
         displayText.setPosition(position.x + 5, position.y + 5);
     }
 
-    void handleEvent(const Event& event, const RenderWindow& window) {
+    void handleEvent(const Event& event, RenderWindow& window) {
         // Focus on click
         if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
-            Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
+            Vector2f mousePos = window.mapPixelToCoords(
+                Vector2i(event.mouseButton.x, event.mouseButton.y)
+            );
             isFocused = box.getGlobalBounds().contains(mousePos);
             box.setOutlineColor(isFocused ? focusedOutline : defaultOutline);
             box.setOutlineThickness(isFocused ? 3 : 2);
@@ -111,6 +113,29 @@ struct Textboxdata {
         displayText.setString("");
     }
 };
+
+View getLetterboxView(float designWidth, float designHeight, float windowWidth, float windowHeight) {
+    float windowRatio = windowWidth / windowHeight;
+    float viewRatio = designWidth / designHeight;
+
+    float sizeX = 1.f, sizeY = 1.f;
+    float posX = 0.f, posY = 0.f;
+
+    if (windowRatio > viewRatio) {
+        // window is wider than design → black bars on sides
+        sizeX = viewRatio / windowRatio;
+        posX = (1.f - sizeX) / 2.f;
+    }
+    else {
+        // window is taller than design → black bars on top/bottom
+        sizeY = windowRatio / viewRatio;
+        posY = (1.f - sizeY) / 2.f;
+    }
+
+    View view(FloatRect(0, 0, designWidth, designHeight));
+    view.setViewport(FloatRect(posX, posY, sizeX, sizeY));
+    return view;
+}
 
 // start menu buttons struct
 struct ButtonData {
@@ -230,6 +255,8 @@ int main()
     GameState currentState = Menu; // screen when you open window
 
     RenderWindow window(VideoMode(width, height), "Employee Payroll Management System By 2202 GROUP");
+    View view = getLetterboxView(1600, 800, width, height);
+    window.setView(view);
 
     window.setFramerateLimit(60); // frame limit of window
     window.setKeyRepeatEnabled(true); // one press each time
@@ -796,6 +823,10 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == Event::Resized) {
+                View view = getLetterboxView(1600, 800, event.size.width, event.size.height);
+                window.setView(view);
+            }
 
             // ========================== MENU =================================
             if (currentState == Menu)
@@ -1579,7 +1610,11 @@ int main()
 
         }
     // Draw
-window.clear(Color::White); // white background
+window.clear(Color::Black); // black sides
+
+RectangleShape background(Vector2f(1600, 800));
+background.setFillColor(Color::White);
+window.draw(background); // white background
 
 if (currentState == Menu)
 {
