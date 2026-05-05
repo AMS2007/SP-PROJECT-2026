@@ -568,7 +568,7 @@ int main()
     Textboxdata AgeBox2(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f +200.f), "Enter Age: ");
     Textboxdata PositionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+300.f), "Enter Position: ");
     Textboxdata PhoneNumberBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+400.f), "Enter Phone Number: ");
-    Textboxdata BasicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 500.f), "Enter Basic Salary: ");
+    Textboxdata BasicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 500.f), "Enter Starting Salary: ");
 
 
     // textbox end
@@ -867,7 +867,7 @@ int main()
                     else {
                         try {
                             int foundIndex = -1;
-                            if (validateEmployee(stoi(idBoxEmp.input), passwordBoxEmp.input, foundIndex)) {
+                            if (validateEmployee(stoi(idBoxEmp.input), passwordBoxEmp.input, foundIndex, employee_count)) {
                                 loggedInEmployeeIndex = foundIndex;
                                 currentState = employeePanel;
                             }
@@ -929,7 +929,7 @@ int main()
                 // enter settings
                 enterButton.mButton->getButtonStatus(window, event);
                 if (enterButton.mButton->isPressed) {
-                    if (validateid(employeeidadminpanel.input)) {
+                    if (validateid(employeeidadminpanel.input ,employee_count)) {
                         currentState = editEmployeePanel;
                     }
                     else {
