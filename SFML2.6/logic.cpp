@@ -148,6 +148,7 @@ float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
             employee[i].netsalary = salary;
             employee[i].bonus = bonus;
             employee[i].overtimehrs = overtime;
+            employee[i].basicsalary = basicsalary;
 
             saveAll();
             return salary;
@@ -155,6 +156,7 @@ float calcSalary(int id, const string& basicSalInput, const string& bonusInput,
     }
     return -1; // employee not found
 }
+
 
 /*float salarycalc()
 {

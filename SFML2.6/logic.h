@@ -22,7 +22,7 @@ struct Employee {
     string password;
     string position;
     long long phone, basicsalary;
-    double netsalary, tax, bonus, overtimehrs;
+    double netsalary, tax = 0.14, bonus, overtimehrs;
     Attendance attendance;
     Texture photo;
     Sprite profilePicture;

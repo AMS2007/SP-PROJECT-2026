@@ -171,11 +171,11 @@ int main()
     unsigned int height = 800; // height of window
     unsigned int width = 1600; // width of window
 
-    employee[0] = { 201, 19, "Ahmed",  "Ahmed123",    "IT Manager",             201142275561,        90000, };
-    employee[1] = { 202, 19, "Ebram",  "Ebram123",    "IT",                     201152263354,        40000, };
-    employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     201006034700,        80000, };
-    employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              201006034720,        25000, };
-    employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      201102446612,        16700, };
+    employee[0] = { 201, 19, "Ahmed",  "Ahmed123",    "IT Manager",             201142275561, 90000};
+    employee[1] = { 202, 19, "Ebram",  "Ebram123",    "IT",                     201152263354, 40000};
+    employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     201006034700, 10000};
+    employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              201006034720, 30000};
+    employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      201102446612, 60000};
 
     employee[0].photo.loadFromFile("Images/ahmed.png");
     employee[1].photo.loadFromFile("Images/ebram.png");
@@ -285,7 +285,7 @@ int main()
     FloatRect login_tb = login_text.getGlobalBounds();
     Vector2f login_size(login_tb.width * 1.5f, login_tb.height * 2.f);
 
-    loginButton.mButton = new RectButton(font, login_size, Vector2f(width / 2.f - login_size.x / 2.f, height / 2.f - login_size.y / 2.f + 140.f));
+    loginButton.mButton = new RectButton(font, login_size, Vector2f(width / 2.f - login_size.x / 2.f, height / 2.f - login_size.y / 2.f + 160.f));
 
     loginButton.mButton->setButtonLabel(36, loginButton.label);
     loginButton.mButton->setLabelColor(Color::White);
@@ -558,8 +558,7 @@ int main()
     Textboxdata monthBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Month (1-12):");
     Textboxdata presentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Days Present:");
     Textboxdata absentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Days Absent:");
-    Textboxdata basicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Basic Salary:");
-    Textboxdata taxBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Tax:");
+    Textboxdata basicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Basic Salary:");
     Textboxdata bonusBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Bonus:");
     Textboxdata overtimeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Enter Overtime Hours:");
     Textboxdata deductionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 400.f), "Enter Salary Deduction (per day absent):");
@@ -659,9 +658,11 @@ int main()
     TextData basicsal(font, "Basic Salary:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f));
     basicsal.centerOrigin();
     TextData taxsal(font, "Tax:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+100.f));
+    taxsal.centerOrigin();
     TextData bonussal(font, "Bonus:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+200.f));
-    TextData overtimesal(font, "OverTime Hours:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+100.f));
-
+    bonussal.centerOrigin();
+    TextData overtimesal(font, "OverTime Hours:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+300.f));
+    overtimesal.centerOrigin();
 
 
     TextData* EmpName = new TextData[employeecount];
@@ -1218,6 +1219,19 @@ int main()
                     enterOkButton.mButton->setButtonColor(enterOkButton.defaultColor);
                     enterOkButton.mButton->setLabelColor(Color::White);
                 }
+                // back settings
+                backButton.mButton->getButtonStatus(window, event);
+                if (backButton.mButton->isPressed) {
+                    if (currentState == attendancePanel) {
+                        currentState = employeePanel;
+                    }
+                }
+                else if (backButton.mButton->isHover) {
+                    backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                }
+                else
+                    backButton.mButton->button.setFillColor(Color::White);
+                // back settings end
             }
            //===========================attendanceViewPanel==============================
             else if (currentState == attendanceViewPanel) {
@@ -1236,19 +1250,20 @@ int main()
                     // back settings end
                    
                 }
+
             }
             // ======================== CALCULATE SALARY PANEL ==========================
             else if (currentState == salaryCalcPanel) {
                 basicSalBox.handleEvent(event, window);
-                taxBox.handleEvent(event, window);
                 bonusBox.handleEvent(event, window);
                 overtimeBox.handleEvent(event, window);
                 deductionBox.handleEvent(event, window);
+                monthBox.handleEvent(event, window);
 
                 enterOkButton.mButton->getButtonStatus(window, event);
                 if (enterOkButton.mButton->isPressed) {
                     Showerror = false;
-                    if (basicSalBox.input.empty() || bonusBox.input.empty() || overtimeBox.input.empty()) {
+                    if (basicSalBox.input.empty() || bonusBox.input.empty() || overtimeBox.input.empty() || monthBox.input.empty()) {
                         Showerror = true;
                         emptyloginbox.setString("Fields cannot be empty!");
                     }
@@ -1261,6 +1276,11 @@ int main()
                             if (net == -1) {
                                 Showerror = true;
                                 emptyloginbox.setString("Employee not found!");
+                            }
+                            else if (month < 1 || month > 12) {
+                                Showerror = true;
+                                emptyloginbox.setString("Invalid Month! Enter 1-12");
+                                monthBox.clear();
                             }
                             else {
                                 calculatedNetSalary = net;
@@ -1362,7 +1382,7 @@ int main()
             }
             // ======================= SALARY VIEW PANEL 2 ========================
             else if (currentState == salaryViewPanel) {
-            
+
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
                     if (currentState == salaryViewPanel) {
@@ -1372,13 +1392,14 @@ int main()
                         deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
                         deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
                     }
-                    else
+                    else {
                         deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
-                    deleteButtonOkay.mButton->setLabelColor(Color::White);
+                        deleteButtonOkay.mButton->setLabelColor(Color::White);
+                    }
                     // back settings end
 
                 }
-}
+            }
             
         }
     // Draw
@@ -1585,10 +1606,10 @@ else if (currentState == salaryCalcPanel) {
     window.draw(topBar);
     window.draw(companyName);
     basicSalBox.draw(window);
-    taxBox.draw(window);
     bonusBox.draw(window);
     overtimeBox.draw(window);
     deductionBox.draw(window);
+    monthBox.draw(window);
     enterOkButton.mButton->draw(window);
     backButton.mButton->draw(window);
 }
@@ -1602,7 +1623,7 @@ else if (currentState == attendancePanel) {
         window.draw(emptyloginbox);
     }
     enterOkButton.mButton->draw(window);
-    //Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
+    backButton.mButton->draw(window);
 }
 else if (currentState == netSalaryPanel) {
     window.setTitle("NET SALARY");
