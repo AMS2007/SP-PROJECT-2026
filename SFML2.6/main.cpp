@@ -194,6 +194,11 @@ struct TextData {
     }
 };
 
+int getDaysInMonth(int month) {
+    int days[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    return days[month];
+}
+
 void rebuildData(TextData*& empID, TextData*&empName, TextData*& empPhone, TextData*& empPosition, TextData*& empAge, int employee_count, Font& font, float width, float height) {
     delete[] empID;
     delete[] empName;
@@ -1322,15 +1327,32 @@ int main()
                     else {
                         try {
                             int month = stoi(monthBox.input);
+                            int present = stoi(presentBox.input);
+                            int absent = stoi(absentBox.input);
+                            int maxDays = getDaysInMonth(month);
                             if (month < 1 || month > 12) {
                                 Showerror = true;
                                 emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
                                 emptyloginbox.setString("Invalid Month! Enter 1-12");
                                 monthBox.clear();
                             }
+                            else if (present < 0 || absent < 0) {
+                                Showerror = true;
+                                emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
+                                emptyloginbox.setString("Days cannot be negative");
+                            }
+                            else if (present + absent != maxDays) {
+                                // total days can't exceed days in that month
+                                Showerror = true;
+                                emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
+                                emptyloginbox.setString("Total days aren't the number of days in month ("
+                                    + to_string(maxDays) + " days)");
+                                presentBox.clear();
+                                absentBox.clear();
+                            }
                             else {
                                 currentState = attendanceOkPanel;
-                                manageAttendance(stoi(EmployeeIdAdminPanel.input), stoi(presentBox.input), stoi(absentBox.input), stoi(monthBox.input), employee_count);
+                                manageAttendance(stoi(EmployeeIdAdminPanel.input), present, absent, month, employee_count);
                             }
                         }
                         catch (...) {
