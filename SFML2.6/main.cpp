@@ -1394,10 +1394,10 @@ int main()
             else if (currentState == attendanceOkPanel) {
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
-                    currentState = adminPanel;                    monthBox.clear();
+                    currentState = editEmployeePanel;
+                    monthBox.clear();
                     presentBox.clear();
                     absentBox.clear();
-                    EmployeeIdAdminPanel.clear();
                 }
                 else if (deleteButtonOkay.mButton->isHover) {
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
