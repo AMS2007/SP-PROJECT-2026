@@ -913,7 +913,7 @@ int main()
             }
 
             // back settings
-            if (currentState != updatePanel) {
+            /*if (currentState != updatePanel) {
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == adminLogin || currentState == employeeLogin) {
@@ -931,6 +931,7 @@ int main()
                 else
                     backButton.mButton->button.setFillColor(Color::White);
             }
+            */
             // back settings end
 
              // ================================ LOG IN ADMIN =============================
