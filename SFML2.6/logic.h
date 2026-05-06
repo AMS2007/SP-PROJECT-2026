@@ -58,7 +58,6 @@ void manageAttendance(int id, int daysPresent, int daysAbsent, int month, int em
 
 float calcSalary(int id, const string& bonusInput,
     const string& overtimeInput, int month, const string& deductionInput, int& employee_count);
-void saveAll();
 void deleteEmployee(int deleteID, int& employeecount);
 //float salarycalc();
 //void  updateEmployee();

@@ -87,29 +87,12 @@ void manageAttendance(int id, int daysPresent, int daysAbsent, int month, int em
         if (employee[i].id == id) {
             employee[i].attendance.dayspresent[month-1] = daysPresent;
             employee[i].attendance.daysabsent[month-1] = daysAbsent;
-            saveAll();
             return;
         }
     }
 }
 
-void saveAll() {
-    ofstream fE("employees.txt");
-    for (int i = 0; i < employeecount; i++)
-        fE << employee[i].id << " " << employee[i].name << " "
-        << employee[i].basicsalary << " " << employee[i].tax << " "
-        << employee[i].password << "\n";
 
-    ofstream fA("attendance.txt");
-    for (int i = 0; i < employeecount; i++)
-        fA << employee[i].attendance.id << " "
-        << employee[i].attendance.dayspresent << " "
-        << employee[i].attendance.daysabsent << "\n";
-
-    ofstream fAd("admins.txt");
-    for (int i = 0; i < admincount; i++)
-        fAd << admin[i].username << " " << admin[i].password << "\n";
-}
 
 void deleteEmployee(int deleteID, int& employee_count)
 {
@@ -136,7 +119,7 @@ void deleteEmployee(int deleteID, int& employee_count)
 
     employee_count--;
     employeecount = employee_count;
-    saveAll();
+    
 }
 
 float calcSalary(int id, const string& bonusInput,
@@ -162,7 +145,6 @@ float calcSalary(int id, const string& bonusInput,
             employee[i].netsalary = salary;
             employee[i].bonus = bonus;
             employee[i].overtimehrs = overtime;
-            //ssaveAll();
             return salary;
         }
     }
