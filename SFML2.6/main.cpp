@@ -1342,7 +1342,6 @@ int main()
                                 emptyloginbox.setString("Days cannot be negative");
                             }
                             else if (present + absent != maxDays) {
-                                // total days can't exceed days in that month
                                 Showerror = true;
                                 emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
                                 emptyloginbox.setString("Total days aren't the number of days in month ("
@@ -1985,7 +1984,7 @@ else if (currentState == addedsuccessfully) {
     window.draw(topBar);
     window.draw(companyName);
     window.draw(Addedsuccessfully.text);
-    IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employee_count-1].id) + "You Can Now Log In With This ID ");
+    IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employee_count-1].id) + "\nYou Can Now Log In With This ID ");
     window.draw(IdNewEmployee.text);
     deleteButtonOkay.mButton->draw(window);
 }
