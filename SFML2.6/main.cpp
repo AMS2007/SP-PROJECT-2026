@@ -1168,15 +1168,28 @@ int main()
                 updatePosBox.handleEvent(event, window);
                 saveButton.mButton->getButtonStatus(window, event);
                 if (saveButton.mButton->isPressed) {
-                    if (updateAgeBox.input.empty() || updatePhoneBox.input.empty() || updateBasicBox.input.empty()) {
+                    if (updateAgeBox.input.empty() && updatePhoneBox.input.empty() &&
+                        updateBasicBox.input.empty() && updatePosBox.input.empty()) {
                         Showerror = true;
-                        emptyloginbox.setString("Fields cannot be empty!");
+                        emptyloginbox.setString("Fill at least one field!");
                     }
                     else {
                         try {
-                            updateEmployee(employee_count, stoi(EmployeeIdAdminPanel.input), stoi(updateAgeBox.input), stoll(updatePhoneBox.input), updatePosBox.input, stoi(updateBasicBox.input));             
-                            rebuildData(EmpID, EmpName, EmpPhone, EmpPosition, EmpAge, employee_count, font, width, height);
-                               currentState = savedSuccessfully;
+                            int empIdx = -1;
+                            int searchId = stoi(EmployeeIdAdminPanel.input);
+                            for (int i = 0; i < employee_count; i++)
+                                if (employee[i].id == searchId) { empIdx = i; break; }
+
+                            if (empIdx != -1) {
+                                int newAge = updateAgeBox.input.empty() ? employee[empIdx].age : stoi(updateAgeBox.input);
+                                long long newPhone = updatePhoneBox.input.empty() ? employee[empIdx].phone : stoll(updatePhoneBox.input);
+                                string newPos = updatePosBox.input.empty() ? employee[empIdx].position : updatePosBox.input;
+                                int newSal = updateBasicBox.input.empty() ? employee[empIdx].basicsalary : stoi(updateBasicBox.input);
+
+                                updateEmployee(employee_count, searchId, newAge, newPhone, newPos, newSal);
+                                rebuildData(EmpID, EmpName, EmpPhone, EmpPosition, EmpAge, employee_count, font, width, height);
+                                currentState = savedSuccessfully;
+                            }
                         }
                         catch (...) {
                             Showerror = true;
@@ -1192,6 +1205,24 @@ int main()
                     saveButton.mButton->setButtonColor(saveButton.defaultColor);
                     saveButton.mButton->setLabelColor(Color::White);
                 }
+                // back settings
+                backButton.mButton->getButtonStatus(window, event);
+                if (backButton.mButton->isPressed) {
+                    if (currentState == updatePanel) {
+                        EmployeeIdAdminPanel.clear();
+                        updateBasicBox.clear();
+                        updatePhoneBox.clear();
+                        updateAgeBox.clear();
+                        updatePosBox.clear();
+                        currentState = editEmployeePanel;
+                    }
+                }
+                else if (backButton.mButton->isHover) {
+                    backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                }
+                else
+                    backButton.mButton->button.setFillColor(Color::White);
+                // back settings end
             }
             // ======================== EMPLOYEE PANEL =========================
             if (currentState == employeePanel) {
@@ -1850,6 +1881,7 @@ else if (currentState == updatePanel) {
     updatePhoneBox.draw(window);
     updatePosBox.draw(window);
     updateAgeBox.draw(window);
+    backButton.mButton->draw(window);
     saveButton.mButton->draw(window);
     }
 else if (currentState == savedSuccessfully) {
