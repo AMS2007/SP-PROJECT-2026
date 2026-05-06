@@ -1173,7 +1173,8 @@ int main()
                     }
                     else {
                         try {
-                            updateEmployee(employee_count, stoi(EmployeeIdAdminPanel.input), stoi(updateAgeBox.input), stoll(updatePhoneBox.input), updatePosBox.input, stoi(updateBasicBox.input));                      
+                            updateEmployee(employee_count, stoi(EmployeeIdAdminPanel.input), stoi(updateAgeBox.input), stoll(updatePhoneBox.input), updatePosBox.input, stoi(updateBasicBox.input));             
+                            rebuildData(EmpID, EmpName, EmpPhone, EmpPosition, EmpAge, employee_count, font, width, height);
                                currentState = savedSuccessfully;
                         }
                         catch (...) {
