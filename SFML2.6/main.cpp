@@ -758,7 +758,7 @@ int main()
             Vector2f(width / 4.f * 3.f - 5.f, height / 4.f + 310.f) // staggered y positions
         );
     }
-    TextData savedSuccessfullyText(font, "Details Saved Successfully ! ", 64, Color::Green, Vector2f(width / 2.f - 300, height / 2.f));
+    TextData savedSuccessfullyText(font, "Details Saved Successfully ! ", 64, Color::Green, Vector2f(width / 2.f - 450, height / 2.f - 70));
     TextData DeletedSuccessfully(font, "Employee Deleted Successfully", 64, Color::Red, Vector2f(width / 2.f, height / 2.f));
     DeletedSuccessfully.centerOrigin();
     TextData Addedsuccessfully(font, "Employee Added Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
