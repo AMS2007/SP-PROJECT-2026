@@ -1209,7 +1209,6 @@ int main()
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == updatePanel) {
-                        EmployeeIdAdminPanel.clear();
                         updateBasicBox.clear();
                         updatePhoneBox.clear();
                         updateAgeBox.clear();
