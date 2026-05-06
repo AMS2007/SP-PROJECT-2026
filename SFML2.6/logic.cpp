@@ -67,6 +67,20 @@ void addEmployee(int& employee_count, const string& name, int age,
     employee_count++;
     employeecount = employee_count;
 }
+void updateEmployee(int& employee_count, int searchId, int age, long long phoneNumber, string position, int baseSalary)
+{
+    for (int i = 0; i < employee_count; i++)
+    {
+        if (employee[i].id == searchId)
+        {
+            employee[i].age = age;
+            employee[i].phone = phoneNumber;
+            employee[i].position = position;
+            employee[i].basicsalary = baseSalary;
+            return;
+        }
+    }
+}
 
 void manageAttendance(int id, int daysPresent, int daysAbsent, int month, int employee_count) {
     for (int i = 0; i < employee_count; i++) {

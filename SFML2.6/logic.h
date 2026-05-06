@@ -44,7 +44,10 @@ extern int admincount;
 bool validateid(string id,int & employee_count);
 
 bool validateAdmin(const string& username, const string& password);
+
 bool validateEmployee(int id, const string& password, int& foundIndex , int & employee_count);
+
+void updateEmployee(int& employee_count, int searchId, int age, long long phonenumber, string position, int baseSalary);
 
 void addEmployee(int& employee_count, const string& name, int age,
     const string& position, long long phone,
