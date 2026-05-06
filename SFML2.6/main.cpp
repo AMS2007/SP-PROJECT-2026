@@ -446,7 +446,7 @@ int main()
     FloatRect enter_tb = enter_text.getGlobalBounds();
     Vector2f enter_size(enter_tb.width * 1.5f, enter_tb.height * 2.f);
 
-    enterButton.mButton = new RectButton(font, enter_size, Vector2f(width / 4.f - enter_size.x / 2.f, height / 4.f * 3.f - enter_size.y / 2.f));
+    enterButton.mButton = new RectButton(font, enter_size, Vector2f(width / 4.f - enter_size.x / 2.f -40.f , height / 2.f  - enter_size.y / 2.f + 50.f));
 
     enterButton.mButton->setButtonLabel(24, enterButton.label);
     enterButton.mButton->setLabelColor(Color::White);
@@ -461,7 +461,7 @@ int main()
     Text trailsLeft;
     trailsLeft.setFont(font);
     trailsLeft.setCharacterSize(24);
-    trailsLeft.setString("Trails Left : 3");
+    trailsLeft.setString("Trials Left : 3");
     trailsLeft.setFillColor(Color::Red);
     trailsLeft.setPosition(720.f, 470.f);
     Text attendance_text;
@@ -808,7 +808,7 @@ int main()
             Vector2f(width / 4.f - 200.f - 47, height / 4.f - 14.f) // staggered y positions
         );
     }
-    TextData TrailsZeroText(font, "You Exceeded Allowed Number Of Trails, Re-open To Log In", 37, Color::Red, Vector2f(780.f, 450.f));
+    TextData TrailsZeroText(font, "You Exceeded Allowed Number Of Trials, Re-open To Log In", 37, Color::Red, Vector2f(780.f, 450.f));
     TrailsZeroText.centerOrigin();
     TextData IdNewEmployee(font, "", 30, Color::Black, Vector2f(width / 2.f - 180, height / 2.f + 100));
     TextData daysPresent(font, "Number Of Present Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f , height / 4.f + 70));
@@ -953,7 +953,7 @@ int main()
                             emptyloginbox.setString("Wrong ID or Password!");
                             trailsCounter--;
                             exitcounter++;
-                            trailsLeft.setString("Trails Left : " + to_string(trailsCounter));
+                            trailsLeft.setString("Trials Left : " + to_string(trailsCounter));
                             if (exitcounter == 3) {
                                 currentState = zerotrailsleft;
                             }
@@ -1672,6 +1672,23 @@ int main()
                     deleteButtonOkay.mButton->setLabelColor(Color::White);
                 }
 
+            }
+            // ========================= VIEW PANEL ===========================
+            else if (currentState == viewPanel) {
+                // back settings
+                backButton.mButton->getButtonStatus(window, event);
+                if (backButton.mButton->isPressed) {
+                    if (currentState == viewPanel) {
+                        currentState = employeePanel;
+                    }
+                }
+                else if (backButton.mButton->isHover) {
+                    backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                }
+                else
+                    backButton.mButton->button.setFillColor(Color::White);
+                // back settings end
+
 
 
             }
@@ -1942,22 +1959,7 @@ else if (currentState == viewPanel) {
         }
     }
     catch (...) {} // silently ignore if input isn't a number yet
-    if (backButton.mButton->isPressed) {
-        if (currentState == viewPanel) {
-            backButton.mButton->getButtonStatus(window, event);
-            currentState = employeePanel;
-        }
-    }
-    logoutButton.mButton->getButtonStatus(window, event);
-    if (logoutButton.mButton->isPressed) {
-        currentState = Menu;
-    }
-    else if (logoutButton.mButton->isHover) {
-        logoutButton.mButton->setLabelColor(Color::Red);
-    }
-    else {
-        logoutButton.mButton->setLabelColor(Color::White);
-    }
+    
 }
 else if (currentState == salaryCalcPanel) {
     window.setTitle("CALCULATE SALARY");
