@@ -35,6 +35,7 @@ enum GameState {
     attendanceViewPanel,
     addedsuccessfully,
     zerotrailsleft,
+    savedSuccessfully,
 };
 
 
@@ -146,8 +147,8 @@ viewSalaryButton,
 viewAttendButton,
 deleteButtonOkay,
 enterOkButton,
-exitAppButton;
-
+exitAppButton,
+saveButton;
 struct TextData {
     sf::Text text;
 
@@ -244,6 +245,26 @@ int main()
     topBar.setPosition(0, 0);
     topBar.setFillColor(Color(1, 46, 90));
     // top of the window details end
+
+    // Save Updated Employee Data
+
+    saveButton.label = "Save";
+    saveButton.defaultColor = Color(1, 46, 90);
+    saveButton.hoverColor = Color(101, 192, 155);
+
+    Text save_text;
+    save_text.setFont(font);
+    save_text.setCharacterSize(24);
+    save_text.setString(saveButton.label);
+    FloatRect save_tb = save_text.getGlobalBounds();
+    Vector2f save_size(save_tb.width * 1.5f, save_tb.height * 2.f);
+
+    saveButton.mButton = new RectButton(font, save_size, Vector2f(width / 4.f, height / 4.f + 400.f));
+    saveButton.mButton->setButtonLabel(24, saveButton.label);
+    saveButton.mButton->setLabelColor(Color::White);
+    saveButton.mButton->setButtonColor(saveButton.defaultColor);
+    // END Save Updated Employee Data
+
 
     // admin button details
     adminButton.label = "I am an Admin";
@@ -592,29 +613,40 @@ int main()
     adminImageSprite.setPosition(width / 2.f, height / 2.f); // (450,435)
     adminImageSprite.setScale(0.3f, 0.3f);
     // admin login image end
+    // ======================                TEXTBOXES              ========================
 
-    // textbox
+    // ======================TEXTBOXES OF ADMIN LOG IN ================================
     Textboxdata idBox(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your Username:");
     Textboxdata passwordBox(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
+    // ======================TEXTBOXES OF EMPLOYEE LOG IN  ================================
     Textboxdata idBoxEmp(font, Vector2f(300, 40), Vector2f(650, 300), "Enter Your ID Number:");
     Textboxdata passwordBoxEmp(font, Vector2f(300, 40), Vector2f(650, 400), "Enter Your Password:");
-    Textboxdata employeeidadminpanel(font, Vector2f(300, 40), Vector2f(215, 350), "Enter The Employee ID:");
+    // ======================TEXTBOXES OF ADMIN PANEL ================================
+    Textboxdata EmployeeIdAdminPanel(font, Vector2f(300, 40), Vector2f(215, 350), "Enter The Employee ID:");
+    // ======================TEXTBOXES OF ATTENDANCES EDIT PANEL ================================
     Textboxdata monthBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Month (1-12):");
     Textboxdata presentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Days Present:");
     Textboxdata absentBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Days Absent:");
+    // ======================TEXTBOXES OF SALARY EDIT PANEL ================================
     Textboxdata basicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Basic Salary:");
     Textboxdata bonusBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Bonus:");
     Textboxdata overtimeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Overtime Hours:");
     Textboxdata deductionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Enter Salary Deduction (per day absent):");
+    // ======================TEXTBOXES OF ADD EMPLOYEE PANEL ================================
     Textboxdata NameBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Name: ");
     Textboxdata PassBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Password: ");
     Textboxdata AgeBox2(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f +200.f), "Enter Age: ");
     Textboxdata PositionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+300.f), "Enter Position: ");
     Textboxdata PhoneNumberBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+400.f), "Enter Phone Number: ");
     Textboxdata BasicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 500.f), "Enter Starting Salary: ");
+    // ======================TEXTBOXES OF UPDATE EMPLOYEE PANEL ================================
+    Textboxdata updateAgeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f ), "Change Age To: ");
+    Textboxdata updatePhoneBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Change Phone Number To: ");
+    Textboxdata updatePosBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Change Position To: ");
+    Textboxdata updateBasicBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Change Base Salary To: ");
+    // ======================                TEXTBOXES END             ========================
 
 
-    // textbox end
 
     // employee login image 
     Texture employeeImage;
@@ -699,9 +731,9 @@ int main()
             Vector2f(width / 4.f * 3.f - 5.f, height / 4.f + 310.f) // staggered y positions
         );
     }
-
-    TextData Deletedsuccessfully(font, "Employee Deleted Successfully", 64, Color::Red, Vector2f(width / 2.f, height / 2.f));
-    Deletedsuccessfully.centerOrigin();
+    TextData savedSuccessfullyText(font, "Details Saved Successfully ! ", 64, Color::Green, Vector2f(width / 2.f - 300, height / 2.f));
+    TextData DeletedSuccessfully(font, "Employee Deleted Successfully", 64, Color::Red, Vector2f(width / 2.f, height / 2.f));
+    DeletedSuccessfully.centerOrigin();
     TextData Addedsuccessfully(font, "Employee Added Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
     Addedsuccessfully.centerOrigin();
     TextData Recorded(font, "Attendance Recorded Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
@@ -851,22 +883,24 @@ int main()
             }
 
             // back settings
-            backButton.mButton->getButtonStatus(window, event);
-            if (backButton.mButton->isPressed) {
-                if (currentState == adminLogin || currentState == employeeLogin) {
-                    Showerror = false;
-                    idBox.clear();  // added these two lines so when back is pressed boxes are cleared
-                    passwordBox.clear();
-                    idBoxEmp.clear();
-                    passwordBoxEmp.clear();
-                    currentState = Menu;
+            if (currentState != updatePanel) {
+                backButton.mButton->getButtonStatus(window, event);
+                if (backButton.mButton->isPressed) {
+                    if (currentState == adminLogin || currentState == employeeLogin) {
+                        Showerror = false;
+                        idBox.clear();
+                        passwordBox.clear();
+                        idBoxEmp.clear();
+                        passwordBoxEmp.clear();
+                        currentState = Menu;
+                    }
                 }
+                else if (backButton.mButton->isHover) {
+                    backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
+                }
+                else
+                    backButton.mButton->button.setFillColor(Color::White);
             }
-            else if (backButton.mButton->isHover) {
-                backButton.mButton->button.setFillColor(Color(255, 255, 255, 180));
-            }
-            else
-                backButton.mButton->button.setFillColor(Color::White);
             // back settings end
 
              // ================================ LOG IN ADMIN =============================
@@ -887,7 +921,7 @@ int main()
                         else {
                             Showerror = true;
                             emptyloginbox.setString("Wrong ID or Password!");
-                            trailsCounter--; 
+                            trailsCounter--;
                             exitcounter++;
                             trailsLeft.setString("Trails Left : " + to_string(trailsCounter));
                             if (exitcounter == 3) {
@@ -948,7 +982,7 @@ int main()
             //log in settings end
         // ============================ ADMIN PANEL ============================
             if (currentState == adminPanel) {
-                employeeidadminpanel.handleEvent(event, window);
+                EmployeeIdAdminPanel.handleEvent(event, window);
                 // add employee settings
                 addButton.mButton->getButtonStatus(window, event);
                 if (addButton.mButton->isPressed) {
@@ -969,8 +1003,8 @@ int main()
                 logoutButton.mButton->getButtonStatus(window, event);
                 if (logoutButton.mButton->isPressed) {
                     trailsCounter = 3;
-                    exitcounter = 0;  
-                    trailsLeft.setString("Trails Left : 3");  
+                    exitcounter = 0;
+                    trailsLeft.setString("Trails Left : 3");
                     idBox.clear();
                     passwordBox.clear();
                     currentState = Menu;
@@ -986,7 +1020,7 @@ int main()
                 // enter settings
                 enterButton.mButton->getButtonStatus(window, event);
                 if (enterButton.mButton->isPressed) {
-                    if (validateid(employeeidadminpanel.input ,employee_count)) {
+                    if (validateid(EmployeeIdAdminPanel.input, employee_count)) {
                         currentState = editEmployeePanel;
                     }
                     else {
@@ -1029,7 +1063,7 @@ int main()
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == editEmployeePanel) {
-                        employeeidadminpanel.clear();
+                        EmployeeIdAdminPanel.clear();
                         currentState = adminPanel;
                     }
                 }
@@ -1079,9 +1113,9 @@ int main()
                 // delete employee settings
                 deleteButton.mButton->getButtonStatus(window, event);
                 if (deleteButton.mButton->isPressed) {
-                    deleteEmployee(stoi(employeeidadminpanel.input), employee_count);
+                    deleteEmployee(stoi(EmployeeIdAdminPanel.input), employee_count);
                     rebuildData(EmpID, EmpName, EmpPhone, EmpPosition, EmpAge, employee_count, font, width, height);
-                    employeeidadminpanel.clear();
+                    EmployeeIdAdminPanel.clear();
                     currentState = deletePanel;
                 }
                 else if (deleteButton.mButton->isHover) {
@@ -1094,6 +1128,38 @@ int main()
                     deleteButton.mButton->setLabelColor(Color::White);
                 }
                 // delete employee settings end
+            }
+            // ======================== EDIT EMPLOYEE ==========================
+            if (currentState == updatePanel) {
+                updateBasicBox.handleEvent(event, window);
+                updatePhoneBox.handleEvent(event, window);
+                updateAgeBox.handleEvent(event, window);
+                updatePosBox.handleEvent(event, window);
+                saveButton.mButton->getButtonStatus(window, event);
+                if (saveButton.mButton->isPressed) {
+                    if (updateAgeBox.input.empty() || updatePhoneBox.input.empty() || updateBasicBox.input.empty()) {
+                        Showerror = true;
+                        emptyloginbox.setString("Fields cannot be empty!");
+                    }
+                    else {
+                        try {
+                            updateEmployee(employee_count, stoi(EmployeeIdAdminPanel.input), stoi(updateAgeBox.input), stoll(updatePhoneBox.input), updatePosBox.input, stoi(updateBasicBox.input));                      
+                               currentState = savedSuccessfully;
+                        }
+                        catch (...) {
+                            Showerror = true;
+                            emptyloginbox.setString("Invalid input!");
+                        }
+                    }
+                }
+                else if (saveButton.mButton->isHover) {  // fixed typo
+                    saveButton.mButton->setButtonColor(saveButton.hoverColor);
+                    saveButton.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else {
+                    saveButton.mButton->setButtonColor(saveButton.defaultColor);
+                    saveButton.mButton->setLabelColor(Color::White);
+                }
             }
             // ======================== EMPLOYEE PANEL =========================
             if (currentState == employeePanel) {
@@ -1199,7 +1265,7 @@ int main()
                             }
                             else {
                                 currentState = attendanceOkPanel;
-                                manageAttendance(stoi(employeeidadminpanel.input), stoi(presentBox.input), stoi(absentBox.input), employee_count);
+                                manageAttendance(stoi(EmployeeIdAdminPanel.input), stoi(presentBox.input), stoi(absentBox.input), employee_count);
                             }
                         }
                         catch (...) {
@@ -1225,7 +1291,7 @@ int main()
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
                     currentState = adminPanel;
-                    employeeidadminpanel.clear();
+                    EmployeeIdAdminPanel.clear();
                 }
                 else if (deleteButtonOkay.mButton->isHover) {
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
@@ -1243,7 +1309,7 @@ int main()
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
                     currentState = adminPanel;
-                    employeeidadminpanel.clear();
+                    EmployeeIdAdminPanel.clear();
                 }
                 else if (deleteButtonOkay.mButton->isHover) {
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
@@ -1272,10 +1338,10 @@ int main()
                         emptyloginbox.setString("Fields cannot be empty!");
                     }
                     else {
-                        addEmployee(employee_count, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));      
+                        addEmployee(employee_count, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));
                         rebuildData(EmpID, EmpName, EmpPhone, EmpPosition, EmpAge, employee_count, font, width, height);
                         currentState = addedsuccessfully;
-                        
+
                     }
                 }
                 else if (enterOkButton.mButton->isHover) {
@@ -1376,7 +1442,7 @@ int main()
                     }
                     else {
                         try {
-                            int empID = stoi(employeeidadminpanel.input);
+                            int empID = stoi(EmployeeIdAdminPanel.input);
                             int month = stoi(monthBox.input);
                             if (month < 1 || month > 12) {
                                 Showerror = true;
@@ -1436,7 +1502,7 @@ int main()
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
                     currentState = adminPanel;
-                    employeeidadminpanel.clear();
+                    EmployeeIdAdminPanel.clear();
                 }
                 else if (deleteButtonOkay.mButton->isHover) {
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
@@ -1528,9 +1594,29 @@ int main()
                     deleteButtonOkay.mButton->setLabelColor(Color::White);
                 }
 
-            }
 
-        }
+
+            }
+            else if (currentState == savedSuccessfully) {
+                deleteButtonOkay.mButton->getButtonStatus(window, event);
+                if (deleteButtonOkay.mButton->isPressed) {
+                    currentState = adminPanel;
+                    EmployeeIdAdminPanel.clear();
+                    updateAgeBox.clear();
+                    updatePosBox.clear();
+                    updatePhoneBox.clear();
+                    updateBasicBox.clear();
+                }
+                else if (deleteButtonOkay.mButton->isHover) {
+                    deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
+                    deleteButtonOkay.mButton->setLabelColor(Color(1, 46, 90));
+                }
+                else {
+                    deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
+                    deleteButtonOkay.mButton->setLabelColor(Color::White);
+                }
+                }
+    }
     // Draw
 window.clear(Color::White); // white background
 
@@ -1597,8 +1683,8 @@ else if (currentState == adminPanel) {
     window.draw(question_admin);
     logoutButton.mButton->draw(window);
     enterButton.mButton->draw(window);
-    employeeidadminpanel.draw(window);
-    employeeidadminpanel.draw(window);
+    EmployeeIdAdminPanel.draw(window);
+    EmployeeIdAdminPanel.draw(window);
     if (Showerror == true)
         window.draw(emptyloginbox);
     if (idBox.input == admin[0].username && passwordBox.input == admin[0].password) {
@@ -1639,7 +1725,7 @@ else if (currentState == editEmployeePanel) {
     window.draw(IDText.text);
     window.draw(AgeText.text);
     try {
-        int searchID = stoi(employeeidadminpanel.input);
+        int searchID = stoi(EmployeeIdAdminPanel.input);
         for (int i = 0; i < employee_count; i++) {
             if (searchID == employee[i].id) {              // draw field labels
                 window.draw(EmpAge[i].text);
@@ -1653,6 +1739,27 @@ else if (currentState == editEmployeePanel) {
         }
     }
     catch (...) {} // silently ignore if input isn't a number yet
+}
+
+else if (currentState == updatePanel) {
+    window.setTitle("EDIT EMPLOYEE");
+    window.draw(adminImageSprite);
+    window.draw(topBar);
+    window.draw(companyName);
+    updateBasicBox.draw(window);
+    updatePhoneBox.draw(window);
+    updatePosBox.draw(window);
+    updateAgeBox.draw(window);
+    saveButton.mButton->draw(window);
+    }
+else if (currentState == savedSuccessfully) {
+    window.setTitle("SAVED SUCCESSFULLY");
+    window.draw(adminImageSprite);
+    window.draw(topBar);
+    window.draw(companyName);
+    window.draw(savedSuccessfullyText.text);
+    deleteButtonOkay.mButton->draw(window); 
+
 }
 else if (currentState == attendanceEditPanel) {
     window.setTitle("EDIT ATTENDANCE");
@@ -1691,7 +1798,7 @@ else if (currentState == deletePanel) {
     window.draw(topBar);
     window.draw(companyName);
     deleteButtonOkay.mButton->draw(window);
-    window.draw(Deletedsuccessfully.text);
+    window.draw(DeletedSuccessfully.text);
 
 }
 else if (currentState == attendanceOkPanel) {
@@ -1715,7 +1822,6 @@ else if (currentState == addEmployeePanel) {
     BasicSalBox.draw(window);
     enterOkButton.mButton->draw(window);
 
-  
 
 }
 else if (currentState == addedsuccessfully) {
@@ -1837,9 +1943,6 @@ else if (currentState == salaryViewPanel) {
 
 }
 
-
-
-
     window.display();
 
     }
@@ -1863,6 +1966,7 @@ else if (currentState == salaryViewPanel) {
     delete viewAttendButton.mButton;
     delete deleteButtonOkay.mButton;
     delete enterOkButton.mButton;
+    delete saveButton.mButton;
 
     return 0;
 }// closes main()
