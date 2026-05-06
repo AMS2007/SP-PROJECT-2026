@@ -1521,6 +1521,7 @@ int main()
                 deleteButtonOkay.mButton->getButtonStatus(window, event);
                 if (deleteButtonOkay.mButton->isPressed) {
                     if (currentState == attendanceViewPanel) {
+                        monthBox.clear();
                         currentState = employeePanel;
                     }
                 }
