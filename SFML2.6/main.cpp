@@ -229,6 +229,18 @@ void rebuildData(TextData*& empID, TextData*&empName, TextData*& empPhone, TextD
 
 }
 
+bool isLettersOnly(const string& s) {
+    for (char c : s)
+        if (!isalpha(c) && c != ' ') // check every character in string if letter
+            return false;
+    return !s.empty(); // string contains at least 1 character
+}
+bool isDigitsOnly(const string& s) {
+    for (char c : s)
+        if (!isdigit(c)) // check every character in string if digit
+            return false;
+    return !s.empty(); // string contains at least 1 character
+}
 
 int main()
 {
@@ -1178,6 +1190,27 @@ int main()
                         Showerror = true;
                         emptyloginbox.setString("Fill at least one field!");
                     }
+                    else if (!updateAgeBox.input.empty() &&
+                        (!isDigitsOnly(updateAgeBox.input) ||
+                            stoi(updateAgeBox.input) < 16 || stoi(updateAgeBox.input) > 80)) {
+                        Showerror = true;
+                        emptyloginbox.setString("Age must be 16-80!");
+                    }
+                    else if (!updatePosBox.input.empty() && !isLettersOnly(updatePosBox.input)) {
+                        Showerror = true;
+                        emptyloginbox.setString("Invalid Position!");
+                    }
+                    else if (!updatePhoneBox.input.empty() &&
+                        (!isDigitsOnly(updatePhoneBox.input) ||
+                            updatePhoneBox.input.size() < 7 || updatePhoneBox.input.size() > 15)) {
+                        Showerror = true;
+                        emptyloginbox.setString("Invalid Phone Number. Must be 7-15 digits!");
+                    }
+                    else if (!updateBasicBox.input.empty() &&
+                        (!isDigitsOnly(updateBasicBox.input) || stoi(updateBasicBox.input) <= 0)) {
+                        Showerror = true;
+                        emptyloginbox.setString("Salary must be positive number!");
+                    }
                     else {
                         try {
                             int empIdx = -1;
@@ -1218,6 +1251,7 @@ int main()
                         updatePhoneBox.clear();
                         updateAgeBox.clear();
                         updatePosBox.clear();
+                        Showerror = false;
                         currentState = editEmployeePanel;
                     }
                 }
@@ -1303,6 +1337,7 @@ int main()
                         presentBox.clear();
                         absentBox.clear();
                         currentState = editEmployeePanel;
+                        Showerror = false;
                     }
                 }
                 else if (backButton.mButton->isHover) {
@@ -1420,10 +1455,41 @@ int main()
                 enterOkButton.mButton->getButtonStatus(window, event);
                 if (enterOkButton.mButton->isPressed) {
                     Showerror = false;
-                    if (NameBox.input.empty() || PassBox.input.empty() || AgeBox2.input.empty()) {
+                    if (NameBox.input.empty() || PassBox.input.empty() || AgeBox2.input.empty() || PositionBox.input.empty() || PhoneNumberBox.input.empty() || BasicSalBox.input.empty()) {
                         Showerror = true;
-                        emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
+                        emptyloginbox.setPosition(width / 4.f *3.f -300.f, height / 4.f *3.f);
                         emptyloginbox.setString("Fields cannot be empty!");
+                    }
+                    else if (!isLettersOnly(NameBox.input)) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Invalid Name!");
+                    }
+                    else if (PassBox.input.size() < 6) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Invalid Password. min 6 characters!");
+                    }
+                    else if (!isDigitsOnly(AgeBox2.input) || stoi(AgeBox2.input) < 16 || stoi(AgeBox2.input) > 80) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Age must be 16-80!");
+                    }
+                    else if (!isLettersOnly(PositionBox.input)) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Invalid Position!");
+                    }
+                    else if (!isDigitsOnly(PhoneNumberBox.input) ||
+                        PhoneNumberBox.input.size() < 7 || PhoneNumberBox.input.size() > 15) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Invalid Phone Number. Must be 7-15 digits!");
+                    }
+                    else if (!isDigitsOnly(BasicSalBox.input) || stoi(BasicSalBox.input) <= 0) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Salary must be positive number!");
                     }
                     else {
                         addEmployee(employee_count, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));
@@ -1451,6 +1517,7 @@ int main()
                         PositionBox.clear();
                         PhoneNumberBox.clear();
                         BasicSalBox.clear();
+                        Showerror = false;
                         currentState = adminPanel;
                     }
                 }
@@ -1506,6 +1573,7 @@ int main()
                 if (backButton.mButton->isPressed) {
                     if (currentState == attendancePanel) {
                         monthBox.clear();
+                        Showerror = false;
                         currentState = employeePanel;
                     }
                 }
@@ -1547,6 +1615,7 @@ int main()
                     Showerror = false;
                     if (deductionBox.input.empty() || bonusBox.input.empty() || overtimeBox.input.empty() || monthBox.input.empty()) {
                         Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
                         emptyloginbox.setString("Fields cannot be empty!");
                     }
                     else {
@@ -1595,6 +1664,7 @@ int main()
                 if (backButton.mButton->isPressed) {
                     if (currentState == salaryCalcPanel) {
                         monthBox.clear();
+                        Showerror = false;
                         currentState = editEmployeePanel;
                     }
                 }
@@ -1669,6 +1739,7 @@ int main()
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == salaryPanel) {
+                        Showerror = false;
                         currentState = employeePanel;
                     }
                 }
@@ -1712,6 +1783,7 @@ int main()
                         PositionBox.clear();
                         PhoneNumberBox.clear();
                         BasicSalBox.clear();
+                        Showerror = false;
                         currentState = adminPanel;
                     }
 
@@ -1754,6 +1826,7 @@ int main()
                     updatePosBox.clear();
                     updatePhoneBox.clear();
                     updateBasicBox.clear();
+                    Showerror = false;
                 }
                 else if (deleteButtonOkay.mButton->isHover) {
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
@@ -1891,6 +1964,7 @@ else if (currentState == editEmployeePanel) {
         }
     }
     catch (...) {} // silently ignore if input isn't a number yet
+
 }
 
 else if (currentState == updatePanel) {
@@ -1904,7 +1978,10 @@ else if (currentState == updatePanel) {
     updateAgeBox.draw(window);
     backButton.mButton->draw(window);
     saveButton.mButton->draw(window);
+    if (Showerror == true)
+        window.draw(emptyloginbox);
     }
+
 else if (currentState == savedSuccessfully) {
     window.setTitle("SAVED SUCCESSFULLY");
     window.draw(adminImageSprite);
@@ -1976,6 +2053,8 @@ else if (currentState == addEmployeePanel) {
     BasicSalBox.draw(window);
     enterOkButton.mButton->draw(window);
     backButton.mButton->draw(window);
+    if (Showerror == true)          
+        window.draw(emptyloginbox);
 
 
 }
