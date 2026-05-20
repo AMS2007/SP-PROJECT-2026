@@ -325,8 +325,8 @@ int main()
 
     // admin button details
     adminButton.label = "I am an Admin";
-    adminButton.defaultColor = Color(101, 192, 155);
-    adminButton.hoverColor = Color(1, 46, 90);
+    adminButton.defaultColor = Color (1, 46, 90);
+    adminButton.hoverColor = Color (101, 192, 155);
 
     Text admin_text;
     admin_text.setFont(font);
@@ -738,11 +738,11 @@ int main()
     // making the main menu look a little bit better
 
     RectangleShape adminCard(Vector2f(800.f, 800.f));
-    adminCard.setFillColor(Color(1, 46, 90));
+    adminCard.setFillColor(Color(116, 141, 174));
     adminCard.setPosition(0.f, 0.f);
 
     RectangleShape employeeCard(Vector2f(800.f, 800.f));
-    employeeCard.setFillColor(Color(101, 192, 155));
+    employeeCard.setFillColor(Color(158, 202, 214));
     employeeCard.setPosition(800.f, 0.f);
 
     Text subtitle;
@@ -1902,7 +1902,7 @@ int main()
             window.draw(companyName);
             window.draw(adminCard);
             window.draw(employeeCard);
-            topBar.setFillColor(Color(35, 47, 114));
+            topBar.setFillColor(Color(32, 32, 32));
             window.draw(topBar);
             adminButton.mButton->draw(window);
             employeeButton.mButton->draw(window);
