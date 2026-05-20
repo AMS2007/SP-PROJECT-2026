@@ -189,7 +189,7 @@ exitAppButton,
 saveButton;
 struct TextData {
     sf::Text text;
-
+     
     TextData() {}
 
     TextData(sf::Font& font, const string& str, unsigned int charSize, sf::Color color, sf::Vector2f position) {
