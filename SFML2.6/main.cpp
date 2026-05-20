@@ -45,6 +45,7 @@ struct Textboxdata {
     Text displayText;
     string input;
     bool isFocused = false;
+    bool isPassword = false;
 
     Color defaultOutline = Color::Black;
     Color focusedOutline = Color(1, 46, 90);
@@ -94,19 +95,25 @@ struct Textboxdata {
             }
             else if (event.text.unicode < 128) {
                 string test = input + static_cast<char>(event.text.unicode);
-                displayText.setString(test);
+                string display = isPassword ? string(test.size(), '*') : test;
+                displayText.setString(display);
                 if (displayText.getGlobalBounds().width < box.getSize().x - 10)
                     input = test;
-                else
-                    displayText.setString(input);
+                else {
+                    string prevDisplay = isPassword ? string(input.size(), '*') : input;
+                    displayText.setString(prevDisplay);
+                }
             }
-            displayText.setString(input);
         }
     }
     void draw(RenderWindow& window) {
         window.draw(box);
         window.draw(label);
         window.draw(displayText);
+        if (isPassword) {
+            string masked(input.size(), '*');
+            displayText.setString(masked);
+        }
     }
 
     void clear() {
@@ -689,7 +696,8 @@ int main()
     Textboxdata updatePosBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Change Position To: ");
     Textboxdata updateBasicBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Change Base Salary To: ");
     // ======================                TEXTBOXES END             ========================
-
+    passwordBox.isPassword = true;      
+    passwordBoxEmp.isPassword = true; 
 
 
     // employee login image 
