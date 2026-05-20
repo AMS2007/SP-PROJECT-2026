@@ -383,7 +383,7 @@ int main()
     // end exit button details
 
     // back button details
-    backButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
+    backButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 17.f));
     backButton.mButton->setButtonLabel(24, backButton.label);
     backButton.loadImage("Images/left-arrow.png");
     backButton.mButton->setButtonLabel(24, "");
@@ -802,7 +802,7 @@ int main()
     companyName.setFont(font);
     companyName.setFillColor(Color::White);
     companyName.setString("2202 Group");
-    companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 0.f);
+    companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 17.f);
 
     // information employee
     //TextData Emp(font, "Employee ID: \n \nFull Name: \n \nAge: \n \nPosition: \n \nPhone No.: \n \nBasic Salary: ", 36, Color(1, 46, 90), Vector2f(width/2.f-50.f, height/4.f-60.f));
