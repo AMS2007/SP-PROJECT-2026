@@ -325,8 +325,8 @@ int main()
 
     // admin button details
     adminButton.label = "I am an Admin";
-    adminButton.defaultColor = Color (1, 46, 90);
-    adminButton.hoverColor = Color (101, 192, 155);
+    adminButton.defaultColor = Color (32, 32, 32);
+    adminButton.hoverColor = Color (100, 100, 100);
 
     Text admin_text;
     admin_text.setFont(font);
@@ -343,8 +343,8 @@ int main()
 
     // employee button details
     employeeButton.label = "I am an Employee";
-    employeeButton.defaultColor = Color(1, 46, 90);
-    employeeButton.hoverColor = Color(101, 192, 155);
+    employeeButton.defaultColor = Color(32, 32, 32);
+    employeeButton.hoverColor = Color(100, 100, 100);
 
     Text employee_text;
     employee_text.setFont(font);
@@ -932,7 +932,7 @@ int main()
                 else if (adminButton.mButton->isHover) // what happens when hover
                 {
                     adminButton.mButton->setButtonColor(adminButton.hoverColor);
-                    adminButton.mButton->setLabelColor(Color(101, 192, 155));
+                    adminButton.mButton->setLabelColor(Color(1, 46, 90));
                 }
                 else
                 {
