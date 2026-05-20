@@ -325,8 +325,8 @@ int main()
 
     // admin button details
     adminButton.label = "I am an Admin";
-    adminButton.defaultColor = Color(101, 192, 155);
-    adminButton.hoverColor = Color(1, 46, 90);
+    adminButton.defaultColor = Color (1, 46, 90);
+    adminButton.hoverColor = Color (101, 192, 155);
 
     Text admin_text;
     admin_text.setFont(font);
@@ -383,7 +383,7 @@ int main()
     // end exit button details
 
     // back button details
-    backButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
+    backButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 17.f));
     backButton.mButton->setButtonLabel(24, backButton.label);
     backButton.loadImage("Images/left-arrow.png");
     backButton.mButton->setButtonLabel(24, "");
@@ -438,7 +438,7 @@ int main()
     FloatRect logout_tb = logout_text.getGlobalBounds();
     Vector2f logout_size(logout_tb.width * 1.5f, logout_tb.height * 1.f);
 
-    logoutButton.mButton = new RectButton(font, logout_size, Vector2f(0.f, 20.f));
+    logoutButton.mButton = new RectButton(font, logout_size, Vector2f(0.f, 30.f));
 
     logoutButton.mButton->setButtonLabel(24, logoutButton.label);
     logoutButton.mButton->setLabelColor(Color::White);
@@ -654,20 +654,20 @@ int main()
 
     // menu admin and employee icons
     Texture adminTexture;
-    adminTexture.loadFromFile("Images/admin2.png");
+    adminTexture.loadFromFile("Images/admin3.png");
     Sprite adminSprite;
     adminSprite.setTexture(adminTexture);
     adminSprite.setOrigin(adminSprite.getLocalBounds().width / 2, adminSprite.getLocalBounds().height / 2);
-    adminSprite.setPosition(width / 4.f, height / 2.f - 20.f); // (400, 360)
-    adminSprite.setScale(0.75f, 0.75f);
+    adminSprite.setPosition(width / 4.f, height / 2.f +30.f); // (400, 360)
+    adminSprite.setScale(0.5f, 0.5f);
 
     Texture employeeTexture;
-    employeeTexture.loadFromFile("Images/emp2.png");
+    employeeTexture.loadFromFile("Images/emp3.png");
     Sprite employeeSprite;
     employeeSprite.setTexture(employeeTexture);
     employeeSprite.setOrigin(employeeSprite.getLocalBounds().width / 2.f, employeeSprite.getLocalBounds().height / 2.f);
-    employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f - 15.f); // (1200,360)
-    employeeSprite.setScale(0.75f, 0.75f);
+    employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f +25.f); // (1200,360)
+    employeeSprite.setScale(0.5f, 0.5f);
     // end admin and employee icons
 
     // admin login image 
@@ -738,11 +738,11 @@ int main()
     // making the main menu look a little bit better
 
     RectangleShape adminCard(Vector2f(800.f, 800.f));
-    adminCard.setFillColor(Color(1, 46, 90));
+    adminCard.setFillColor(Color(116, 141, 174));
     adminCard.setPosition(0.f, 0.f);
 
     RectangleShape employeeCard(Vector2f(800.f, 800.f));
-    employeeCard.setFillColor(Color(101, 192, 155));
+    employeeCard.setFillColor(Color(158, 202, 214));
     employeeCard.setPosition(800.f, 0.f);
 
     Text subtitle;
@@ -802,7 +802,7 @@ int main()
     companyName.setFont(font);
     companyName.setFillColor(Color::White);
     companyName.setString("2202 Group");
-    companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 0.f);
+    companyName.setPosition(width - companyName.getLocalBounds().width - 20.f, 17.f);
 
     // information employee
     //TextData Emp(font, "Employee ID: \n \nFull Name: \n \nAge: \n \nPosition: \n \nPhone No.: \n \nBasic Salary: ", 36, Color(1, 46, 90), Vector2f(width/2.f-50.f, height/4.f-60.f));
@@ -1902,7 +1902,7 @@ int main()
             window.draw(companyName);
             window.draw(adminCard);
             window.draw(employeeCard);
-            topBar.setFillColor(Color(35, 47, 114));
+            topBar.setFillColor(Color(32, 32, 32));
             window.draw(topBar);
             adminButton.mButton->draw(window);
             employeeButton.mButton->draw(window);
