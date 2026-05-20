@@ -306,8 +306,8 @@ int main()
     // Save Updated Employee Data
 
     saveButton.label = "Save";
-    saveButton.defaultColor = Color(1, 46, 90);
-    saveButton.hoverColor = Color(101, 192, 155);
+    saveButton.defaultColor = Color(32, 32, 32);
+    saveButton.hoverColor = Color(100, 100, 100);
 
     Text save_text;
     save_text.setFont(font);
@@ -391,8 +391,8 @@ int main()
 
     // log in button details
     loginButton.label = "Log In";
-    loginButton.defaultColor = Color(1, 46, 90);
-    loginButton.hoverColor = Color(101, 192, 155);
+    loginButton.defaultColor = Color(32, 32, 32);
+    loginButton.hoverColor = Color(100, 100, 100);
 
     Text login_text;
     login_text.setFont(font);
@@ -410,8 +410,8 @@ int main()
 
     // add employee button details
     addButton.label = "Add Employee";
-    addButton.defaultColor = Color(1, 46, 90);
-    addButton.hoverColor = Color(101, 192, 155);
+    addButton.defaultColor = Color(32, 32, 32);
+    addButton.hoverColor = Color(100, 100, 100);
 
     Text add_text;
     add_text.setFont(font);
@@ -428,8 +428,8 @@ int main()
 
     // log out button details
     logoutButton.label = "Log Out";
-    logoutButton.defaultColor = Color(1, 46, 90);
-    logoutButton.hoverColor = Color(31, 11, 64);
+    logoutButton.defaultColor = Color(32, 32, 32);
+    logoutButton.hoverColor = Color(32, 32, 32);
 
     Text logout_text;
     logout_text.setFont(font);
@@ -447,8 +447,8 @@ int main()
 
     // update employee button details
     updateButton.label = "Update Employee";
-    updateButton.defaultColor = Color(1, 46, 90);
-    updateButton.hoverColor = Color(101, 192, 155);
+    updateButton.defaultColor = Color(32, 32, 32);
+    updateButton.hoverColor = Color(100, 100, 100);
 
     Text update_text;
     update_text.setFont(font);
@@ -466,8 +466,8 @@ int main()
 
     // enter employee button details
     enterButton.label = "Enter";
-    enterButton.defaultColor = Color(1, 46, 90);
-    enterButton.hoverColor = Color(101, 192, 155);
+    enterButton.defaultColor = Color(32, 32, 32);
+    enterButton.hoverColor = Color(100, 100, 100);
 
     Text enter_text;
     enter_text.setFont(font);
@@ -485,8 +485,8 @@ int main()
 
     // attendance button details
     attendanceButton.label = "Record Attendance";
-    attendanceButton.defaultColor = Color(1, 46, 90);
-    attendanceButton.hoverColor = Color(101, 192, 155);
+    attendanceButton.defaultColor = Color(32, 32, 32);
+    attendanceButton.hoverColor = Color(100, 100, 100);
 
     Text trailsLeftAdmin;
     trailsLeftAdmin.setFont(font);
@@ -519,8 +519,8 @@ int main()
 
     // salary button details
     salaryButton.label = "Calculate Salary";
-    salaryButton.defaultColor = Color(1, 46, 90);
-    salaryButton.hoverColor = Color(101, 192, 155);
+    salaryButton.defaultColor = Color(32, 32, 32);
+    salaryButton.hoverColor = Color(100, 100, 100);
 
     Text salary_text;
     salary_text.setFont(font);
@@ -538,8 +538,8 @@ int main()
 
     // delete button details
     deleteButton.label = "Delete Employee";
-    deleteButton.defaultColor = Color(1, 46, 90);
-    deleteButton.hoverColor = Color(1, 46, 90);
+    deleteButton.defaultColor = Color(32, 32, 32);
+    deleteButton.hoverColor = Color(100, 100, 100);
 
     Text delete_text;
     delete_text.setFont(font);
@@ -557,8 +557,8 @@ int main()
 
     // view button details
     viewButton.label = "View Personal Details";
-    viewButton.defaultColor = Color(1, 46, 90);
-    viewButton.hoverColor = Color(101, 192, 155);
+    viewButton.defaultColor = Color(32, 32, 32);
+    viewButton.hoverColor = Color(100, 100, 100);
 
     Text view_text;
     view_text.setFont(font);
@@ -576,8 +576,8 @@ int main()
 
     // salary button details
     viewSalaryButton.label = "View Salary";
-    viewSalaryButton.defaultColor = Color(1, 46, 90);
-    viewSalaryButton.hoverColor = Color(101, 192, 155);
+    viewSalaryButton.defaultColor = Color(32, 32, 32);
+    viewSalaryButton.hoverColor = Color(100, 100, 100);
 
     Text vSalary_text;
     vSalary_text.setFont(font);
@@ -595,8 +595,8 @@ int main()
 
     // attendance button details
     viewAttendButton.label = "View Attendance Records";
-    viewAttendButton.defaultColor = Color(1, 46, 90);
-    viewAttendButton.hoverColor = Color(101, 192, 155);
+    viewAttendButton.defaultColor = Color(32, 32, 32);
+    viewAttendButton.hoverColor = Color(100, 100, 100);
 
     Text vAttend_text;
     vAttend_text.setFont(font);
@@ -615,8 +615,8 @@ int main()
 
     // okay button deleted succefully details
     deleteButtonOkay.label = "Okay";
-    deleteButtonOkay.defaultColor = Color(1, 46, 90);
-    deleteButtonOkay.hoverColor = Color(101, 192, 155);
+    deleteButtonOkay.defaultColor = Color(32, 32, 32);
+    deleteButtonOkay.hoverColor = Color(100, 100, 100);
 
     Text deleteButtonTextOkay;
     deleteButtonTextOkay.setFont(font);
@@ -634,8 +634,8 @@ int main()
 
     // enter attendance button details
     enterOkButton.label = "Enter";
-    enterOkButton.defaultColor = Color(1, 46, 90);
-    enterOkButton.hoverColor = Color(101, 192, 155);
+    enterOkButton.defaultColor = Color(32, 32, 32);
+    enterOkButton.hoverColor = Color(100, 100, 100);
 
     Text enterA_text;
     enterA_text.setFont(font);
