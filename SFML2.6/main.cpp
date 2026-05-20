@@ -662,12 +662,12 @@ int main()
     adminSprite.setScale(0.5f, 0.5f);
 
     Texture employeeTexture;
-    employeeTexture.loadFromFile("Images/emp3.png");
+    employeeTexture.loadFromFile("Images/emp44.png");
     Sprite employeeSprite;
     employeeSprite.setTexture(employeeTexture);
     employeeSprite.setOrigin(employeeSprite.getLocalBounds().width / 2.f, employeeSprite.getLocalBounds().height / 2.f);
     employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f +25.f); // (1200,360)
-    employeeSprite.setScale(0.5f, 0.5f);
+    employeeSprite.setScale(0.65f, 0.65f);
     // end admin and employee icons
 
     // admin login image 
