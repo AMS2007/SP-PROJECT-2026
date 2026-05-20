@@ -370,15 +370,15 @@ int main()
 
 
     // exit app button if trails reached 3 
-    exitAppButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
+    exitAppButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 17.f));
     exitAppButton.mButton->setButtonLabel(24, exitAppButton.label);
     exitAppButton.mButton->setButtonLabel(24, "EXIT");
 
 
     // exit button details
-    exitButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
+    exitButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 17.f));
     exitButton.mButton->setButtonLabel(24, exitButton.label);
-    exitButton.loadImage("Images/exit.png");
+    exitButton.loadImage("Images/exit5_white.png");
     exitButton.mButton->setButtonLabel(24, "");
     // end exit button details
 
