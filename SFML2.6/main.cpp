@@ -298,7 +298,7 @@ int main()
     }
 
     // top of the window details
-    RectangleShape topBar(Vector2f(1600, 60));
+    RectangleShape topBar(Vector2f(1600, 80));
     topBar.setPosition(0, 0);
     topBar.setFillColor(Color(1, 46, 90));
     // top of the window details end
@@ -654,7 +654,7 @@ int main()
 
     // menu admin and employee icons
     Texture adminTexture;
-    adminTexture.loadFromFile("Images/Screenshot 2026-05-20 083711.png");
+    adminTexture.loadFromFile("Images/admin2.png");
     Sprite adminSprite;
     adminSprite.setTexture(adminTexture);
     adminSprite.setOrigin(adminSprite.getLocalBounds().width / 2, adminSprite.getLocalBounds().height / 2);
@@ -662,12 +662,12 @@ int main()
     adminSprite.setScale(0.75f, 0.75f);
 
     Texture employeeTexture;
-    employeeTexture.loadFromFile("Images/vecteezy_businessman-icon-design_51837900.jpg");
+    employeeTexture.loadFromFile("Images/emp2.png");
     Sprite employeeSprite;
     employeeSprite.setTexture(employeeTexture);
     employeeSprite.setOrigin(employeeSprite.getLocalBounds().width / 2.f, employeeSprite.getLocalBounds().height / 2.f);
     employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f - 15.f); // (1200,360)
-    employeeSprite.setScale(0.18f, 0.18f);
+    employeeSprite.setScale(0.75f, 0.75f);
     // end admin and employee icons
 
     // admin login image 
@@ -727,12 +727,12 @@ int main()
 
     // welcome text
     Text welc;
-    welc.setCharacterSize(64);
+    welc.setCharacterSize(30);
     welc.setFont(font);
     welc.setFillColor(Color::White);
     welc.setString("Welcome!");
     welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f);
-    welc.setPosition(width / 2.f, height / 4.f - 100.f);
+    welc.setPosition(width / 2.f, 20);
 
 
     // making the main menu look a little bit better
@@ -751,7 +751,7 @@ int main()
     subtitle.setFillColor(Color(245, 245, 245));
     subtitle.setString("Employee Payroll Management System");
     subtitle.setOrigin(subtitle.getLocalBounds().width / 2.f, subtitle.getLocalBounds().height / 2.f);
-    subtitle.setPosition(width / 2.f, height / 4.f - 30.f);
+    subtitle.setPosition(width / 2.f, 50);
 
     Text welc_admin;
     welc_admin.setCharacterSize(64);
@@ -1902,11 +1902,11 @@ int main()
             window.draw(companyName);
             window.draw(adminCard);
             window.draw(employeeCard);
-            window.draw(subtitle);
-            //window.draw(topBar);
+            window.draw(topBar);
             adminButton.mButton->draw(window);
             employeeButton.mButton->draw(window);
             exitButton.mButton->draw(window);
+            window.draw(subtitle);
             window.draw(adminSprite);
             window.draw(employeeSprite);
             window.draw(welc);
