@@ -1902,6 +1902,7 @@ int main()
             window.draw(companyName);
             window.draw(adminCard);
             window.draw(employeeCard);
+            topBar.setFillColor(Color(47, 87, 138));
             window.draw(topBar);
             adminButton.mButton->draw(window);
             employeeButton.mButton->draw(window);
