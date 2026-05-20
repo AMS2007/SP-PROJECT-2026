@@ -34,7 +34,8 @@ enum GameState {
     netSalaryPanel,
     attendanceViewPanel,
     addedsuccessfully,
-    zerotrailsleft,
+    zerotrailsleftAdmin,
+    zerotrailsleftEmp,
     savedSuccessfully,
 };
 
@@ -45,6 +46,7 @@ struct Textboxdata {
     Text displayText;
     string input;
     bool isFocused = false;
+    bool isPassword = false;
 
     Color defaultOutline = Color::Black;
     Color focusedOutline = Color(1, 46, 90);
@@ -94,16 +96,27 @@ struct Textboxdata {
             }
             else if (event.text.unicode < 128) {
                 string test = input + static_cast<char>(event.text.unicode);
-                displayText.setString(test);
+                string display = isPassword ? string(test.size(), '*') : test;
+                displayText.setString(display);
                 if (displayText.getGlobalBounds().width < box.getSize().x - 10)
                     input = test;
-                else
-                    displayText.setString(input);
+                else {
+                    string prevDisplay = isPassword ? string(input.size(), '*') : input;
+                    displayText.setString(prevDisplay);
+                }
             }
-            displayText.setString(input);
+            if (isPassword)
+                displayText.setString(string(input.size(), '*'));
+            else
+                displayText.setString(input);
         }
     }
     void draw(RenderWindow& window) {
+        if (isPassword)
+            displayText.setString(string(input.size(), '*'));
+        else
+            displayText.setString(input);
+
         window.draw(box);
         window.draw(label);
         window.draw(displayText);
@@ -176,7 +189,7 @@ exitAppButton,
 saveButton;
 struct TextData {
     sf::Text text;
-
+     
     TextData() {}
 
     TextData(sf::Font& font, const string& str, unsigned int charSize, sf::Color color, sf::Vector2f position) {
@@ -199,7 +212,7 @@ int getDaysInMonth(int month) {
     return days[month];
 }
 
-void rebuildData(TextData*& empID, TextData*&empName, TextData*& empPhone, TextData*& empPosition, TextData*& empAge, int employee_count, Font& font, float width, float height) {
+void rebuildData(TextData*& empID, TextData*& empName, TextData*& empPhone, TextData*& empPosition, TextData*& empAge, int employee_count, Font& font, float width, float height) {
     delete[] empID;
     delete[] empName;
     delete[] empPhone;
@@ -229,17 +242,29 @@ void rebuildData(TextData*& empID, TextData*&empName, TextData*& empPhone, TextD
 
 }
 
+bool isLettersOnly(const string& s) {
+    for (char c : s)
+        if (!isalpha(c) && c != ' ') // check every character in string if letter
+            return false;
+    return !s.empty(); // string contains at least 1 character
+}
+bool isDigitsOnly(const string& s) {
+    for (char c : s)
+        if (!isdigit(c)) // check every character in string if digit
+            return false;
+    return !s.empty(); // string contains at least 1 character
+}
 
 int main()
 {
     unsigned int height = 800; // height of window
     unsigned int width = 1600; // width of window
 
-    employee[0] = { 201, 19, "Ahmed",  "Ahmed123",    "IT Manager",             201142275561, 90000};
-    employee[1] = { 202, 19, "Ebram",  "Ebram123",    "IT",                     201152263354, 40000};
-    employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     201006034700, 10000};
-    employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              201006034720, 30000};
-    employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      201102446612, 60000};
+    employee[0] = { 201, 19, "Ahmed",  "Ahmed123",    "IT Manager",             201142275561, 90000 };
+    employee[1] = { 202, 19, "Ebram",  "Ebram123",    "IT",                     201152263354, 40000 };
+    employee[2] = { 203, 18, "Mona",   "Mona123",     "Marketing Manaager",     201006034700, 10000 };
+    employee[3] = { 204, 20, "Steven", "Steven123",   "Marketing",              201006034720, 30000 };
+    employee[4] = { 205, 18, "Marwan", "Marwan123",   "Developer Manager",      201102446612, 60000 };
 
     employee[0].photo.loadFromFile("Images/ahmed.png");
     employee[1].photo.loadFromFile("Images/ebram.png");
@@ -273,7 +298,7 @@ int main()
     }
 
     // top of the window details
-    RectangleShape topBar(Vector2f(1600, 60));
+    RectangleShape topBar(Vector2f(1600, 80));
     topBar.setPosition(0, 0);
     topBar.setFillColor(Color(1, 46, 90));
     // top of the window details end
@@ -300,8 +325,8 @@ int main()
 
     // admin button details
     adminButton.label = "I am an Admin";
-    adminButton.defaultColor = Color(1, 46, 90);
-    adminButton.hoverColor = Color(101, 192, 155);
+    adminButton.defaultColor = Color(101, 192, 155);
+    adminButton.hoverColor = Color(1, 46, 90);
 
     Text admin_text;
     admin_text.setFont(font);
@@ -345,15 +370,15 @@ int main()
 
 
     // exit app button if trails reached 3 
-    exitAppButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
+    exitAppButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 17.f));
     exitAppButton.mButton->setButtonLabel(24, exitAppButton.label);
     exitAppButton.mButton->setButtonLabel(24, "EXIT");
 
 
     // exit button details
-    exitButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 5.f));
+    exitButton.mButton = new RectButton(font, Vector2f(60.f, 50.f), Vector2f(5.f, 17.f));
     exitButton.mButton->setButtonLabel(24, exitButton.label);
-    exitButton.loadImage("Images/exit.png");
+    exitButton.loadImage("Images/exit5_white.png");
     exitButton.mButton->setButtonLabel(24, "");
     // end exit button details
 
@@ -451,7 +476,7 @@ int main()
     FloatRect enter_tb = enter_text.getGlobalBounds();
     Vector2f enter_size(enter_tb.width * 1.5f, enter_tb.height * 2.f);
 
-    enterButton.mButton = new RectButton(font, enter_size, Vector2f(width / 4.f - enter_size.x / 2.f -40.f , height / 2.f  - enter_size.y / 2.f + 50.f));
+    enterButton.mButton = new RectButton(font, enter_size, Vector2f(width / 4.f - enter_size.x / 2.f - 40.f, height / 2.f - enter_size.y / 2.f + 50.f));
 
     enterButton.mButton->setButtonLabel(24, enterButton.label);
     enterButton.mButton->setLabelColor(Color::White);
@@ -462,13 +487,22 @@ int main()
     attendanceButton.label = "Record Attendance";
     attendanceButton.defaultColor = Color(1, 46, 90);
     attendanceButton.hoverColor = Color(101, 192, 155);
-    
-    Text trailsLeft;
-    trailsLeft.setFont(font);
-    trailsLeft.setCharacterSize(24);
-    trailsLeft.setString("Trials Left : 3");
-    trailsLeft.setFillColor(Color::Red);
-    trailsLeft.setPosition(720.f, 470.f);
+
+    Text trailsLeftAdmin;
+    trailsLeftAdmin.setFont(font);
+    trailsLeftAdmin.setCharacterSize(24);
+    trailsLeftAdmin.setString("Trials Left : 3");
+    trailsLeftAdmin.setFillColor(Color::Red);
+    trailsLeftAdmin.setPosition(720.f, 470.f);
+
+   
+    Text trailsLeftEmp;
+    trailsLeftEmp.setFont(font);
+    trailsLeftEmp.setCharacterSize(24);
+    trailsLeftEmp.setString("Trials Left : 3");
+    trailsLeftEmp.setFillColor(Color::Red);
+    trailsLeftEmp.setPosition(720.f, 470.f);
+
     Text attendance_text;
     attendance_text.setFont(font);
     attendance_text.setCharacterSize(36);
@@ -620,19 +654,19 @@ int main()
 
     // menu admin and employee icons
     Texture adminTexture;
-    adminTexture.loadFromFile("Images/employee_622846.png");
+    adminTexture.loadFromFile("Images/admin2.png");
     Sprite adminSprite;
     adminSprite.setTexture(adminTexture);
     adminSprite.setOrigin(adminSprite.getLocalBounds().width / 2, adminSprite.getLocalBounds().height / 2);
-    adminSprite.setPosition(width / 4.f, height / 2.f - 40.f); // (400, 360)
+    adminSprite.setPosition(width / 4.f, height / 2.f - 20.f); // (400, 360)
     adminSprite.setScale(0.75f, 0.75f);
 
     Texture employeeTexture;
-    employeeTexture.loadFromFile("Images/employee_622850.png");
+    employeeTexture.loadFromFile("Images/emp2.png");
     Sprite employeeSprite;
     employeeSprite.setTexture(employeeTexture);
     employeeSprite.setOrigin(employeeSprite.getLocalBounds().width / 2.f, employeeSprite.getLocalBounds().height / 2.f);
-    employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f - 40.f); // (1200,360)
+    employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f - 15.f); // (1200,360)
     employeeSprite.setScale(0.75f, 0.75f);
     // end admin and employee icons
 
@@ -667,17 +701,18 @@ int main()
     // ======================TEXTBOXES OF ADD EMPLOYEE PANEL ================================
     Textboxdata NameBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Enter Name: ");
     Textboxdata PassBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Enter Password: ");
-    Textboxdata AgeBox2(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f +200.f), "Enter Age: ");
-    Textboxdata PositionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+300.f), "Enter Position: ");
-    Textboxdata PhoneNumberBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f+400.f), "Enter Phone Number: ");
+    Textboxdata AgeBox2(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Enter Age: ");
+    Textboxdata PositionBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Enter Position: ");
+    Textboxdata PhoneNumberBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 400.f), "Enter Phone Number: ");
     Textboxdata BasicSalBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 500.f), "Enter Starting Salary: ");
     // ======================TEXTBOXES OF UPDATE EMPLOYEE PANEL ================================
-    Textboxdata updateAgeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f ), "Change Age To: ");
+    Textboxdata updateAgeBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f), "Change Age To: ");
     Textboxdata updatePhoneBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 200.f), "Change Phone Number To: ");
     Textboxdata updatePosBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 100.f), "Change Position To: ");
     Textboxdata updateBasicBox(font, Vector2f(300, 40), Vector2f(width / 4.f, height / 4.f + 300.f), "Change Base Salary To: ");
     // ======================                TEXTBOXES END             ========================
-
+    passwordBox.isPassword = true;      
+    passwordBoxEmp.isPassword = true; 
 
 
     // employee login image 
@@ -692,12 +727,31 @@ int main()
 
     // welcome text
     Text welc;
-    welc.setCharacterSize(64);
+    welc.setCharacterSize(30);
     welc.setFont(font);
-    welc.setFillColor(Color(1, 46, 90));
+    welc.setFillColor(Color::White);
     welc.setString("Welcome!");
     welc.setOrigin(welc.getLocalBounds().width / 2.f, welc.getLocalBounds().height / 2.f);
-    welc.setPosition(width / 2.f, height / 4.f - 50.f);
+    welc.setPosition(width / 2.f, 20);
+
+
+    // making the main menu look a little bit better
+
+    RectangleShape adminCard(Vector2f(800.f, 800.f));
+    adminCard.setFillColor(Color(1, 46, 90));
+    adminCard.setPosition(0.f, 0.f);
+
+    RectangleShape employeeCard(Vector2f(800.f, 800.f));
+    employeeCard.setFillColor(Color(101, 192, 155));
+    employeeCard.setPosition(800.f, 0.f);
+
+    Text subtitle;
+    subtitle.setFont(font);
+    subtitle.setCharacterSize(17);
+    subtitle.setFillColor(Color(245, 245, 245));
+    subtitle.setString("Employee Payroll Management System");
+    subtitle.setOrigin(subtitle.getLocalBounds().width / 2.f, subtitle.getLocalBounds().height / 2.f);
+    subtitle.setPosition(width / 2.f, 50);
 
     Text welc_admin;
     welc_admin.setCharacterSize(64);
@@ -770,16 +824,16 @@ int main()
     Addedsuccessfully.centerOrigin();
     TextData Recorded(font, "Attendance Recorded Successfully", 64, Color::Green, Vector2f(width / 2.f, height / 2.f));
     Recorded.centerOrigin();
-    TextData Netsal(font, "Net Salary:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f +400.f));
-    
+    TextData Netsal(font, "Net Salary:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f + 400.f));
+
     TextData basicsal(font, "Basic Salary:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f));
-    
-    TextData taxsal(font, "Tax:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+100.f));
-    
-    TextData bonussal(font, "Bonus:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+200.f));
-    
-    TextData overtimesal(font, "OverTime Hours:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f+300.f));
-    
+
+    TextData taxsal(font, "Tax:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f + 100.f));
+
+    TextData bonussal(font, "Bonus:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f + 200.f));
+
+    TextData overtimesal(font, "OverTime Hours:", 36, Color(1, 46, 90), Vector2f(width / 4.f, height / 4.f + 300.f));
+
 
     TextData* EmpName = new TextData[employee_count];
     for (int i = 0; i < employee_count; i++) {
@@ -816,8 +870,8 @@ int main()
     TextData TrailsZeroText(font, "You Exceeded Allowed Number Of Trials, Re-open To Log In", 37, Color::Red, Vector2f(780.f, 450.f));
     TrailsZeroText.centerOrigin();
     TextData IdNewEmployee(font, "", 30, Color::Black, Vector2f(width / 2.f - 180, height / 2.f + 100));
-    TextData daysPresent(font, "Number Of Present Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f , height / 4.f + 70));
-    daysPresent.centerOrigin(); 
+    TextData daysPresent(font, "Number Of Present Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f, height / 4.f + 70));
+    daysPresent.centerOrigin();
     TextData daysAbsent(font, "Number Of Absent Days : ", 30, Color::Black, Vector2f(width / 4.f + 220.f, height / 4.f + 120.f));
     daysAbsent.centerOrigin();
     TextData AgeText(font, "Age :", 20, Color::Black, Vector2f(width / 4.f * 3.f - 50, height / 4.f + 370.f));
@@ -850,7 +904,8 @@ int main()
     int loggedInEmployeeIndex = -1;
     int exitcounter = 0;
     int trailsCounter = 3;
-
+    int exitcounterEmp = 0;
+    int trailsCounterEmp = 3;
     // ================================ GAME LOOP ============================
     while (window.isOpen())
     {
@@ -877,7 +932,7 @@ int main()
                 else if (adminButton.mButton->isHover) // what happens when hover
                 {
                     adminButton.mButton->setButtonColor(adminButton.hoverColor);
-                    adminButton.mButton->setLabelColor(Color(1, 46, 90));
+                    adminButton.mButton->setLabelColor(Color(101, 192, 155));
                 }
                 else
                 {
@@ -918,7 +973,7 @@ int main()
             }
 
             // back settings
-            /*if (currentState != updatePanel) {
+            if (currentState != updatePanel) {
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == adminLogin || currentState == employeeLogin) {
@@ -936,7 +991,6 @@ int main()
                 else
                     backButton.mButton->button.setFillColor(Color::White);
             }
-            */
             // back settings end
 
              // ================================ LOG IN ADMIN =============================
@@ -959,9 +1013,9 @@ int main()
                             emptyloginbox.setString("Wrong ID or Password!");
                             trailsCounter--;
                             exitcounter++;
-                            trailsLeft.setString("Trials Left : " + to_string(trailsCounter));
+                            trailsLeftAdmin.setString("Trials Left : " + to_string(trailsCounter));
                             if (exitcounter == 3) {
-                                currentState = zerotrailsleft;
+                                currentState = zerotrailsleftAdmin;
                             }
                         }
                     }
@@ -998,6 +1052,12 @@ int main()
                             else {
                                 Showerror = true;
                                 emptyloginbox.setString("Wrong ID or Password!");
+                                trailsCounterEmp--;
+                                exitcounterEmp++;
+                                trailsLeftEmp.setString("Trials Left : " + to_string(trailsCounterEmp));
+                                if (exitcounterEmp == 3) {
+                                    currentState = zerotrailsleftEmp;
+                                }
                             }
                         }
                         catch (...) {
@@ -1040,7 +1100,7 @@ int main()
                 if (logoutButton.mButton->isPressed) {
                     trailsCounter = 3;
                     exitcounter = 0;
-                    trailsLeft.setString("Trails Left : 3");
+                    trailsLeftAdmin.setString("Trials Left : 3");
                     idBox.clear();
                     passwordBox.clear();
                     currentState = Menu;
@@ -1178,6 +1238,27 @@ int main()
                         Showerror = true;
                         emptyloginbox.setString("Fill at least one field!");
                     }
+                    else if (!updateAgeBox.input.empty() &&
+                        (!isDigitsOnly(updateAgeBox.input) ||
+                            stoi(updateAgeBox.input) < 16 || stoi(updateAgeBox.input) > 80)) {
+                        Showerror = true;
+                        emptyloginbox.setString("Age must be 16-80!");
+                    }
+                    else if (!updatePosBox.input.empty() && !isLettersOnly(updatePosBox.input)) {
+                        Showerror = true;
+                        emptyloginbox.setString("Invalid Position!");
+                    }
+                    else if (!updatePhoneBox.input.empty() &&
+                        (!isDigitsOnly(updatePhoneBox.input) ||
+                            updatePhoneBox.input.size() < 7 || updatePhoneBox.input.size() > 15)) {
+                        Showerror = true;
+                        emptyloginbox.setString("Invalid Phone Number. Must be 7-15 digits!");
+                    }
+                    else if (!updateBasicBox.input.empty() &&
+                        (!isDigitsOnly(updateBasicBox.input) || stoi(updateBasicBox.input) <= 0)) {
+                        Showerror = true;
+                        emptyloginbox.setString("Salary must be positive number!");
+                    }
                     else {
                         try {
                             int empIdx = -1;
@@ -1218,6 +1299,7 @@ int main()
                         updatePhoneBox.clear();
                         updateAgeBox.clear();
                         updatePosBox.clear();
+                        Showerror = false;
                         currentState = editEmployeePanel;
                     }
                 }
@@ -1249,6 +1331,9 @@ int main()
                 // log out settings
                 logoutButton.mButton->getButtonStatus(window, event);
                 if (logoutButton.mButton->isPressed) {
+                    trailsCounterEmp = 3;
+                    exitcounterEmp = 0;
+                    trailsLeftEmp.setString("Trails Left : 3");
                     idBoxEmp.clear();
                     passwordBoxEmp.clear();
                     currentState = Menu;
@@ -1303,6 +1388,7 @@ int main()
                         presentBox.clear();
                         absentBox.clear();
                         currentState = editEmployeePanel;
+                        Showerror = false;
                     }
                 }
                 else if (backButton.mButton->isHover) {
@@ -1420,10 +1506,41 @@ int main()
                 enterOkButton.mButton->getButtonStatus(window, event);
                 if (enterOkButton.mButton->isPressed) {
                     Showerror = false;
-                    if (NameBox.input.empty() || PassBox.input.empty() || AgeBox2.input.empty()) {
+                    if (NameBox.input.empty() || PassBox.input.empty() || AgeBox2.input.empty() || PositionBox.input.empty() || PhoneNumberBox.input.empty() || BasicSalBox.input.empty()) {
                         Showerror = true;
-                        emptyloginbox.setPosition(width / 4.f, height / 4.f + 300.f);
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
                         emptyloginbox.setString("Fields cannot be empty!");
+                    }
+                    else if (!isLettersOnly(NameBox.input)) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Invalid Name!");
+                    }
+                    else if (PassBox.input.size() < 6) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Invalid Password. min 6 characters!");
+                    }
+                    else if (!isDigitsOnly(AgeBox2.input) || stoi(AgeBox2.input) < 16 || stoi(AgeBox2.input) > 80) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Age must be 16-80!");
+                    }
+                    else if (!isLettersOnly(PositionBox.input)) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Invalid Position!");
+                    }
+                    else if (!isDigitsOnly(PhoneNumberBox.input) ||
+                        PhoneNumberBox.input.size() < 7 || PhoneNumberBox.input.size() > 15) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Invalid Phone Number. Must be 7-15 digits!");
+                    }
+                    else if (!isDigitsOnly(BasicSalBox.input) || stoi(BasicSalBox.input) <= 0) {
+                        Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
+                        emptyloginbox.setString("Salary must be positive number!");
                     }
                     else {
                         addEmployee(employee_count, NameBox.input, stoi(AgeBox2.input), PositionBox.input, stoll(PhoneNumberBox.input), PassBox.input, stoi(BasicSalBox.input));
@@ -1451,6 +1568,7 @@ int main()
                         PositionBox.clear();
                         PhoneNumberBox.clear();
                         BasicSalBox.clear();
+                        Showerror = false;
                         currentState = adminPanel;
                     }
                 }
@@ -1506,6 +1624,7 @@ int main()
                 if (backButton.mButton->isPressed) {
                     if (currentState == attendancePanel) {
                         monthBox.clear();
+                        Showerror = false;
                         currentState = employeePanel;
                     }
                 }
@@ -1547,6 +1666,7 @@ int main()
                     Showerror = false;
                     if (deductionBox.input.empty() || bonusBox.input.empty() || overtimeBox.input.empty() || monthBox.input.empty()) {
                         Showerror = true;
+                        emptyloginbox.setPosition(width / 4.f * 3.f - 300.f, height / 4.f * 3.f);
                         emptyloginbox.setString("Fields cannot be empty!");
                     }
                     else {
@@ -1595,6 +1715,7 @@ int main()
                 if (backButton.mButton->isPressed) {
                     if (currentState == salaryCalcPanel) {
                         monthBox.clear();
+                        Showerror = false;
                         currentState = editEmployeePanel;
                     }
                 }
@@ -1669,6 +1790,7 @@ int main()
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == salaryPanel) {
+                        Showerror = false;
                         currentState = employeePanel;
                     }
                 }
@@ -1712,6 +1834,7 @@ int main()
                         PositionBox.clear();
                         PhoneNumberBox.clear();
                         BasicSalBox.clear();
+                        Showerror = false;
                         currentState = adminPanel;
                     }
 
@@ -1754,6 +1877,7 @@ int main()
                     updatePosBox.clear();
                     updatePhoneBox.clear();
                     updateBasicBox.clear();
+                    Showerror = false;
                 }
                 else if (deleteButtonOkay.mButton->isHover) {
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.hoverColor);
@@ -1763,334 +1887,378 @@ int main()
                     deleteButtonOkay.mButton->setButtonColor(deleteButtonOkay.defaultColor);
                     deleteButtonOkay.mButton->setLabelColor(Color::White);
                 }
+            }
+        }
+        // Draw
+        window.clear(Color::Black); // black sides
+
+        RectangleShape background(Vector2f(1600, 800));
+        background.setFillColor(Color::White);
+        window.draw(background); // white background
+
+        if (currentState == Menu)
+        {
+            window.setTitle("Employee Payroll Management System By 2202 GROUP"); //added this so that title is set to this when we are in main menu 
+            window.draw(companyName);
+            window.draw(adminCard);
+            window.draw(employeeCard);
+            topBar.setFillColor(Color(35, 47, 114));
+            window.draw(topBar);
+            adminButton.mButton->draw(window);
+            employeeButton.mButton->draw(window);
+            exitButton.mButton->draw(window);
+            window.draw(subtitle);
+            window.draw(adminSprite);
+            window.draw(employeeSprite);
+            window.draw(welc);
+        }
+        else if (currentState == adminLogin) {
+            window.setTitle("Admin Log In");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(1, 46, 90));
+            window.draw(topBar);
+            window.draw(companyName);
+            idBox.draw(window);
+            passwordBox.draw(window);
+            window.draw(trailsLeftAdmin);
+            backButton.mButton->draw(window);
+            loginButton.mButton->draw(window);
+            if (Showerror == true)
+                window.draw(emptyloginbox);
+        }
+        else if (currentState == zerotrailsleftAdmin) {
+            topBar.setFillColor(Color::Red);
+            window.setTitle("NUMBER OF TRAILS EXCEEDED");
+            window.draw(adminImageSprite);
+            window.draw(topBar);
+            window.draw(companyName);
+            window.draw(TrailsZeroText.text);
+            exitAppButton.mButton->draw(window);
+            exitAppButton.mButton->getButtonStatus(window, event);
+            if (exitAppButton.mButton->isPressed) {
+                window.close();
+            }
+        }
+        else if (currentState == employeeLogin) {
+            window.setTitle("Employee Log In");
+            window.draw(employeeImageSprite);
+            topBar.setFillColor(Color(101, 192, 155));
+            window.draw(topBar);
+            window.draw(companyName);
+            idBoxEmp.draw(window);
+            passwordBoxEmp.draw(window);
+            window.draw(trailsLeftEmp);
+            backButton.mButton->draw(window);
+            loginButton.mButton->draw(window);
+            if (Showerror == true)
+                window.draw(emptyloginbox);
+        }
+        else if (currentState == zerotrailsleftEmp) {
+            topBar.setFillColor(Color::Red);
+            window.setTitle("NUMBER OF TRAILS EXCEEDED");
+            window.draw(adminImageSprite);
+            window.draw(topBar);
+            window.draw(companyName);
+            window.draw(TrailsZeroText.text);
+            exitAppButton.mButton->draw(window);
+            exitAppButton.mButton->getButtonStatus(window, event);
+            if (exitAppButton.mButton->isPressed) {
+                window.close();
+            }
+        }
+        else if (currentState == adminPanel) {
+            window.setTitle("ADMIN PANEL");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(1, 46, 90));
+            window.draw(topBar);
+            window.draw(companyName);
+            addButton.mButton->draw(window);
+            window.draw(welc_admin);
+            welc_admin_name.setString(idBox.input);
+            window.draw(welc_admin_name);
+            window.draw(question_admin);
+            logoutButton.mButton->draw(window);
+            enterButton.mButton->draw(window);
+            EmployeeIdAdminPanel.draw(window);
+            if (Showerror == true)
+                window.draw(emptyloginbox);
+            if (idBox.input == admin[0].username && passwordBox.input == admin[0].password) {
+                window.draw(admin[0].profilePicture);
+            }
+            else if (idBox.input == admin[1].username && passwordBox.input == admin[1].password)
+                window.draw(admin[1].profilePicture);
+
+        }
+        else if (currentState == employeePanel) {
+            window.setTitle("EMPLOYEE PANEL");
+            logoutButton.defaultColor = Color(101, 192, 155);
+            logoutButton.hoverColor = Color(31, 11, 64);
+            logoutButton.mButton->setButtonColor(Color(101, 192, 155)); // ← actually apply it
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(101, 192, 155));
+            window.draw(topBar);
+            window.draw(companyName);
+            viewButton.mButton->draw(window);
+            logoutButton.mButton->draw(window);
+            viewSalaryButton.mButton->draw(window);
+            viewAttendButton.mButton->draw(window);
+            window.draw(welc_employee);
+            if (loggedInEmployeeIndex != -1) {
+                int i = loggedInEmployeeIndex;
+                welc_employee_name.setString(employee[i].name);
+                welc_employee_name.setOrigin(welc_employee_name.getLocalBounds().width / 2.f, welc_employee_name.getLocalBounds().height / 2.f);
+                window.draw(welc_employee_name);
+            }
+        }
+        else if (currentState == editEmployeePanel) {
+            window.setTitle("EDIT EMPLOYEE");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(1, 46, 90));
+            window.draw(topBar);
+            window.draw(companyName);
+            updateButton.mButton->draw(window);
+            backButton.mButton->draw(window);
+            attendanceButton.mButton->draw(window);
+            salaryButton.mButton->draw(window);
+            deleteButton.mButton->draw(window);
+            window.draw(PhoneNumberText.text);
+            window.draw(IDText.text);
+            window.draw(AgeText.text);
+            try {
+                int searchID = stoi(EmployeeIdAdminPanel.input);
+                for (int i = 0; i < employee_count; i++) {
+                    if (searchID == employee[i].id) {              // draw field labels
+                        window.draw(EmpAge[i].text);
+                        window.draw(EmpName[i].text);       // draw name
+                        window.draw(EmpID[i].text);         // draw ID
+                        window.draw(EmpPhone[i].text);
+                        // draw phone
+                        window.draw(EmpPosition[i].text);   // draw position
+                        window.draw(employee[i].profilePicture);
+                    }
                 }
-    }
-    // Draw
-window.clear(Color::Black); // black sides
+            }
+            catch (...) {} // silently ignore if input isn't a number yet
 
-RectangleShape background(Vector2f(1600, 800));
-background.setFillColor(Color::White);
-window.draw(background); // white background
+        }
 
-if (currentState == Menu)
-{
-    window.setTitle("Employee Payroll Management System By 2202 GROUP"); //added this so that title is set to this when we are in main menu 
-    window.draw(topBar);
-    window.draw(companyName);
-    adminButton.mButton->draw(window);
-    employeeButton.mButton->draw(window);
-    exitButton.mButton->draw(window);
-    window.draw(adminSprite);
-    window.draw(employeeSprite);
-    window.draw(welc);
-}
-else if (currentState == adminLogin) {
-    window.setTitle("Admin Log In");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    idBox.draw(window);
-    passwordBox.draw(window);
-    window.draw(trailsLeft);
-    backButton.mButton->draw(window);
-    loginButton.mButton->draw(window);
-    if (Showerror == true)
-        window.draw(emptyloginbox);
-}
+        else if (currentState == updatePanel) {
+            window.setTitle("EDIT EMPLOYEE");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(1, 46, 90));
+            window.draw(topBar);
+            window.draw(companyName);
+            updateBasicBox.draw(window);
+            updatePhoneBox.draw(window);
+            updatePosBox.draw(window);
+            updateAgeBox.draw(window);
+            backButton.mButton->draw(window);
+            saveButton.mButton->draw(window);
+            if (Showerror == true)
+                window.draw(emptyloginbox);
+        }
 
-else if (currentState == zerotrailsleft) {
-    topBar.setFillColor(Color :: Red);
-    window.setTitle("NUMBER OF TRAILS EXCEEDED");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    window.draw(TrailsZeroText.text);
-    exitAppButton.mButton->draw(window);
-    exitAppButton.mButton->getButtonStatus(window, event);
-    if (exitAppButton.mButton->isPressed) {
-        window.close();
-    }
-}
-else if (currentState == employeeLogin) {
-    window.setTitle("Employee Log In");
-    window.draw(employeeImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    idBoxEmp.draw(window);
-    passwordBoxEmp.draw(window);
-    backButton.mButton->draw(window);
-    loginButton.mButton->draw(window);
-    if (Showerror == true)
-        window.draw(emptyloginbox);
-}
-else if (currentState == adminPanel) {
-    window.setTitle("ADMIN PANEL");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    addButton.mButton->draw(window);
-    window.draw(welc_admin);
-    welc_admin_name.setString(idBox.input);
-    window.draw(welc_admin_name);
-    window.draw(question_admin);
-    logoutButton.mButton->draw(window);
-    enterButton.mButton->draw(window);
-    EmployeeIdAdminPanel.draw(window);
-    EmployeeIdAdminPanel.draw(window);
-    if (Showerror == true)
-        window.draw(emptyloginbox);
-    if (idBox.input == admin[0].username && passwordBox.input == admin[0].password) {
-        window.draw(admin[0].profilePicture);
-    }
-    else if (idBox.input == admin[1].username && passwordBox.input == admin[1].password)
-        window.draw(admin[1].profilePicture);
+        else if (currentState == savedSuccessfully) {
+            window.setTitle("SAVED SUCCESSFULLY");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color::Green);
+            window.draw(topBar);
+            window.draw(companyName);
+            window.draw(savedSuccessfullyText.text);
+            deleteButtonOkay.mButton->draw(window);
 
-}
-else if (currentState == employeePanel) {
-    window.setTitle("EMPLOYEE PANEL");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    viewButton.mButton->draw(window);
-    logoutButton.mButton->draw(window);
-    viewSalaryButton.mButton->draw(window);
-    viewAttendButton.mButton->draw(window);
-    window.draw(welc_employee);
-    if (loggedInEmployeeIndex != -1) {
-        int i = loggedInEmployeeIndex;
-        welc_employee_name.setString(employee[i].name);
-        welc_employee_name.setOrigin(welc_employee_name.getLocalBounds().width / 2.f, welc_employee_name.getLocalBounds().height / 2.f);
-        window.draw(welc_employee_name);
-    }
-}
-else if (currentState == editEmployeePanel) {
-    window.setTitle("EDIT EMPLOYEE");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    updateButton.mButton->draw(window);
-    backButton.mButton->draw(window);
-    attendanceButton.mButton->draw(window);
-    salaryButton.mButton->draw(window);
-    deleteButton.mButton->draw(window);
-    window.draw(PhoneNumberText.text);
-    window.draw(IDText.text);
-    window.draw(AgeText.text);
-    try {
-        int searchID = stoi(EmployeeIdAdminPanel.input);
-        for (int i = 0; i < employee_count; i++) {
-            if (searchID == employee[i].id) {              // draw field labels
-                window.draw(EmpAge[i].text);
-                window.draw(EmpName[i].text);       // draw name
-                window.draw(EmpID[i].text);         // draw ID
-                window.draw(EmpPhone[i].text);
-                // draw phone
-                window.draw(EmpPosition[i].text);   // draw position
-                window.draw(employee[i].profilePicture);
+        }
+        else if (currentState == attendanceEditPanel) {
+            window.setTitle("EDIT ATTENDANCE");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(1, 46, 90));
+            window.draw(topBar);
+            window.draw(companyName);
+            monthBox.draw(window);
+            presentBox.draw(window);
+            absentBox.draw(window);
+            if (Showerror == true) {
+                window.draw(emptyloginbox);
+            }
+            enterOkButton.mButton->draw(window);
+            backButton.mButton->draw(window);
+        }
+        else if (currentState == attendanceViewPanel) {
+            window.setTitle("View Your Attendance");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(1, 46, 90));
+            window.draw(topBar);
+            window.draw(companyName);
+            monthBox.draw(window);
+            deleteButtonOkay.mButton->draw(window);
+            for (int i = 0; i < employee_count; i++) {
+                if (stoi(idBoxEmp.input) == employee[i].id) {
+                    int month = stoi(monthBox.input);
+                    daysPresent.text.setString("Days Present : " + to_string(employee[i].attendance.dayspresent[month - 1]));
+                    window.draw(daysPresent.text);
+                    daysAbsent.text.setString("Days Absent : " + to_string(employee[i].attendance.daysabsent[month - 1]));
+                    window.draw(daysAbsent.text);
+
+                }
             }
         }
-    }
-    catch (...) {} // silently ignore if input isn't a number yet
-}
-
-else if (currentState == updatePanel) {
-    window.setTitle("EDIT EMPLOYEE");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    updateBasicBox.draw(window);
-    updatePhoneBox.draw(window);
-    updatePosBox.draw(window);
-    updateAgeBox.draw(window);
-    backButton.mButton->draw(window);
-    saveButton.mButton->draw(window);
-    }
-else if (currentState == savedSuccessfully) {
-    window.setTitle("SAVED SUCCESSFULLY");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    window.draw(savedSuccessfullyText.text);
-    deleteButtonOkay.mButton->draw(window); 
-
-}
-else if (currentState == attendanceEditPanel) {
-    window.setTitle("EDIT ATTENDANCE");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    monthBox.draw(window);
-    presentBox.draw(window);
-    absentBox.draw(window);
-    if (Showerror == true) {
-        window.draw(emptyloginbox);
-    }
-    enterOkButton.mButton->draw(window);
-    backButton.mButton->draw(window);
-}
-else if (currentState == attendanceViewPanel) {
-    window.setTitle("View Your Attendance");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    monthBox.draw(window);
-    deleteButtonOkay.mButton->draw(window);
-    for (int i = 0; i < employee_count; i++) {
-        if (stoi(idBoxEmp.input) == employee[i].id) {
-            int month = stoi(monthBox.input);
-            daysPresent.text.setString("Days Present : " + to_string(employee[i].attendance.dayspresent[month-1]));
-            window.draw(daysPresent.text);
-            daysAbsent.text.setString("Days Absent : " + to_string(employee[i].attendance.daysabsent[month-1]));
-            window.draw(daysAbsent.text);
+        else if (currentState == deletePanel) {
+            window.setTitle("DELETED SUCCESSFULLY!");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(214, 40, 40));
+            window.draw(topBar);
+            window.draw(companyName);
+            deleteButtonOkay.mButton->draw(window);
+            window.draw(DeletedSuccessfully.text);
 
         }
-    }
-    }
-else if (currentState == deletePanel) {
-    window.setTitle("DELETED SUCCESSFULLY!");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    deleteButtonOkay.mButton->draw(window);
-    window.draw(DeletedSuccessfully.text);
-
-}
-else if (currentState == attendanceOkPanel) {
-    window.setTitle("RECORDED SUCCESSFULLY!");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    deleteButtonOkay.mButton->draw(window);
-    window.draw(Recorded.text);
-}
-else if (currentState == addEmployeePanel) {
-    window.setTitle("Add Employee");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    NameBox.draw(window);
-    AgeBox2.draw(window);
-    PositionBox.draw(window);
-    PhoneNumberBox.draw(window);
-    PassBox.draw(window);
-    BasicSalBox.draw(window);
-    enterOkButton.mButton->draw(window);
-    backButton.mButton->draw(window);
+        else if (currentState == attendanceOkPanel) {
+            window.setTitle("RECORDED SUCCESSFULLY!");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color::Green);
+            window.draw(topBar);
+            window.draw(companyName);
+            deleteButtonOkay.mButton->draw(window);
+            window.draw(Recorded.text);
+        }
+        else if (currentState == addEmployeePanel) {
+            window.setTitle("Add Employee");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(1, 46, 90));
+            window.draw(topBar);
+            window.draw(companyName);
+            NameBox.draw(window);
+            AgeBox2.draw(window);
+            PositionBox.draw(window);
+            PhoneNumberBox.draw(window);
+            PassBox.draw(window);
+            BasicSalBox.draw(window);
+            enterOkButton.mButton->draw(window);
+            backButton.mButton->draw(window);
+            if (Showerror == true)
+                window.draw(emptyloginbox);
 
 
-}
-else if (currentState == addedsuccessfully) {
-    window.setTitle("ADDED SUCCESSFULLY");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    window.draw(Addedsuccessfully.text);
-    IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employee_count-1].id) + "\nYou Can Now Log In With This ID ");
-    window.draw(IdNewEmployee.text);
-    deleteButtonOkay.mButton->draw(window);
-}
-else if (currentState == viewPanel) {
-    window.setTitle("View Your Information");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    backButton.mButton->draw(window);
-    window.draw(companyName);
-    try {
-        int searchEmpID = stoi(idBoxEmp.input);
-        for (int i = 0; i < employee_count; i++) {
-            if (searchEmpID == employee[i].id) {              // draw field labels
-                window.draw(EmpName[i].text);       // draw name
-                window.draw(EmpID[i].text);         // draw ID
-                window.draw(EmpPhone[i].text);
-                window.draw(EmpPosition[i].text);
-                window.draw(PhoneNumberText.text);
-                window.draw(IDText.text);
-                window.draw(EmpAge[i].text);
-                window.draw(AgeText.text);
-                window.draw(EmpPosition[i].text);   // draw position
-                window.draw(employee[i].profilePicture);
+        }
+        else if (currentState == addedsuccessfully) {
+            window.setTitle("ADDED SUCCESSFULLY");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color::Green);
+            window.draw(topBar);
+            window.draw(companyName);
+            window.draw(Addedsuccessfully.text);
+            IdNewEmployee.text.setString("New ID Employee Is : " + to_string(employee[employee_count - 1].id) + "\nYou Can Now Log In With This ID ");
+            window.draw(IdNewEmployee.text);
+            deleteButtonOkay.mButton->draw(window);
+        }
+        else if (currentState == viewPanel) {
+            window.setTitle("View Your Information");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(101, 192, 155));
+            window.draw(topBar);
+            backButton.mButton->draw(window);
+            window.draw(companyName);
+            try {
+                int searchEmpID = stoi(idBoxEmp.input);
+                for (int i = 0; i < employee_count; i++) {
+                    if (searchEmpID == employee[i].id) {              // draw field labels
+                        window.draw(EmpName[i].text);       // draw name
+                        window.draw(EmpID[i].text);         // draw ID
+                        window.draw(EmpPhone[i].text);
+                        window.draw(EmpPosition[i].text);
+                        window.draw(PhoneNumberText.text);
+                        window.draw(IDText.text);
+                        window.draw(EmpAge[i].text);
+                        window.draw(AgeText.text);
+                        window.draw(EmpPosition[i].text);   // draw position
+                        window.draw(employee[i].profilePicture);
+                    }
+                }
             }
+            catch (...) {} // silently ignore if input isn't a number yet
+
         }
-    }
-    catch (...) {} // silently ignore if input isn't a number yet
-    
-}
-else if (currentState == salaryCalcPanel) {
-    window.setTitle("CALCULATE SALARY");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    bonusBox.draw(window);
-    overtimeBox.draw(window);
-    deductionBox.draw(window);
-    monthBox.draw(window);
-    if (Showerror == true)
-        window.draw(emptyloginbox);
-    enterOkButton.mButton->draw(window);
-    backButton.mButton->draw(window);
-}
-else if (currentState == attendancePanel) {
-    window.setTitle("View Attendance Records");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    monthBox.draw(window);
-    if (Showerror == true) {
-        window.draw(emptyloginbox);
-    }
-    enterOkButton.mButton->draw(window);
-    backButton.mButton->draw(window);
-}
-else if (currentState == netSalaryPanel) {
-    window.setTitle("NET SALARY");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
-    Netsal.text.setPosition(Vector2f(width / 2.f - 200.f, height / 2.f));
-    window.draw(Netsal.text);
-    deleteButtonOkay.mButton->draw(window);
-}
-else if (currentState == salaryPanel) {
-    window.setTitle("VIEW SALARY");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    enterOkButton.mButton->draw(window);
-    monthBox.draw(window);
-    if (Showerror == true)
-        window.draw(emptyloginbox);
-    backButton.mButton->draw(window);
-}
-else if (currentState == salaryViewPanel) {
-    window.setTitle("SALARY VIEW CONT.");
-    window.draw(adminImageSprite);
-    window.draw(topBar);
-    window.draw(companyName);
-    for (int i = 0; i < employee_count; i++) {
-        if (stoi(idBoxEmp.input) == employee[i].id) {
-            basicsal.text.setString("Basic Salary : " + to_string(employee[i].basicsalary));
-            window.draw(basicsal.text);
-            taxsal.text.setString("Tax : " + to_string(employee[i].tax));
-            window.draw(taxsal.text);
-            bonussal.text.setString("Bonus : " + to_string(employee[i].bonus));
-            overtimesal.text.setString("Overtime : " + to_string(employee[i].overtimehrs));
+        else if (currentState == salaryCalcPanel) {
+            window.setTitle("CALCULATE SALARY");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(1, 46, 90));
+            window.draw(topBar);
+            window.draw(companyName);
+            bonusBox.draw(window);
+            overtimeBox.draw(window);
+            deductionBox.draw(window);
+            monthBox.draw(window);
+            if (Showerror == true)
+                window.draw(emptyloginbox);
+            enterOkButton.mButton->draw(window);
+            backButton.mButton->draw(window);
+        }
+        else if (currentState == attendancePanel) {
+            window.setTitle("View Attendance Records");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(101, 192, 155));
+            window.draw(topBar);
+            window.draw(companyName);
+            monthBox.draw(window);
+            if (Showerror == true) {
+                window.draw(emptyloginbox);
+            }
+            enterOkButton.mButton->draw(window);
+            backButton.mButton->draw(window);
+        }
+        else if (currentState == netSalaryPanel) {
+            window.setTitle("NET SALARY");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(1, 46, 90));
+            window.draw(topBar);
+            window.draw(companyName);
             Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
-            Netsal.text.setPosition(Vector2f(width / 4.f, height / 4.f + 400.f));
+            Netsal.text.setPosition(Vector2f(width / 2.f - 200.f, height / 2.f));
             window.draw(Netsal.text);
-            window.draw(bonussal.text);
-            window.draw(overtimesal.text);
+            deleteButtonOkay.mButton->draw(window);
         }
+        else if (currentState == salaryPanel) {
+            window.setTitle("VIEW SALARY");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(101, 192, 155));
+            window.draw(topBar);
+            window.draw(companyName);
+            enterOkButton.mButton->draw(window);
+            monthBox.draw(window);
+            if (Showerror == true)
+                window.draw(emptyloginbox);
+            backButton.mButton->draw(window);
+        }
+        else if (currentState == salaryViewPanel) {
+            window.setTitle("SALARY VIEW CONT.");
+            window.draw(adminImageSprite);
+            topBar.setFillColor(Color(101, 192, 155));
+            window.draw(topBar);
+            window.draw(companyName);
+            for (int i = 0; i < employee_count; i++) {
+                if (stoi(idBoxEmp.input) == employee[i].id) {
+                    basicsal.text.setString("Basic Salary : " + to_string(employee[i].basicsalary));
+                    window.draw(basicsal.text);
+                    taxsal.text.setString("Tax : " + to_string(employee[i].tax));
+                    window.draw(taxsal.text);
+                    bonussal.text.setString("Bonus : " + to_string(employee[i].bonus));
+                    overtimesal.text.setString("Overtime : " + to_string(employee[i].overtimehrs));
+                    Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
+                    Netsal.text.setPosition(Vector2f(width / 4.f, height / 4.f + 400.f));
+                    window.draw(Netsal.text);
+                    window.draw(bonussal.text);
+                    window.draw(overtimesal.text);
+                }
+            }
+            deleteButtonOkay.mButton->draw(window);
+
+        }
+
+        window.display();
+
     }
-    deleteButtonOkay.mButton->draw(window);
 
-}
 
-    window.display();
-
-    }
-
-    
 
     delete adminButton.mButton;
     delete employeeButton.mButton;
