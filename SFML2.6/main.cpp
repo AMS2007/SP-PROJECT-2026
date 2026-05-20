@@ -945,6 +945,7 @@ int main()
                 employeeButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
                 if (employeeButton.mButton->isPressed)
                 {
+                    logoutButton.defaultColor = (Color(158, 202, 214));
                     currentState = employeeLogin; // opens employee login
                 }
                 else if (employeeButton.mButton->isHover) // what happens when hover
@@ -1001,6 +1002,7 @@ int main()
                 if (currentState == adminLogin) {
                     loginButton.mButton->getButtonStatus(window, event);
                     if (loginButton.mButton->isPressed) {
+                        logoutButton.mButton->setButtonColor(Color(116, 141, 174));
                         Showerror = false;
                         if (idBox.input.empty() || passwordBox.input.empty()) {
                             Showerror = true;
@@ -1037,6 +1039,7 @@ int main()
                 passwordBoxEmp.handleEvent(event, window);
                 loginButton.mButton->getButtonStatus(window, event);
                 if (loginButton.mButton->isPressed) {
+                    logoutButton.mButton->setButtonColor(Color(158, 202, 214));
                     Showerror = false;
                     if (idBoxEmp.input.empty() || passwordBoxEmp.input.empty()) {
                         Showerror = true;
@@ -1991,9 +1994,6 @@ int main()
         }
         else if (currentState == employeePanel) {
             window.setTitle("EMPLOYEE PANEL");
-            logoutButton.defaultColor = Color(101, 192, 155);
-            logoutButton.hoverColor = Color(31, 11, 64);
-            logoutButton.mButton->setButtonColor(Color(101, 192, 155)); // ← actually apply it
             window.draw(adminImageSprite);
             topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
