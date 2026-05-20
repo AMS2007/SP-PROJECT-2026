@@ -1915,7 +1915,7 @@ int main()
         else if (currentState == adminLogin) {
             window.setTitle("Admin Log In");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             idBox.draw(window);
@@ -1942,7 +1942,7 @@ int main()
         else if (currentState == employeeLogin) {
             window.setTitle("Employee Log In");
             window.draw(employeeImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             idBoxEmp.draw(window);
@@ -1969,7 +1969,7 @@ int main()
         else if (currentState == adminPanel) {
             window.setTitle("ADMIN PANEL");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             addButton.mButton->draw(window);
@@ -1995,7 +1995,7 @@ int main()
             logoutButton.hoverColor = Color(31, 11, 64);
             logoutButton.mButton->setButtonColor(Color(101, 192, 155)); // ← actually apply it
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             viewButton.mButton->draw(window);
@@ -2013,7 +2013,7 @@ int main()
         else if (currentState == editEmployeePanel) {
             window.setTitle("EDIT EMPLOYEE");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             updateButton.mButton->draw(window);
@@ -2045,7 +2045,7 @@ int main()
         else if (currentState == updatePanel) {
             window.setTitle("EDIT EMPLOYEE");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             updateBasicBox.draw(window);
@@ -2071,7 +2071,7 @@ int main()
         else if (currentState == attendanceEditPanel) {
             window.setTitle("EDIT ATTENDANCE");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             monthBox.draw(window);
@@ -2086,7 +2086,7 @@ int main()
         else if (currentState == attendanceViewPanel) {
             window.setTitle("View Your Attendance");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             monthBox.draw(window);
@@ -2124,7 +2124,7 @@ int main()
         else if (currentState == addEmployeePanel) {
             window.setTitle("Add Employee");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             NameBox.draw(window);
@@ -2154,7 +2154,7 @@ int main()
         else if (currentState == viewPanel) {
             window.setTitle("View Your Information");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             backButton.mButton->draw(window);
             window.draw(companyName);
@@ -2181,7 +2181,7 @@ int main()
         else if (currentState == salaryCalcPanel) {
             window.setTitle("CALCULATE SALARY");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             bonusBox.draw(window);
@@ -2196,7 +2196,7 @@ int main()
         else if (currentState == attendancePanel) {
             window.setTitle("View Attendance Records");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             monthBox.draw(window);
@@ -2209,7 +2209,7 @@ int main()
         else if (currentState == netSalaryPanel) {
             window.setTitle("NET SALARY");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
@@ -2220,7 +2220,7 @@ int main()
         else if (currentState == salaryPanel) {
             window.setTitle("VIEW SALARY");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             enterOkButton.mButton->draw(window);
@@ -2232,7 +2232,7 @@ int main()
         else if (currentState == salaryViewPanel) {
             window.setTitle("SALARY VIEW CONT.");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             for (int i = 0; i < employee_count; i++) {
