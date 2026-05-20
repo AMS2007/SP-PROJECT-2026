@@ -438,7 +438,7 @@ int main()
     FloatRect logout_tb = logout_text.getGlobalBounds();
     Vector2f logout_size(logout_tb.width * 1.5f, logout_tb.height * 1.f);
 
-    logoutButton.mButton = new RectButton(font, logout_size, Vector2f(0.f, 20.f));
+    logoutButton.mButton = new RectButton(font, logout_size, Vector2f(0.f, 30.f));
 
     logoutButton.mButton->setButtonLabel(24, logoutButton.label);
     logoutButton.mButton->setLabelColor(Color::White);
@@ -654,20 +654,20 @@ int main()
 
     // menu admin and employee icons
     Texture adminTexture;
-    adminTexture.loadFromFile("Images/admin2.png");
+    adminTexture.loadFromFile("Images/admin3.png");
     Sprite adminSprite;
     adminSprite.setTexture(adminTexture);
     adminSprite.setOrigin(adminSprite.getLocalBounds().width / 2, adminSprite.getLocalBounds().height / 2);
-    adminSprite.setPosition(width / 4.f, height / 2.f - 20.f); // (400, 360)
-    adminSprite.setScale(0.75f, 0.75f);
+    adminSprite.setPosition(width / 4.f, height / 2.f +30.f); // (400, 360)
+    adminSprite.setScale(0.5f, 0.5f);
 
     Texture employeeTexture;
-    employeeTexture.loadFromFile("Images/emp2.png");
+    employeeTexture.loadFromFile("Images/emp3.png");
     Sprite employeeSprite;
     employeeSprite.setTexture(employeeTexture);
     employeeSprite.setOrigin(employeeSprite.getLocalBounds().width / 2.f, employeeSprite.getLocalBounds().height / 2.f);
-    employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f - 15.f); // (1200,360)
-    employeeSprite.setScale(0.75f, 0.75f);
+    employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f +25.f); // (1200,360)
+    employeeSprite.setScale(0.5f, 0.5f);
     // end admin and employee icons
 
     // admin login image 
