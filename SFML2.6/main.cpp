@@ -908,7 +908,7 @@ int main()
                 else if (adminButton.mButton->isHover) // what happens when hover
                 {
                     adminButton.mButton->setButtonColor(adminButton.hoverColor);
-                    adminButton.mButton->setLabelColor(Color(1, 46, 90));
+                    adminButton.mButton->setLabelColor(Color(101, 192, 155));
                 }
                 else
                 {
