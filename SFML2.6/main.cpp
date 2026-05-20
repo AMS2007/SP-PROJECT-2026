@@ -34,7 +34,8 @@ enum GameState {
     netSalaryPanel,
     attendanceViewPanel,
     addedsuccessfully,
-    zerotrailsleft,
+    zerotrailsleftAdmin,
+    zerotrailsleftEmp,
     savedSuccessfully,
 };
 
@@ -104,16 +105,21 @@ struct Textboxdata {
                     displayText.setString(prevDisplay);
                 }
             }
+            if (isPassword)
+                displayText.setString(string(input.size(), '*'));
+            else
+                displayText.setString(input);
         }
     }
     void draw(RenderWindow& window) {
+        if (isPassword)
+            displayText.setString(string(input.size(), '*'));
+        else
+            displayText.setString(input);
+
         window.draw(box);
         window.draw(label);
         window.draw(displayText);
-        if (isPassword) {
-            string masked(input.size(), '*');
-            displayText.setString(masked);
-        }
     }
 
     void clear() {
@@ -482,12 +488,21 @@ int main()
     attendanceButton.defaultColor = Color(1, 46, 90);
     attendanceButton.hoverColor = Color(101, 192, 155);
 
-    Text trailsLeft;
-    trailsLeft.setFont(font);
-    trailsLeft.setCharacterSize(24);
-    trailsLeft.setString("Trials Left : 3");
-    trailsLeft.setFillColor(Color::Red);
-    trailsLeft.setPosition(720.f, 470.f);
+    Text trailsLeftAdmin;
+    trailsLeftAdmin.setFont(font);
+    trailsLeftAdmin.setCharacterSize(24);
+    trailsLeftAdmin.setString("Trials Left : 3");
+    trailsLeftAdmin.setFillColor(Color::Red);
+    trailsLeftAdmin.setPosition(720.f, 470.f);
+
+   
+    Text trailsLeftEmp;
+    trailsLeftEmp.setFont(font);
+    trailsLeftEmp.setCharacterSize(24);
+    trailsLeftEmp.setString("Trials Left : 3");
+    trailsLeftEmp.setFillColor(Color::Red);
+    trailsLeftEmp.setPosition(720.f, 470.f);
+
     Text attendance_text;
     attendance_text.setFont(font);
     attendance_text.setCharacterSize(36);
@@ -889,7 +904,8 @@ int main()
     int loggedInEmployeeIndex = -1;
     int exitcounter = 0;
     int trailsCounter = 3;
-
+    int exitcounterEmp = 0;
+    int trailsCounterEmp = 3;
     // ================================ GAME LOOP ============================
     while (window.isOpen())
     {
@@ -957,7 +973,7 @@ int main()
             }
 
             // back settings
-            /*if (currentState != updatePanel) {
+            if (currentState != updatePanel) {
                 backButton.mButton->getButtonStatus(window, event);
                 if (backButton.mButton->isPressed) {
                     if (currentState == adminLogin || currentState == employeeLogin) {
@@ -975,7 +991,6 @@ int main()
                 else
                     backButton.mButton->button.setFillColor(Color::White);
             }
-            */
             // back settings end
 
              // ================================ LOG IN ADMIN =============================
@@ -998,9 +1013,9 @@ int main()
                             emptyloginbox.setString("Wrong ID or Password!");
                             trailsCounter--;
                             exitcounter++;
-                            trailsLeft.setString("Trials Left : " + to_string(trailsCounter));
+                            trailsLeftAdmin.setString("Trials Left : " + to_string(trailsCounter));
                             if (exitcounter == 3) {
-                                currentState = zerotrailsleft;
+                                currentState = zerotrailsleftAdmin;
                             }
                         }
                     }
@@ -1037,6 +1052,12 @@ int main()
                             else {
                                 Showerror = true;
                                 emptyloginbox.setString("Wrong ID or Password!");
+                                trailsCounterEmp--;
+                                exitcounterEmp++;
+                                trailsLeftEmp.setString("Trials Left : " + to_string(trailsCounterEmp));
+                                if (exitcounterEmp == 3) {
+                                    currentState = zerotrailsleftEmp;
+                                }
                             }
                         }
                         catch (...) {
@@ -1079,7 +1100,7 @@ int main()
                 if (logoutButton.mButton->isPressed) {
                     trailsCounter = 3;
                     exitcounter = 0;
-                    trailsLeft.setString("Trails Left : 3");
+                    trailsLeftAdmin.setString("Trials Left : 3");
                     idBox.clear();
                     passwordBox.clear();
                     currentState = Menu;
@@ -1310,6 +1331,9 @@ int main()
                 // log out settings
                 logoutButton.mButton->getButtonStatus(window, event);
                 if (logoutButton.mButton->isPressed) {
+                    trailsCounterEmp = 3;
+                    exitcounterEmp = 0;
+                    trailsLeftEmp.setString("Trails Left : 3");
                     idBoxEmp.clear();
                     passwordBoxEmp.clear();
                     currentState = Menu;
@@ -1895,14 +1919,13 @@ int main()
             window.draw(companyName);
             idBox.draw(window);
             passwordBox.draw(window);
-            window.draw(trailsLeft);
+            window.draw(trailsLeftAdmin);
             backButton.mButton->draw(window);
             loginButton.mButton->draw(window);
             if (Showerror == true)
                 window.draw(emptyloginbox);
         }
-
-        else if (currentState == zerotrailsleft) {
+        else if (currentState == zerotrailsleftAdmin) {
             topBar.setFillColor(Color::Red);
             window.setTitle("NUMBER OF TRAILS EXCEEDED");
             window.draw(adminImageSprite);
@@ -1923,10 +1946,24 @@ int main()
             window.draw(companyName);
             idBoxEmp.draw(window);
             passwordBoxEmp.draw(window);
+            window.draw(trailsLeftEmp);
             backButton.mButton->draw(window);
             loginButton.mButton->draw(window);
             if (Showerror == true)
                 window.draw(emptyloginbox);
+        }
+        else if (currentState == zerotrailsleftEmp) {
+            topBar.setFillColor(Color::Red);
+            window.setTitle("NUMBER OF TRAILS EXCEEDED");
+            window.draw(adminImageSprite);
+            window.draw(topBar);
+            window.draw(companyName);
+            window.draw(TrailsZeroText.text);
+            exitAppButton.mButton->draw(window);
+            exitAppButton.mButton->getButtonStatus(window, event);
+            if (exitAppButton.mButton->isPressed) {
+                window.close();
+            }
         }
         else if (currentState == adminPanel) {
             window.setTitle("ADMIN PANEL");
@@ -1941,7 +1978,6 @@ int main()
             window.draw(question_admin);
             logoutButton.mButton->draw(window);
             enterButton.mButton->draw(window);
-            EmployeeIdAdminPanel.draw(window);
             EmployeeIdAdminPanel.draw(window);
             if (Showerror == true)
                 window.draw(emptyloginbox);
