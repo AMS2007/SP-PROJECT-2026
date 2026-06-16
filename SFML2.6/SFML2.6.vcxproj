@@ -24,6 +24,7 @@
     <ProjectGuid>{90cd7871-d450-488e-9346-398c28e0dbb8}</ProjectGuid>
     <RootNamespace>SFML26</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SP Project 2026</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
