@@ -306,8 +306,8 @@ int main()
     // Save Updated Employee Data
 
     saveButton.label = "Save";
-    saveButton.defaultColor = Color(1, 46, 90);
-    saveButton.hoverColor = Color(101, 192, 155);
+    saveButton.defaultColor = Color(32, 32, 32);
+    saveButton.hoverColor = Color(100, 100, 100);
 
     Text save_text;
     save_text.setFont(font);
@@ -325,8 +325,8 @@ int main()
 
     // admin button details
     adminButton.label = "I am an Admin";
-    adminButton.defaultColor = Color (1, 46, 90);
-    adminButton.hoverColor = Color (101, 192, 155);
+    adminButton.defaultColor = Color (32, 32, 32);
+    adminButton.hoverColor = Color (100, 100, 100);
 
     Text admin_text;
     admin_text.setFont(font);
@@ -343,8 +343,8 @@ int main()
 
     // employee button details
     employeeButton.label = "I am an Employee";
-    employeeButton.defaultColor = Color(1, 46, 90);
-    employeeButton.hoverColor = Color(101, 192, 155);
+    employeeButton.defaultColor = Color(32, 32, 32);
+    employeeButton.hoverColor = Color(100, 100, 100);
 
     Text employee_text;
     employee_text.setFont(font);
@@ -391,8 +391,8 @@ int main()
 
     // log in button details
     loginButton.label = "Log In";
-    loginButton.defaultColor = Color(1, 46, 90);
-    loginButton.hoverColor = Color(101, 192, 155);
+    loginButton.defaultColor = Color(32, 32, 32);
+    loginButton.hoverColor = Color(100, 100, 100);
 
     Text login_text;
     login_text.setFont(font);
@@ -410,8 +410,8 @@ int main()
 
     // add employee button details
     addButton.label = "Add Employee";
-    addButton.defaultColor = Color(1, 46, 90);
-    addButton.hoverColor = Color(101, 192, 155);
+    addButton.defaultColor = Color(32, 32, 32);
+    addButton.hoverColor = Color(100, 100, 100);
 
     Text add_text;
     add_text.setFont(font);
@@ -428,8 +428,8 @@ int main()
 
     // log out button details
     logoutButton.label = "Log Out";
-    logoutButton.defaultColor = Color(1, 46, 90);
-    logoutButton.hoverColor = Color(31, 11, 64);
+    logoutButton.defaultColor = Color(32, 32, 32);
+    logoutButton.hoverColor = Color(32, 32, 32);
 
     Text logout_text;
     logout_text.setFont(font);
@@ -447,8 +447,8 @@ int main()
 
     // update employee button details
     updateButton.label = "Update Employee";
-    updateButton.defaultColor = Color(1, 46, 90);
-    updateButton.hoverColor = Color(101, 192, 155);
+    updateButton.defaultColor = Color(32, 32, 32);
+    updateButton.hoverColor = Color(100, 100, 100);
 
     Text update_text;
     update_text.setFont(font);
@@ -466,8 +466,8 @@ int main()
 
     // enter employee button details
     enterButton.label = "Enter";
-    enterButton.defaultColor = Color(1, 46, 90);
-    enterButton.hoverColor = Color(101, 192, 155);
+    enterButton.defaultColor = Color(32, 32, 32);
+    enterButton.hoverColor = Color(100, 100, 100);
 
     Text enter_text;
     enter_text.setFont(font);
@@ -485,8 +485,8 @@ int main()
 
     // attendance button details
     attendanceButton.label = "Record Attendance";
-    attendanceButton.defaultColor = Color(1, 46, 90);
-    attendanceButton.hoverColor = Color(101, 192, 155);
+    attendanceButton.defaultColor = Color(32, 32, 32);
+    attendanceButton.hoverColor = Color(100, 100, 100);
 
     Text trailsLeftAdmin;
     trailsLeftAdmin.setFont(font);
@@ -519,8 +519,8 @@ int main()
 
     // salary button details
     salaryButton.label = "Calculate Salary";
-    salaryButton.defaultColor = Color(1, 46, 90);
-    salaryButton.hoverColor = Color(101, 192, 155);
+    salaryButton.defaultColor = Color(32, 32, 32);
+    salaryButton.hoverColor = Color(100, 100, 100);
 
     Text salary_text;
     salary_text.setFont(font);
@@ -538,8 +538,8 @@ int main()
 
     // delete button details
     deleteButton.label = "Delete Employee";
-    deleteButton.defaultColor = Color(1, 46, 90);
-    deleteButton.hoverColor = Color(1, 46, 90);
+    deleteButton.defaultColor = Color(32, 32, 32);
+    deleteButton.hoverColor = Color(100, 100, 100);
 
     Text delete_text;
     delete_text.setFont(font);
@@ -557,8 +557,8 @@ int main()
 
     // view button details
     viewButton.label = "View Personal Details";
-    viewButton.defaultColor = Color(1, 46, 90);
-    viewButton.hoverColor = Color(101, 192, 155);
+    viewButton.defaultColor = Color(32, 32, 32);
+    viewButton.hoverColor = Color(100, 100, 100);
 
     Text view_text;
     view_text.setFont(font);
@@ -576,8 +576,8 @@ int main()
 
     // salary button details
     viewSalaryButton.label = "View Salary";
-    viewSalaryButton.defaultColor = Color(1, 46, 90);
-    viewSalaryButton.hoverColor = Color(101, 192, 155);
+    viewSalaryButton.defaultColor = Color(32, 32, 32);
+    viewSalaryButton.hoverColor = Color(100, 100, 100);
 
     Text vSalary_text;
     vSalary_text.setFont(font);
@@ -595,8 +595,8 @@ int main()
 
     // attendance button details
     viewAttendButton.label = "View Attendance Records";
-    viewAttendButton.defaultColor = Color(1, 46, 90);
-    viewAttendButton.hoverColor = Color(101, 192, 155);
+    viewAttendButton.defaultColor = Color(32, 32, 32);
+    viewAttendButton.hoverColor = Color(100, 100, 100);
 
     Text vAttend_text;
     vAttend_text.setFont(font);
@@ -615,8 +615,8 @@ int main()
 
     // okay button deleted succefully details
     deleteButtonOkay.label = "Okay";
-    deleteButtonOkay.defaultColor = Color(1, 46, 90);
-    deleteButtonOkay.hoverColor = Color(101, 192, 155);
+    deleteButtonOkay.defaultColor = Color(32, 32, 32);
+    deleteButtonOkay.hoverColor = Color(100, 100, 100);
 
     Text deleteButtonTextOkay;
     deleteButtonTextOkay.setFont(font);
@@ -634,8 +634,8 @@ int main()
 
     // enter attendance button details
     enterOkButton.label = "Enter";
-    enterOkButton.defaultColor = Color(1, 46, 90);
-    enterOkButton.hoverColor = Color(101, 192, 155);
+    enterOkButton.defaultColor = Color(32, 32, 32);
+    enterOkButton.hoverColor = Color(100, 100, 100);
 
     Text enterA_text;
     enterA_text.setFont(font);
@@ -662,12 +662,12 @@ int main()
     adminSprite.setScale(0.5f, 0.5f);
 
     Texture employeeTexture;
-    employeeTexture.loadFromFile("Images/emp3.png");
+    employeeTexture.loadFromFile("Images/emp44.png");
     Sprite employeeSprite;
     employeeSprite.setTexture(employeeTexture);
     employeeSprite.setOrigin(employeeSprite.getLocalBounds().width / 2.f, employeeSprite.getLocalBounds().height / 2.f);
     employeeSprite.setPosition(width / 4.f * 3.f, height / 2.f +25.f); // (1200,360)
-    employeeSprite.setScale(0.5f, 0.5f);
+    employeeSprite.setScale(0.65f, 0.65f);
     // end admin and employee icons
 
     // admin login image 
@@ -932,7 +932,7 @@ int main()
                 else if (adminButton.mButton->isHover) // what happens when hover
                 {
                     adminButton.mButton->setButtonColor(adminButton.hoverColor);
-                    adminButton.mButton->setLabelColor(Color(101, 192, 155));
+                    adminButton.mButton->setLabelColor(Color(1, 46, 90));
                 }
                 else
                 {
@@ -945,6 +945,7 @@ int main()
                 employeeButton.mButton->getButtonStatus(window, event); // button pressed, hovered, etc..
                 if (employeeButton.mButton->isPressed)
                 {
+                    logoutButton.defaultColor = (Color(158, 202, 214));
                     currentState = employeeLogin; // opens employee login
                 }
                 else if (employeeButton.mButton->isHover) // what happens when hover
@@ -1001,6 +1002,7 @@ int main()
                 if (currentState == adminLogin) {
                     loginButton.mButton->getButtonStatus(window, event);
                     if (loginButton.mButton->isPressed) {
+                        logoutButton.mButton->setButtonColor(Color(116, 141, 174));
                         Showerror = false;
                         if (idBox.input.empty() || passwordBox.input.empty()) {
                             Showerror = true;
@@ -1037,6 +1039,7 @@ int main()
                 passwordBoxEmp.handleEvent(event, window);
                 loginButton.mButton->getButtonStatus(window, event);
                 if (loginButton.mButton->isPressed) {
+                    logoutButton.mButton->setButtonColor(Color(158, 202, 214));
                     Showerror = false;
                     if (idBoxEmp.input.empty() || passwordBoxEmp.input.empty()) {
                         Showerror = true;
@@ -1915,7 +1918,7 @@ int main()
         else if (currentState == adminLogin) {
             window.setTitle("Admin Log In");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             idBox.draw(window);
@@ -1942,7 +1945,7 @@ int main()
         else if (currentState == employeeLogin) {
             window.setTitle("Employee Log In");
             window.draw(employeeImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             idBoxEmp.draw(window);
@@ -1969,7 +1972,7 @@ int main()
         else if (currentState == adminPanel) {
             window.setTitle("ADMIN PANEL");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             addButton.mButton->draw(window);
@@ -1991,11 +1994,8 @@ int main()
         }
         else if (currentState == employeePanel) {
             window.setTitle("EMPLOYEE PANEL");
-            logoutButton.defaultColor = Color(101, 192, 155);
-            logoutButton.hoverColor = Color(31, 11, 64);
-            logoutButton.mButton->setButtonColor(Color(101, 192, 155)); // ← actually apply it
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             viewButton.mButton->draw(window);
@@ -2013,7 +2013,7 @@ int main()
         else if (currentState == editEmployeePanel) {
             window.setTitle("EDIT EMPLOYEE");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             updateButton.mButton->draw(window);
@@ -2045,7 +2045,7 @@ int main()
         else if (currentState == updatePanel) {
             window.setTitle("EDIT EMPLOYEE");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             updateBasicBox.draw(window);
@@ -2071,7 +2071,7 @@ int main()
         else if (currentState == attendanceEditPanel) {
             window.setTitle("EDIT ATTENDANCE");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             monthBox.draw(window);
@@ -2086,7 +2086,7 @@ int main()
         else if (currentState == attendanceViewPanel) {
             window.setTitle("View Your Attendance");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             monthBox.draw(window);
@@ -2124,7 +2124,7 @@ int main()
         else if (currentState == addEmployeePanel) {
             window.setTitle("Add Employee");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             NameBox.draw(window);
@@ -2154,7 +2154,7 @@ int main()
         else if (currentState == viewPanel) {
             window.setTitle("View Your Information");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             backButton.mButton->draw(window);
             window.draw(companyName);
@@ -2181,7 +2181,7 @@ int main()
         else if (currentState == salaryCalcPanel) {
             window.setTitle("CALCULATE SALARY");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(116, 141, 174));
             window.draw(topBar);
             window.draw(companyName);
             bonusBox.draw(window);
@@ -2196,7 +2196,7 @@ int main()
         else if (currentState == attendancePanel) {
             window.setTitle("View Attendance Records");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             monthBox.draw(window);
@@ -2209,7 +2209,7 @@ int main()
         else if (currentState == netSalaryPanel) {
             window.setTitle("NET SALARY");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(1, 46, 90));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             Netsal.text.setString("Net Salary: " + to_string(calculatedNetSalary));
@@ -2220,7 +2220,7 @@ int main()
         else if (currentState == salaryPanel) {
             window.setTitle("VIEW SALARY");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             enterOkButton.mButton->draw(window);
@@ -2232,7 +2232,7 @@ int main()
         else if (currentState == salaryViewPanel) {
             window.setTitle("SALARY VIEW CONT.");
             window.draw(adminImageSprite);
-            topBar.setFillColor(Color(101, 192, 155));
+            topBar.setFillColor(Color(158, 202, 214));
             window.draw(topBar);
             window.draw(companyName);
             for (int i = 0; i < employee_count; i++) {
